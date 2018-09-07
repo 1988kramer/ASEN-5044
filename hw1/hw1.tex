@@ -1,0 +1,135 @@
+\documentclass[11pt]{article}
+
+% ==== PACKAGES ==== %
+% \usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epic}
+\usepackage{eepic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[letterpaper, margin=1in]{geometry}
+
+% ==== MARGINS ==== %
+% \pagestyle{empty}
+% \setlength{\oddsidemargin}{0in}
+% \setlength{\textwidth}{6.8in}
+% \setlength{\textheight}{9.5in}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{ASEN 5044}
+\lhead{Homework 1}
+\rfoot{Page \thepage}
+
+
+\newtheorem*{solution*}{Solution}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\lstset{moredelim=[is][\bfseries]{[*}{*]}}
+
+% ==== DOCUMENT PROPER ==== %
+\begin{document}
+
+\thispagestyle{empty}
+
+% --- Header Box --- %
+\newlength{\boxlength}\setlength{\boxlength}{\textwidth}
+\addtolength{\boxlength}{-4mm}
+
+\begin{center}\framebox{\parbox{\boxlength}{\bf
+      Statistical Estimation \hfill Homework 1\\
+      ASEN 5044 Fall 2018 \hfill Due Date: Sep 6, 2018\\
+      Name: Andrew Kramer \hfill CU identitykey: ankr1041
+}}
+\end{center}
+
+
+
+
+\section*{Exercise 1}
+
+Compute determinants for the following matrices by hand and state whether each one is invertible
+
+\subsection*{Problem (a)}
+
+\subparagraph*{}
+
+\begin{align*}
+	|A| &= 1 \begin{vmatrix} 5 & 4 \\ 9 & 7 \end{vmatrix} - 2 \begin{vmatrix} 6 & 4 \\ 8 & 7 \end{vmatrix} + 3 \begin{vmatrix} 6 & 5 \\ 8 & 9 \end{vmatrix} \\
+	&= 1(-1) - 2(10) + 3(14) \\
+	&= 21
+\end{align*}
+
+Because $|A|$ is nonzero $A$ is invertible.
+
+\subsection*{Problem (b)}
+
+\subparagraph*{}
+
+\begin{align*}
+	|A| &= 11 \begin{vmatrix} 57 & 0 & 10 \\ 91 & 1 & 71 \\ 23 & 0 & 71 \end{vmatrix} - 26 \begin{vmatrix} 64 & 0 & 10 \\ 83 & 1 & 71 \\ 54 & 0 & 71 \end{vmatrix} \\
+	&= 11(57(71) + 10(-23)) - 26(64(71)+10(-54)) \\
+	&= 41978 - 109642 \\
+	&= -67655
+\end{align*}
+
+Because $|A|$ is nonzero $A$ is invertible.
+
+\subsection*{Problem (c)}
+
+\subparagraph*{}
+
+Because $A_1 = -2A_3$ (where $A_i$ refers to the $i^\text{th}$ column of A), the columns of A are not linearly independent. This means $A$ is not invertible and $|A| = 0$.
+
+\subsection*{Problem (d)}
+
+\subparagraph*{}
+
+Because the determinant of an upper triangular matrix is simply the product of its diagonal elements:
+\begin{align*}
+	|A| &= 1 \times 8 \times 55 \times 233 \times 610 \\
+	&= 62537200
+\end{align*}
+
+Because $|A|$ is nonzero $A$ is invertible.
+
+\section*{Exercise 2}
+Prove each of the following statements:
+\subsection*{Problem (a)}
+If $a$ and $b$ are non-zero $n\times 1$ vectors, then the matrix $ab^T$ has rank $1$.
+\subparagraph*{}
+Column $i$ of the outer product of $a$ and $b$ is simply the vector $a$ multiplied by the scalar $b_i$. This means that every column of $ab^T$ is a scalar multiple of $a$, so none of the columns of $ab^T$ are linearly independent. Thus, the rank of $ab^T$ is always one if both $a$ and $b$ are nonzero.
+\subsection*{Problem (b)}
+$\text{tr}(AB) = \text{tr}(BA)$ if $A$ is an $m\times n$ matrix and $B$ is $n\times m$.
+\subparagraph*{}
+The trace of $AB$ can be expressed as 
+\begin{align*}
+	\text{tr}(AB) &= \sum_{i=1}^n(AB)_{ii} \\
+	&= \sum_{i=1}^n \sum_{j=1}^n a_{ij}b_{ji}
+\end{align*} 
+Similarly, the trace of $BA$ is
+\begin{align*}
+	\text{tr}(BA) &= \sum_{j=1}^n(BA)_{jj} \\
+	&= \sum_{j=1}^n \sum_{i=1}^n b_{ji}a_{ij}
+\end{align*}
+Because $\sum_{i=1}^n \sum_{j=1}^n a_{ij}b_{ji}$ is equal to $\sum_{j=1}^n \sum_{i=1}^n b_{ji}a_{ij}$ we can conclude that $\text{tr}(AB) = \text{tr}(BA)$.
+\subsection*{Problem (c)}
+If $A$ is invertible then $|A^{-1}| = \frac{1}{|A|}$.
+\subparagraph*{}
+If we start with $|AB| = |BA| = |A|\ |B|$ and replace $B$ with $A^{-1}$ we find that 
+\begin{align*}
+	|A|\ |A^{-1}| &= |AA^{-1}| \\
+	&= |I| \\
+	&= 1
+\end{align*}
+Because $|A|\ |A^{-1}| = 1$ it must be true that $|A^{-1}| = \frac{1}{|A|}$. 
+
+\end{document}
