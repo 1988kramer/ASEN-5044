@@ -132,4 +132,33 @@ If we start with $|AB| = |BA| = |A|\ |B|$ and replace $B$ with $A^{-1}$ we find 
 \end{align*}
 Because $|A|\ |A^{-1}| = 1$ it must be true that $|A^{-1}| = \frac{1}{|A|}$. 
 
+\section{Problem 3}
+Consider the equations of motion for the coupled $2$ mass $3$ spring system like the one discussed in lecture. Find a set of $A,B,C,D$ matrices for the state vector definition,
+\begin{equation*}
+	x = [q_1-q_2,\ \dot{q}_1-\dot{q}_2,\ q_1+q_2,\ \dot{q}_1+\dot{q}_2]^T 
+\end{equation*}
+and for observations $y=[q_1,\ q_2]^T$ and inputs $u=[u_1,\ u_2]^T$.
+
+\subparagraph{}
+The following solution makes the assumption, as was done in lecture, that $m_1 = m_2 = 1\text{kg}$ and $k_1 = k_2 = k_3 = 1\text{N/m}$.
+
+\begin{align*}
+	\ddot{q}_1 &= -q_1 - q_1 + q_2 - u_1 \\
+	&= -2q_1 + q_2 - u_1 \\
+	\ddot{q}_2 &= -q_2 + q_1 - q_2 + u_1 + u_2 \\
+	&= -2q_2 + q_1 + u_1 + u_2 \\
+	\ddot{q}_1-\ddot{q}_2 &= (-2q_1+q_2-u_1) - (q_1-2q_2+u_1+u_2) \\
+	&= -3q_1 + 3q_2 - 2u_1 - u_2 \\
+	&= -3(q_1 - q_2) -2u_1 - u_2 \\
+	\ddot{q}_1+\ddot{q}_2 &= (-2q_1+q_2-u_1) + (q_1-2q_2+u_1+u_2) \\
+	&= -q_1 - q_2 + u_2 \\
+	&= -(q_1 + q_2) + u_2 
+\end{align*}
+
+From these results we can construct our $A,B,C$, and $D$ matrices as follows:
+
+\begin{equation*}
+	A=\begin{bmatrix} 0&1&0&0\\-3&0&0&0 \\ 0&0&0&1 \\ 0&0&-1&0 \end{bmatrix}\quad B=\begin{bmatrix} 0&0 \\ -2&-1 \\ 0&0 \\ 0&1 \end{bmatrix}\quad C=\begin{bmatrix} \frac{1}{2}&0&\frac{1}{2}&0 \\ -\frac{1}{2}&0&-\frac{1}{2}&0 \end{bmatrix}\quad D=\begin{bmatrix} 0&0 \\ 0&0 \end{bmatrix}
+\end{equation*}
+
 \end{document}
