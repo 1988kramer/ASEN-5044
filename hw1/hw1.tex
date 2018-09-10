@@ -132,7 +132,7 @@ If we start with $|AB| = |BA| = |A|\ |B|$ and replace $B$ with $A^{-1}$ we find 
 \end{align*}
 Because $|A|\ |A^{-1}| = 1$ it must be true that $|A^{-1}| = \frac{1}{|A|}$. 
 
-\section{Problem 3}
+\section*{Exercise 3}
 Consider the equations of motion for the coupled $2$ mass $3$ spring system like the one discussed in lecture. Find a set of $A,B,C,D$ matrices for the state vector definition,
 \begin{equation*}
 	x = [q_1-q_2,\ \dot{q}_1-\dot{q}_2,\ q_1+q_2,\ \dot{q}_1+\dot{q}_2]^T 
@@ -160,5 +160,40 @@ From these results we can construct our $A,B,C$, and $D$ matrices as follows:
 \begin{equation*}
 	A=\begin{bmatrix} 0&1&0&0\\-3&0&0&0 \\ 0&0&0&1 \\ 0&0&-1&0 \end{bmatrix}\quad B=\begin{bmatrix} 0&0 \\ -2&-1 \\ 0&0 \\ 0&1 \end{bmatrix}\quad C=\begin{bmatrix} \frac{1}{2}&0&\frac{1}{2}&0 \\ -\frac{1}{2}&0&-\frac{1}{2}&0 \end{bmatrix}\quad D=\begin{bmatrix} 0&0 \\ 0&0 \end{bmatrix}
 \end{equation*}
+
+\section*{Exercise 4}
+The linearized equations of motion for an orbiting satellite spinning with nominal angular rate $p_o$ about the x axis are
+\begin{align*}
+	\Delta\dot{p} &= \frac{M_x}{I_x} \\
+	\Delta\dot{q} &= \frac{p_0(I_x-I_z)\Delta r + M_y}{I_y} \\
+	\Delta\dot{r} &= \frac{p_0(I_y-I_x)\Delta q + M_z}{I_z}
+\end{align*}
+where $I_x,I_y,$ and $I_z$ are the moments of inertia about the roll, pitch, and yaw axes; $M_x,M_y,$ and $M_z$ are the corresponding input torques; and $\Delta p,\Delta q,$ and $\Delta r$ are perturbations in rolling, pitching, and yawing rates from the linearization point.
+
+\subsection*{Problem (a)}
+Using the state vector $x = [\Delta p, \Delta q, \Delta r]^T$, input vector $u = [M_x,M_y,M_z]^T$, and output vector $y=x$, put this system into state space form.
+
+\subparagraph{}
+The state space form of the given system is as follows:
+\begin{equation*}
+	A = \begin{bmatrix} 
+		0 & 0 & 0 \\
+		0 & 0 & \frac{p_o(I_x-I_z)}{I_y} \\
+		0 & \frac{p_o(I_y-I_x)}{I_z} & 0
+	\end{bmatrix} \quad 
+	B = \begin{bmatrix}
+		\frac{1}{I_x} & 0 & 0 \\
+		0 & \frac{1}{I_y} & 0 \\
+		0 & 0 & \frac{1}{I_z}
+	\end{bmatrix} \quad
+	C = \mathbb{I}_3 \quad 
+	D = 0_3
+\end{equation*}
+
+\subsection*{Problem (b)}
+Use Matlab's \texttt{expm} function to compute the state transition matrix for this system assuming that $I_y=750\text{kg m}^3$, $I_z=1000\text{kg m}^3$, $I_x=500 \text{kg m}^3$, $p_0 = 20 \text{rad/s}$, and $\Delta t=0.1\text{s}$.
+
+\subsection*{Problem (c)}
+Use the state transition matrix to compute and plot the state time history for 5s, assuming zero inputs and assuming initial states $\Delta q(0) = 0.1\text{rad/s}$, and $\Delta p(0) = \Delta r = 0$. What can you say about the behavior of this system in terms of stability?
 
 \end{document}
