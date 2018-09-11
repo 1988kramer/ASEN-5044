@@ -47,7 +47,7 @@
 \begin{center}\framebox{\parbox{\boxlength}{\bf
       Statistical Estimation \hfill Homework 1\\
       ASEN 5044 Fall 2018 \hfill Due Date: Sep 6, 2018\\
-      Name: Andrew Kramer \hfill CU identitykey: ankr1041
+      Name: Andrew Kramer \hfill PhD Student
 }}
 \end{center}
 
@@ -206,6 +206,48 @@ Use Matlab's \texttt{expm} function to compute the state transition matrix for t
 Use the state transition matrix to compute and plot the state time history for 5s, assuming zero inputs and assuming initial states $\Delta q(0) = 0.1\text{rad/s}$, and $\Delta p(0) = \Delta r = 0$. What can you say about the behavior of this system in terms of stability?
 
 \subparagraph*{}
-As figure (BLANK) below shows, given a small perturbation in $\Delta q$ of $0.1$ rad/s, the perturbations along all axes diverge rapidly from the initial conditions.
+As figure \ref{fig:prob4} below shows, given a small perturbation in $\Delta q$ of $0.1$ rad/s, the perturbations along all axes diverge rapidly from the initial conditions.
+
+\begin{figure}
+	\centerline{\includegraphics[width=0.67\linewidth]{prob_4_fig.png}}
+	\caption{State variables plotted over time (exercise 4)}
+	\label{fig:prob4}
+\end{figure}
+
+\section*{Exercise 5}
+\subsection*{Problem (a)}
+Consider the matrix 
+\begin{equation*}
+	A=\begin{bmatrix} a & b \\ b & c \end{bmatrix}
+\end{equation*}
+Recall that the eigenvalues af $A$ are found by finding the roots of the polynomial $P(\lambda)=|\lambda I-A|$. Show that $P(A)=0$.
+\subparagraph*{}
+The characteristic polynomial $p(\lambda)$ of $A$ is $|\lambda I - A| = \lambda^2 + \lambda(-a-c) + ac - b^2$. So 
+\begin{align*}
+	p(A) &= A^2 + A(-a-c) + I(ac-b^2) \\
+	&= \begin{bmatrix} a^2+b^2 & ab+bc \\ ab+bc & b^2+c^2 \end{bmatrix}+
+	\begin{bmatrix} -a^2-ac & -ab-bc \\ -ab-bc & -ac-c^2 \end{bmatrix}+
+	\begin{bmatrix} ac-b^2 & 0 \\ 0 & ac-b^2 \end{bmatrix} \\
+	&= \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
+\end{align*}
+
+\subsection*{Problem (b)}
+Consider the matrix
+\begin{equation*}
+	A=\begin{bmatrix} a & b \\ b & c \end{bmatrix}
+\end{equation*}
+where $a,b,$ and $c$ are real and $a$ and $c$ are nonnegative. Compute the solutions of the characteristic polynomial of $A$ to prove that the eigenvalues of $A$ are real. Also, for what values of $b$ is $A$ positive semidefinite?
+\subparagraph*{}
+The characteristic polynomial $p(\lambda)$ of $A$ is $|\lambda I - A| = \lambda^2 + \lambda(-a-c) + ac - b^2$. The roots of this polynomial are given by the quadratic formula:
+\begin{align*}
+	\lambda &= \frac{-(-a-c)\pm\sqrt{(-a-c)^2-4(ac-b^2)}}{2} \\
+	&= \frac{(a+b)\pm\sqrt{(a-c)^2+4b^2}}{2}
+\end{align*}
+Notice that the polynomial's discriminant (the expression under the radical) is the sum of the squares of real numbers. This means the discriminant is always positive and hence the roots of the characteristic polynomial (which are also the eigenvalues of $A$) are always real.\\
+$A$ is positive semidefinite if $z^TAz \geq 0$ for every $z \in \mathbb{R}^2$. 
+\begin{equation*}
+	z^TAz=z_1^2a + 2z_1z_2b + z_2^2c
+\end{equation*}
+Since $a$ and $c$ are nonnegative $z_1^2a \geq 0$ and $z_2^2c \geq 0$. This means for A to be positive semidefinite we only need to guarantee that $z_1z_2b \geq 0$. This is true if $z_1$ and $z_2$ have the same sign and $b \geq 0$ or if $z_1$ and $z_2$ have opposite signs and $b\leq0$. So the only value of $b$ that guarantees that $z^TAz\geq0$ for all $z\in\mathbb{R}^2$ is $0$.
 
 \end{document}
