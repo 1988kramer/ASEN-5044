@@ -193,7 +193,19 @@ The state space form of the given system is as follows:
 \subsection*{Problem (b)}
 Use Matlab's \texttt{expm} function to compute the state transition matrix for this system assuming that $I_y=750\text{kg m}^3$, $I_z=1000\text{kg m}^3$, $I_x=500 \text{kg m}^3$, $p_0 = 20 \text{rad/s}$, and $\Delta t=0.1\text{s}$.
 
+\subparagraph*{}
+\begin{equation*}
+	e^{A\Delta t} = \begin{bmatrix}
+					1 & 0 & 0 \\
+					0 & 588.703 & 416.275 \\
+					0 & 832.55 & 588.703
+					\end{bmatrix}
+\end{equation*}
+
 \subsection*{Problem (c)}
 Use the state transition matrix to compute and plot the state time history for 5s, assuming zero inputs and assuming initial states $\Delta q(0) = 0.1\text{rad/s}$, and $\Delta p(0) = \Delta r = 0$. What can you say about the behavior of this system in terms of stability?
+
+\subparagraph*{}
+As figure (BLANK) below shows, given a small perturbation in $\Delta q$ of $0.1$ rad/s, the perturbations along all axes diverge rapidly from the initial conditions.
 
 \end{document}
