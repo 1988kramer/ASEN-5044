@@ -78,4 +78,48 @@ If we choose $x = [r,\ \theta, \dot{r}, \dot{\theta}]^T$ as our state vector and
 	y &= \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
 \end{align*}
 
+\subsection*{Problem (b)}
+Linearize this system's nominal equations of motion about the nominal solution $r(t) = r_0$, $\dot{r}(0) = 0$, $\theta(t) = \omega_0t+\text{constant}$ and $\dot{\theta}(t) = \omega_0$ with $u_1(t) = 0$ and $u_2(t) = 0$. Find $(A,B,C,D)$ matrices for output $y(t)=[r(t),\theta(t)]^T$ for the linearized system of equations about the nominal solution.
+
+\subparagraph*{}
+If we take $x_\text{nom} = [r_0,0,\omega_0t+c,\omega_0]^T$ and $u_\text{nom} = [0,0]^T$. We can say $x(t)=x_\text{nom}(t)+\tilde{x}(t)$ and $u(t) = u_\text{nom}(t) + \tilde{u}(t)$. We can define 
+\begin{align*}
+	\dot{\tilde{x}} &= A_\text{nom} \tilde{x}(t) + B_\text{nom}\tilde{u}(t) \\
+	A_\text{nom} = \left. \frac{\partial f}{\partial x} \right|_{x_\text{nom},u_\text{nom}} &= \begin{bmatrix} 0 & 0 & 1 & 0 \\
+	0 & 0 & 0 & 1 \\ \omega_0^2+2\frac{k}{r_0^3} & 0 & 0 & 2r_0\omega_0 \\ 0 & 0 & -\frac{2\omega_0}{r_0} & 0 \end{bmatrix} \\
+	B_\text{nom} = \left. \frac{\partial f}{\partial u} \right|_{x_\text{nom},u_\text{nom}} & = \begin{bmatrix} 0 & 0 \\ 0 & 0 \\ 1 & 0 \\ 0 & \frac{1}{r_0} \end{bmatrix}
+\end{align*}
+The observation function is already linear, so the $C$ and $D$ matrices do not need to be linearized:
+\begin{align*}
+	y(t) &= Cx(t) + Du(t) \\
+	C &= \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{bmatrix} \\
+	D &= \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
+\end{align*}
+
+\subsection*{Problem (c)}
+Convert the continuous time $(A,B,C,D)$ matrices you found from part (b) into discrete time $(F,G,H,M)$ matrices using a discretization step size of $\Delta t=10\text{s}$ and setting $k=398600\text{km}^3/\text{s}^2$ and $r_0=6678$km.
+
+\subparagraph*{}
+We start by reorganizing our ODE as $\dot{\tilde{x}}_a = \hat{A}[\tilde{x}, \tilde{u}]^T$ where
+\begin{equation*}
+	\hat{A} = \begin{bmatrix} A & B \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0 & 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 0 & 0 \\ \omega_0^2 + 2\frac{k}{r_0^3} & 0 & 0 & 2r_0\omega_0 & 1 & 0 \\ 0 & 0 & -\frac{2\omega_0}{r_0} & 0 & 0 & \frac{1}{r_0} \\ 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0 & 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 0 & 0 \\ 0.00157 & 0 & 0 & 0.01788 & 1 & 0 \\ 0 & 0 & 4.01\times10^{-10} & 0 & 0 & 1.497\times10^{-4} \\ 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 \end{bmatrix}
+\end{equation*}
+We know that $F$ will be the upper left $n\times n$ submatrix and $G$ will be the the upper right $m\times n$ submatrix of $e^{\hat{A}\Delta t}$:
+\begin{align*}
+	e^{\hat{A}\Delta t} &= \begin{bmatrix} 1.079 & 0 & 10.26 & 0.906 & 50.65 & 4.496\times10^{-4} \\ 0 & 1 & 0 & 10 & 0 & 7.485\times10^{-3} \\ 0.0161 & 0 & 1.079 & 0.184 & 10.264 & 1.35\times10^{-4} \\ 0 & 0 & 0 & 1 & 0 & 1.497\times10^{-3} \\ 0 & 0 & 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 & 0 & 1 \end{bmatrix} \\
+	F &= \begin{bmatrix} 1.079 & 0 & 10.26 & 0.906 \\ 0 & 1 & 0 & 10 \\ 0.0161 & 0 & 1.079 & 0.184\\ 0 & 0 & 0 & 1 \end{bmatrix} \\
+	G &= \begin{bmatrix} 50.65 & 4.496\times10^{-4} \\ 0 & 7.485\times10^{-3} \\ 10.264 & 1.35\times10^{-4} \\ 0 & 1.497\times10^{-3} \end{bmatrix}
+\end{align*}
+The $H$ and $M$ matrices for the discretized system are simply equal to the $C$ and $D$ matrices for the continuous time system:
+\begin{align*}
+	H &= C \\
+	M &= D
+\end{align*}
+
+\subsection*{Problem (d)}
+Interpret the results for the STM in part (c), i.e. what is the physical meaning of each column vector that makes up $F$?
+
+\subparagraph{}
+Each column vector $F_i$ in $F$ represents how $\tilde{x}_i(k)$ contributes to $\tilde{x}(k+1)$. In other words, each column vector describes how the corresponding entry in the $\tilde{x}$ vector at step $k$ will affect the entire $\tilde{x}$ vector at step $k+1$.
+
 \end{document}
