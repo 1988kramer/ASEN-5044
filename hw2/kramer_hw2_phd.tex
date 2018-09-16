@@ -51,10 +51,31 @@
 }}
 \end{center}
 
-\section*{}
-
-\subsection*{}
+\section*{Exercise 1}
+Consider the equations of motion for a unit mass subjected to an inverse square law fore field,
+\begin{align*}
+	\ddot{r} &= r \dot{\theta}^2 + \frac{k}{r^2} + u_1(t) \\
+	\ddot{\theta} &= -\frac{2\dot{\theta}\dot{r}}{r} + \frac{1}{r}u_2(t)
+\end{align*}
+where $r$ represents the radius from the center of the force field, $\theta$ gives the angle with respect to a reference direction in the orbital plane, $k$ is a constant, and $u_1$ and $u_2$ represent radial and tanjectial thrusts, respectively. It is easily shown that for the initial conditions $r(0) = r_0$, $\theta(0) = 0$, $\dot{r}(0) = 0$, and $\dot{\theta}(0) = \omega_0$ with nominal thrusts $u_1(t) = 0$ and $u_2(t) = 0$ for all $t \geq 0$ the equations of motion have as a solution the circular orbit given by
+\begin{align*}
+	r(t) &= r_0 = \text{constant} \\
+	\dot{\theta}(t) &= \omega_0 = \text{constant} = \sqrt{\frac{k}{r_0^3}} \\
+	\theta{t} &= \omega_0t + \text{constant}
+\end{align*}
+\subsection*{Problem (a)}
+Pick a state vector for this system and express the original nonlinear ODEs in standard nonlinear state space form.
 
 \subparagraph*{}
+If we choose $x = [r,\ \theta, \dot{r}, \dot{\theta}]^T$ as our state vector and $y = [r,\ \theta]^T$ as our observation vector then we can express the original ODEs as
+\begin{align*}
+	\dot{x} &= \begin{bmatrix} \dot{x_1} \\ \dot{x_2} \\ \dot{x_3} \\ \dot{x_4} \end{bmatrix} 
+	= \begin{bmatrix} x_3 \\
+				x_4 \\
+				x_1x_4^2 - \frac{k}{x_1^2}+u_1(t) \\
+				-\frac{2x_4x_3}{x_1} + \frac{1}{x_1}u_2(t)
+				\end{bmatrix} \\
+	y &= \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
+\end{align*}
 
 \end{document}
