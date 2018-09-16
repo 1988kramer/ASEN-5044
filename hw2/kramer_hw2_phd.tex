@@ -133,8 +133,9 @@ where $p_0$ is the initial position of the object.
 Define a state vector as $x=[p\ \dot{p}\ \ddot{p}]^T$ and write the state space equation $\dot{x} = Ax$ for this system.
 
 \subparagraph*{}
+Because the object is under constant acceleration, the derivative of the acceleration $\dddot{p} = 0$. So the state space equation is simply:
 \begin{equation*}
-	\begin{bmatrix} \dot{p} \\ \ddot{p} \\ \dddot{p} \end{bmatrix} = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ ? & ? & ? \end{bmatrix} \begin{bmatrix} p_0 \\ \dot{p}_0 \\ \ddot{p}_0 \end{bmatrix}
+	\begin{bmatrix} \dot{p} \\ \ddot{p} \\ \dddot{p} \end{bmatrix} = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix} \begin{bmatrix} p \\ \dot{p} \\ \ddot{p} \end{bmatrix}
 \end{equation*}
 
 \subsection*{Problem (b)}
