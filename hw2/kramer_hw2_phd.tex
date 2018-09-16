@@ -122,4 +122,30 @@ Interpret the results for the STM in part (c), i.e. what is the physical meaning
 \subparagraph{}
 Each column vector $F_i$ in $F$ represents how $\tilde{x}_i(k)$ contributes to $\tilde{x}(k+1)$. In other words, each column vector describes how the corresponding entry in the $\tilde{x}$ vector at step $k$ will affect the entire $\tilde{x}$ vector at step $k+1$.
 
+\section*{Exercise 2}
+The linear position $p$ of an object under constant acceleration is
+\begin{equation*}
+	p = p_0 + \dot{p}_0t + \frac{1}{2}\ddot{p}_0t^2
+\end{equation*}
+where $p_0$ is the initial position of the object.
+
+\subsection*{Problem (a)}
+Define a state vector as $x=[p\ \dot{p}\ \ddot{p}]^T$ and write the state space equation $\dot{x} = Ax$ for this system.
+
+\subparagraph*{}
+\begin{equation*}
+	\begin{bmatrix} \dot{p} \\ \ddot{p} \\ \dddot{p} \end{bmatrix} = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ ? & ? & ? \end{bmatrix} \begin{bmatrix} p_0 \\ \dot{p}_0 \\ \ddot{p}_0 \end{bmatrix}
+\end{equation*}
+
+\subsection*{Problem (b)}
+Use all three expressions in Equation (1.71) to find the state transition matrix for this system.
+
+\subparagraph*{}
+
+\subsection*{Problem (c)}
+Prove for the state transition matrix found above that $e^{A0} = I$.
+
+\subparagraph*{}
+
+
 \end{document}
