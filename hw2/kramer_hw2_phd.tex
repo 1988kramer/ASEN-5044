@@ -139,14 +139,54 @@ Because the object is under constant acceleration, the derivative of the acceler
 \end{equation*}
 
 \subsection*{Problem (b)}
-Use all three expressions in Equation (1.71) to find the state transition matrix for this system.
+Use the first and last expressions in Equation (1.71) to find the state transition matrix for this system.
 
 \subparagraph*{}
+We'll first go through the infinite series method, calculating the powers of $A$ first:
+\begin{align*}
+	A\Delta t &= \begin{bmatrix} 0 & \Delta t & 0 \\
+								 0 & 0 & \Delta t \\
+								 0 & 0 & 0 \end{bmatrix} \\
+	(A\Delta t)^2 &= \begin{bmatrix} 0 & 0 & \Delta t^2 \\
+									 0 & 0 & 0 \\
+									 0 & 0 & 0 \end{bmatrix} \\
+	(A\Delta t)^3 &= \begin{bmatrix} 0 & 0 & 0 \\
+									 0 & 0 & 0 \\
+									 0 & 0 & 0 \end{bmatrix}
+\end{align*}
+Luckily for us, $(A\Delta t)^3$ is the zero matrix, so we don't have to extend the series beyond $i=2$. This means the state transition matrix can be calculated as follows:
+\begin{align*}
+	e^{A\Delta t} &= \sum_{i=0}^2 \frac{(A\Delta t)^i}{i!} \\
+	&= I + \begin{bmatrix} 0 & \Delta t & 0 \\
+						   0 & 0 & \Delta t \\
+						   0 & 0 & 0 \end{bmatrix} 
+		+ \frac{1}{2} \begin{bmatrix} 0 & 0 & \Delta t^2 \\
+									  0 & 0 & 0 \\
+									  0 & 0 & 0 \end{bmatrix} \\
+	&= \begin{bmatrix} 1 & \Delta t & \frac{1}{2}\Delta t^2 \\
+					   0 & 1 & \Delta t \\
+					   0 & 0 & 1 \end{bmatrix}
+\end{align*}
+When employing the third expression in equation 1.71, we find that $\hat{A} = A$ and $Q = I$. Since $\hat{A} = A$ we can't use the third expression to try to find $e^{\hat{A}\Delta t}$ as this would lead us into an infinite loop, so we'll use the result from above. Thus, the third expression gives
+\begin{align*}
+	e^{A\Delta t} &= Qe^{\hat{A}\Delta t}Q^{-1} \\
+	&= \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1 & \Delta t & \frac{1}{2} \Delta t^2 \\ 0 & 1 & \Delta t \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}^{-1} \\
+	&= \begin{bmatrix} 1 & \Delta t & \frac{1}{2}\Delta t^2 \\
+					   0 & 1 & \Delta t \\
+					   0 & 0 & 1 \end{bmatrix}
+\end{align*}
 
 \subsection*{Problem (c)}
 Prove for the state transition matrix found above that $e^{A0} = I$.
 
-\subparagraph*{}
-
+\subparagraph*{} 
+\begin{equation*}
+	e^{A0} = \begin{bmatrix} 1 & 0 & 0^2 \\
+							 0 & 1 & 0 \\
+							 0 & 0 & 1 \end{bmatrix}
+			= \begin{bmatrix} 1 & 0 & 0 \\
+							  0 & 1 & 0 \\
+							  0 & 0 & 1 \end{bmatrix}
+\end{equation*}
 
 \end{document}
