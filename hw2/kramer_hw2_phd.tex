@@ -189,4 +189,56 @@ Prove for the state transition matrix found above that $e^{A0} = I$.
 							  0 & 0 & 1 \end{bmatrix}
 \end{equation*}
 
+\section*{Exercise 3}
+Consider the following system matrix
+\begin{equation*}
+	A = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}
+\end{equation*}
+Show that the matrix
+\begin{equation*}
+	S(t) = \begin{bmatrix} e^t & 0 \\ 0 & 2e^{-t} \end{bmatrix}
+\end{equation*}
+satisfies the relation $\dot{S}(t) = AS(t)$, but $S(t)$ is not the state transition matrix of the system.
+
+\subparagraph*{}
+First we find the state transition matrix of the system:
+\begin{align*}
+	e^{At} &= \sum_{i=0}^\infty \frac{(At)^i}{i!} \\
+	&= I + \begin{bmatrix} t & 0 \\ 0 & -t \end{bmatrix} + \frac{1}{2!} \begin{bmatrix} t^2 & 0 \\ 0 & t^2 \end{bmatrix} + \frac{1}{3!} \begin{bmatrix} t^3 & 0 \\ 0 & -t^3 \end{bmatrix} + \dots \\
+	&= \begin{bmatrix} \sum_{j=0}^\infty \frac{t^j}{j!} & 0 \\ 0 & \sum_{j=0}^\infty (-1)^j\frac{t^j}{j!} \end{bmatrix} \\
+	&= \begin{bmatrix} e^t & 0 \\ 0 & e^{-t} \end{bmatrix}
+\end{align*}
+It is clear that $e^{At} \neq S(t)$. Now we can show that $\dot{S}(t) = AS(t)$. 
+\begin{align*}
+	\dot{S}(t) &= \begin{bmatrix} \frac{\partial}{\partial t} e^t & 0 \\ 0 & \frac{\partial}{\partial t} 2e^{-t} \end{bmatrix} = \begin{bmatrix} e^t & 0 \\ 0 & -2e^{-t} \end{bmatrix} \\
+	AS(t) &= \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \begin{bmatrix} e^t & 0 \\ 0 & 2e^{-t} \end{bmatrix} = \begin{bmatrix} e^t & 0 \\ 0 & -2e^{-t} \end{bmatrix}
+\end{align*}
+
+\section*{Exercise 4}
+The vertical dimension of a hovering rocket can be modeled as
+\begin{align*}
+	\dot{x}_1 &= x_2 \\
+	\dot{x}_2 &= \frac{Ku-gx_2}{x_3} - \frac{GM}{(R+x_1)^2} \\
+	\dot{x}_3 &= -u
+\end{align*}
+where $x_1$ is the vertical position of the rocket, $x_2$ is the vertical velocity, $x_3$ is the mass of the rocket, $u$ is the control input (the flow rate of rocket propulsion), $K=1000$ is the thrust constant, $g=50$ is the drag constant, $G=6.673\times10^{-11}\frac{\text{m}^3}{\text{kg}/\text{s}^2}$ is the gravitational constant, $M=5.98\times10^{24}\text{kg}$ is the mass of earth, and $R=6.37\times10^6\text{m}$ is the radius of the earth.
+
+\subsection*{Problem (a)}
+Find $u(t)=u_0(t)$ such that the system is in equilibrium at $x_1(t)=0$ and $x_2(t)=0$.
+
+\subparagraph*{}
+
+\subsection*{Problem (b)}
+Find $x_3(t)$ when $x_1(t)=0$ and $x_2(t)=0$.
+
+\subparagraph*{}
+
+\subsection*{Problem (c)}
+Linearize the system around the state trajectory found above.
+
+\subparagraph*{}
+
+\subsection*{Problem (d)}
+Simulate the nonlinear system for five seconds (using MATLAB's \texttt{ode45} command) and the linearized system for five seconds with $u(t)=u_0(t)+\Delta u\text{ abs}(\cos(t))$ and $x_{3,0}=1000\text{kg}$. Plot the altitude of the rocket for both simulations on the same plot when $\Delta u=10$. Repeat for $\Delta u=100$ and $\Delta u=300$. Hand in your source code and the three plots. What can you conclude about the accuracy of your linearization?
+
 \end{document}
