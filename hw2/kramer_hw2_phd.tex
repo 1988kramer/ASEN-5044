@@ -227,18 +227,72 @@ where $x_1$ is the vertical position of the rocket, $x_2$ is the vertical veloci
 Find $u(t)=u_0(t)$ such that the system is in equilibrium at $x_1(t)=0$ and $x_2(t)=0$.
 
 \subparagraph*{}
+If the system is in equilibrium the rocket is stationary at some altitude $x_{1,0}$, so $\dot{x}_1 = \dot{x}_2 = 0$. So from the given equations we can say
+\begin{align*}
+	\dot{x}_1 &= x_2 = 0 \\
+	\dot{x}_2 &= \frac{Ku}{x_3} - \frac{GM}{R^2} = 0\\
+	\frac{Ku}{x_3} &= \frac{GM}{R^2} \\
+	u_0(t) &= \frac{GMx_3(t)}{KR^2}
+\end{align*}
+We can interpret this result physically as follows: the rocket's thrust must be equal to the gravitational force between the earth and the rocket. This agrees with Newton's laws, so we can be fairly confident we're on the right track. 
 
 \subsection*{Problem (b)}
 Find $x_3(t)$ when $x_1(t)=0$ and $x_2(t)=0$.
 
 \subparagraph*{}
+$x_3$ is simply the integral of $-u(t)$:
+\begin{equation*}
+	x_3(t) = -\int_{0}^{t}u(t)dt
+\end{equation*}
+However, we also know that $u_0(t) =  \frac{GMx_3(t)}{KR^2}$. This means $u_0(t)$ is governed by the differential equation
+\begin{align*}
+	\frac{d}{dt}u_0(t) &= -\frac{KR^2}{GM}u_0(t) \\
+	u_0(t) &= e^{-(KR^2/GM)t}
+\end{align*}
+So the nominal value for $x_3(t)$ is
+\begin{equation*}
+	x_3(t) = -\int_{0}^{t}u(t)dt = \left. \frac{GM}{KR^2} e^{-(KR^2/GM)t} \right |_{0,t} + x_{3,0}
+\end{equation*}
+where $x_{3,0}$ is the initial value of $x_3$.
 
 \subsection*{Problem (c)}
 Linearize the system around the state trajectory found above.
 
 \subparagraph*{}
+We first define
+\begin{equation*}
+	\dot{x} = f(x,u,t) = \begin{bmatrix} x_2 \\ \frac{Ku-gx_2}{x_3} - \frac{GM}{(R+x_1)^2} \\ -u \end{bmatrix}
+\end{equation*}
+From this we can find the jacobians of $f$ with respect to $x$ and $u$.
+\begin{align*}
+	\frac{\partial f}{\partial x} &= \begin{bmatrix} 0 & 1 & 0 \\ 2\frac{GM}{(R+x_1)^3} & \frac{-g}{x_3} & -\frac{Ku-gx_2}{x_3^2} \\ 0 & 0 & 0 \end{bmatrix} \\
+	\frac{\partial f}{\partial u} &= \begin{bmatrix} 0 \\ \frac{K}{x_3} \\ -1 \end{bmatrix}
+\end{align*}
+We then evaluate the jacobians at $x_{\text{nom}} = [0,\ 0,\ \frac{R^2Ku}{GM}]^T$, $u_{\text{nom}}=\frac{GMx_3}{KR^2}$ to find the $A_\text{nom}$ and $B_\text{nom}$ matrices of the linearized system. We'll also define $\frac{KR^2}{GM} = \alpha$ so that $x_{3,\text{nom}} = \frac{1}{\alpha}e^{-\alpha} + x_{3,0}$.
+\begin{align*}
+	A_\text{nom} &= \left. \frac{\partial f}{\partial x} \right |_{x_{\text{nom}},u_{\text{nom}}} = \begin{bmatrix} 0 & 1 & 0 \\ \frac{2GM}{R^3} & -\frac{g}{\frac{1}{\alpha}e^{-\alpha} + x_{3,0}} & -\frac{Ku(t)}{(\frac{1}{\alpha}e^{-\alpha} + x_{3,0})^2} \\ 0 & 0 & 0 \end{bmatrix} \\
+	B_\text{nom} &= \left. \frac{\partial f}{\partial u} \right |_{x_{\text{nom}},u_{\text{nom}}} = \begin{bmatrix} 0 \\ \frac{K}{\frac{1}{\alpha}e^{-\alpha} + x_{3,0}} \\ -1 \end{bmatrix}
+\end{align*}
 
 \subsection*{Problem (d)}
 Simulate the nonlinear system for five seconds (using MATLAB's \texttt{ode45} command) and the linearized system for five seconds with $u(t)=u_0(t)+\Delta u\text{ abs}(\cos(t))$ and $x_{3,0}=1000\text{kg}$. Plot the altitude of the rocket for both simulations on the same plot when $\Delta u=10$. Repeat for $\Delta u=100$ and $\Delta u=300$. Hand in your source code and the three plots. What can you conclude about the accuracy of your linearization?
+
+\section*{Exercise A1}
+Suppose $A$ is invertible and 
+\begin{equation*}
+	\begin{bmatrix} A & A \\ B & A \end{bmatrix} \begin{bmatrix} A \\ C \end{bmatrix} = \begin{bmatrix} 0 \\ I \end{bmatrix}
+\end{equation*}
+Find $B$ and $C$ in terms of $A$.
+
+\subparagraph*{}
+The expression above reduces to the following:
+\begin{align*}
+	A^2 + AC &= 0 \\
+	C &= A^{-1}(-A^2) \\
+	BA + AC &= I \\
+	BA - AA^{-1}A^2 &= I \\
+	BA &= I + A^2 \\
+	B &= A^{-1}(I+A^2)
+\end{align*}
 
 \end{document}
