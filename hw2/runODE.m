@@ -8,8 +8,11 @@ figure;
 hold on;
 plot(t_1, x(:,1), 'b');
 plot(t_2, delta_x(:,1), 'r');
-%legend('nonlinear', 'linearized'); %, 'velocity', 'mass');
-%title('Plot of Rocket Altitude');
+legend('nonlinear', 'linearized');
+title('Plot of Rocket Altitude');
+ylabel('altitude (m)');
+xlabel('time (s)');
+
 %{
 figure;
 plot(t_1, x(:,2), 'b');
