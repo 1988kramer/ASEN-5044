@@ -9,7 +9,7 @@ hold on;
 plot(t_1, x(:,1), 'b');
 plot(t_2, delta_x(:,1), 'r');
 legend('nonlinear', 'linearized');
-title('Plot of Rocket Altitude');
+title('Plot of Rocket Altitude: delta u = 300');
 ylabel('altitude (m)');
 xlabel('time (s)');
 

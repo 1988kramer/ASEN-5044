@@ -244,17 +244,10 @@ The characteristic polynomial $p(\lambda)$ of $A$ is $|\lambda I - A| = \lambda^
 	&= \frac{(a+c)\pm\sqrt{(a-c)^2+4b^2}}{2}
 \end{align*}
 Notice that the polynomial's discriminant (the expression under the radical) is the sum of the squares of real numbers. This means the discriminant is always positive and hence the roots of the characteristic polynomial (which are also the eigenvalues of $A$) are always real.\\
-$A$ is positive semidefinite if $z^TAz \geq 0$ for every $z \in \mathbb{R}^2$. 
-\begin{equation*}
-	z^TAz=z_1^2a + 2z_1z_2b + z_2^2c
-\end{equation*}
-Since $a$ and $c$ are nonnegative $z_1^2a \geq 0$ and $z_2^2c \geq 0$. This means for $A$ to be positive semidefinite we only need to guarantee that $z_1z_2b \geq 0$. This is true if $z_1$ and $z_2$ have the same sign and $b \geq 0$ or if $z_1$ and $z_2$ have opposite signs and $b\leq0$. So the only value of $b$ that guarantees that $z^TAz\geq0$ for all $z\in\mathbb{R}^2$ is $0$. \\
-There are other values of b that result in a positive semidefinite $A$ matrix. $A$ is positive semidefinite if its eigenvalues are nonnegative. We can find the values of $b$ which result in nonnegative roots to the characteristic polynomial:
-\begin{equation*}
-	(a+c)\pm\sqrt{(a-c)^2+4b^2} \geq 0
-\end{equation*}
-We first find the values of $b$ for which the above inequality is true when the square root is subtracted:
+
+$A$ is positive semidefinite if its eigenvalues are nonnegative. So to find values of $b$ which result in a positive semidefinite $A$ we find the values of $b$ which result in nonnegative roots to the characteristic polynomial:
 \begin{align*}
+	(a+c)\pm\sqrt{(a-c)^2+4b^2} &\geq 0 \\
 	-\sqrt{(a-c)^2+4b^2} &\geq -(a+c) \\
 	\sqrt{(a-c)^2+4b^2} &\leq (a+c) \\
 	(a-c)^2+4b^2 &\leq (a+c)^2 \\
@@ -263,15 +256,7 @@ We first find the values of $b$ for which the above inequality is true when the 
 	4b^2 &\leq 4ac \\
 	b &\leq \sqrt{ac}
 \end{align*}
-Then we find the values of $b$ for which the inequality holds when the square root is added:
-\begin{align*}
-	\sqrt{(a-c)^2+4b^2} &\geq -(a+c) \\
-	(a-c)^2+4b^2 &\geq (-a-c)^2 \\
-	4b^2 &\geq (-a-c)^2 - (a-c)^2 \\
-	4b^2 &\geq a^2+2ac+c^2-a^2+2ac-c^2 \\
-	b &\geq \sqrt{ac}
-\end{align*}
-So $A$ is positive semidefinite when $b\geq\sqrt{ac}$, $b\leq\sqrt{ac}$, and $b=0$.
+So $A$ is positive semidefinite when $b\leq\sqrt{ac}$.
 
 \section*{Exercise AQ1}
 Explain why matrix element $(4,4)$ in problem 1c belongs in the last column.

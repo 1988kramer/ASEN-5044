@@ -244,16 +244,21 @@ $x_3$ is simply the integral of $-u(t)$:
 \begin{equation*}
 	x_3(t) = -\int_{0}^{t}u(t)dt
 \end{equation*}
-However, we also know that $u_0(t) =  \frac{GMx_3(t)}{KR^2}$. This means $u_0(t)$ is governed by the differential equation
+However, we also know from part (a) that $x_3(t) =  \frac{KR^2}{GM}u_0(t)$. This means $u_0(t)$ is governed by the differential equation
 \begin{align*}
-	\frac{d}{dt}u_0(t) &= -\frac{KR^2}{GM}u_0(t) \\
-	u_0(t) &= e^{-(KR^2/GM)t}
+	\frac{KR^2}{GM}u_0(t) &= -\int_0^t u(t)dt\\
+	u_0(t) &= -\frac{GM}{KR^2}\int_0^tu_0(t) \\
+	\frac{d}{dt}u_0(t) = -\frac{GM}{KR^2}u_0(t) \\
+	u_0(t) &= e^{-(GM/KR^2)t}
 \end{align*}
 So the nominal value for $x_3(t)$ is
 \begin{equation*}
-	x_3(t) = -\int_{0}^{t}u(t)dt = \left. \frac{GM}{KR^2} e^{-(KR^2/GM)t} \right |_{0,t} + x_{3,0}
+	x_3(t) = -\int_{0}^{t}u(t)dt = \left. \frac{KR^2}{GM} e^{-(GM/KR^2)t} \right |_{0,t} + \text{const.}
 \end{equation*}
-where $x_{3,0}$ is the initial value of $x_3$.
+We can take the constant to be $x_\text{dry}$, the dry (unfueled) mass of the rocket. This means the coefficient on the exponential must be equal to the mass of the fuel on the rocket (i.e. the initial mass of the rocket minus the dry mass) so the expression for $x_3(t)$ can be simplified to
+\begin{equation*}
+	x_3(t) = (x_{3,0} - x_\text{dry})e^{-(GM/KR^2)t} + x_\text{dry}
+\end{equation*}
 
 \subsection*{Problem (c)}
 Linearize the system around the state trajectory found above.
@@ -268,10 +273,10 @@ From this we can find the jacobians of $f$ with respect to $x$ and $u$.
 	\frac{\partial f}{\partial x} &= \begin{bmatrix} 0 & 1 & 0 \\ 2\frac{GM}{(R+x_1)^3} & \frac{-g}{x_3} & -\frac{Ku-gx_2}{x_3^2} \\ 0 & 0 & 0 \end{bmatrix} \\
 	\frac{\partial f}{\partial u} &= \begin{bmatrix} 0 \\ \frac{K}{x_3} \\ -1 \end{bmatrix}
 \end{align*}
-We then evaluate the jacobians at $x_{\text{nom}} = [0,\ 0,\ \frac{R^2Ku}{GM}]^T$, $u_{\text{nom}}=\frac{GMx_3}{KR^2}$ to find the $A_\text{nom}$ and $B_\text{nom}$ matrices of the linearized system. We'll also define $\frac{KR^2}{GM} = \alpha$ so that $x_{3,\text{nom}} = \frac{1}{\alpha}e^{-\alpha} + x_{3,0}$.
+We then evaluate the jacobians at $x_{\text{nom}} = [0,\ 0,\ \frac{KR^2}{GM}e^{-(GM/KR^2)t} + x_{3,0}]^T$, $u_{\text{nom}}=e^{-(GM/KR^2)t}$ to find the $A_\text{nom}$ and $B_\text{nom}$ matrices of the linearized system. We'll also define $\frac{GM}{KR^2} = \alpha$ so that $x_{3,\text{nom}} = (x_{3,0}-x_\text{dry})e^{-\alpha t} + x_\text{dry}$ and $u_\text{nom} = e^{-\alpha t}$. 
 \begin{align*}
-	A_\text{nom} &= \left. \frac{\partial f}{\partial x} \right |_{x_{\text{nom}},u_{\text{nom}}} = \begin{bmatrix} 0 & 1 & 0 \\ \frac{2GM}{R^3} & -\frac{g}{\frac{1}{\alpha}e^{-\alpha} + x_{3,0}} & -\frac{Ku(t)}{(\frac{1}{\alpha}e^{-\alpha} + x_{3,0})^2} \\ 0 & 0 & 0 \end{bmatrix} \\
-	B_\text{nom} &= \left. \frac{\partial f}{\partial u} \right |_{x_{\text{nom}},u_{\text{nom}}} = \begin{bmatrix} 0 \\ \frac{K}{\frac{1}{\alpha}e^{-\alpha} + x_{3,0}} \\ -1 \end{bmatrix}
+	A_\text{nom} &= \left. \frac{\partial f}{\partial x} \right |_{x_{\text{nom}},u_{\text{nom}}} = \begin{bmatrix} 0 & 1 & 0 \\ \frac{2GM}{R^3} & -\frac{g}{(x_{3,0}-x_\text{dry})e^{-\alpha t} + x_\text{dry}} & -\frac{-\alpha Ke^{-\alpha t}}{((x_{3,0}-x_\text{dry})e^{-\alpha t} + x_\text{dry})^2} \\ 0 & 0 & 0 \end{bmatrix} \\
+	B_\text{nom} &= \left. \frac{\partial f}{\partial u} \right |_{x_{\text{nom}},u_{\text{nom}}} = \begin{bmatrix} 0 \\ \frac{K}{(x_{3,0}-x_\text{dry})e^{-\alpha t} + x_\text{dry}} \\ -1 \end{bmatrix}
 \end{align*}
 
 \subsection*{Problem (d)}
@@ -294,5 +299,38 @@ The expression above reduces to the following:
 	BA &= I + A^2 \\
 	B &= A^{-1}(I+A^2)
 \end{align*}
+
+\section*{Exercise A2}
+Show that $|e^{At}|=e^{\text{tr}(A)t}$ for any square matrix $A$.
+
+\subparagraph*{}
+Let's first assume that $A$ is diagonal. In this case the exponential of $A$ is a diagonal matrix $\Lambda$ where the diagonal elements $\lambda_{ij} = e^{a_{ij}}$. This means that
+\begin{align*}
+	det{e^{At}} &= e^{a_{1,1}t} \times \dots \times e^{a_{n,n}t} \\
+	&= e^{(a_{1,1} + \dots + a_{n,n})t} \\
+	&= e^{\text{tr}(A)t}
+\end{align*}
+Now let's assume that $A$ is diagonalizable. In this case there exists a matrix $B$ such that $P^{-1}\Lambda P = A$ where $\Lambda$ is the diagonalized form of $A$. We can show that because
+\begin{align*}
+	A^2 &= (P^{-1}\Lambda P)(P^{-1}\Lambda P) \\
+	&= P^{-1}\Lambda (PP^{-1}) \Lambda P \\
+	&= P^{-1} \Lambda P
+\end{align*}
+and higher powers follow the same pattern that
+\begin{equation*}
+	e^A = P^{-1}\Bigg[\sum_{i=0}^\infty \frac{\Lambda^i}{i!} \Bigg] P
+\end{equation*}
+So $e^At = P^{-1}e^{\Lambda t} P$. Also, since the determinant of the product of square matrices is the product of the determinants of those matrices,
+\begin{align*}
+	|e^{At}| &= |P^{-1}e^{\Lambda t}P| \\
+	&= |P^{-1}||e^{\Lambda t}||P| \\
+	&= |e^{\Lambda t}| \\
+	&= e^{\text{tr}(\Lambda) t}
+\end{align*}
+So because $\text{tr}(\Lambda)=\text{tr}(A)$ this shows $|e^{At}|=e^{\text{tr}(A)t}$ when A is diagonalizable. Finally, for the general case we'll use the jordan form of $A$ where $QAQ^{-1}=J$ and $A=Q^{-1}JQ$. From our arguments in the previous case we can say that $e^A=Q^{-1}e^JQ$. Therefore
+\begin{equation*}
+	|e^{At}| = |Q^{-1}e^{Jt}Q|=|e^{Jt}|
+\end{equation*}
+Because $J$ is upper triangular and the determinant of an upper triangular matrix is the product of its diagonal elements, and the trace of $J$ is equal to the trace of $J$ we can say that $|e^{At}| = e^{\text{tr}(A)}$.
 
 \end{document}
