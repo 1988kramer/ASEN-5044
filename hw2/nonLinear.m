@@ -6,7 +6,7 @@ R = 6.37e6;
 K=1000;
 alpha = (G*M)/(K*R^2);
 delta_u = 300 * abs(cos(t));
-u_nom = G*M*x_in(3) / (K*R^2);%alpha * 1000 * exp(-alpha * t);
+u_nom = G*M*x_in(3) / (K*R^2);
 u = u_nom + delta_u;
 
 dy(1) = x_in(2);

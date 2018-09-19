@@ -9,6 +9,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{fancyhdr}
 \usepackage{color}
 \usepackage{bbm}
@@ -282,6 +283,35 @@ We then evaluate the jacobians at $x_{\text{nom}} = [0,\ 0,\ \frac{KR^2}{GM}e^{-
 \subsection*{Problem (d)}
 Simulate the nonlinear system for five seconds (using MATLAB's \texttt{ode45} command) and the linearized system for five seconds with $u(t)=u_0(t)+\Delta u\text{ abs}(\cos(t))$ and $x_{3,0}=1000\text{kg}$. Plot the altitude of the rocket for both simulations on the same plot when $\Delta u=10$. Repeat for $\Delta u=100$ and $\Delta u=300$. Hand in your source code and the three plots. What can you conclude about the accuracy of your linearization?
 
+\subparagraph*{}
+See below for the Matlab code used to model the given system. \texttt{nonLinear.m} defines the function to model the nonlinear system, \texttt{linearized.m} defines the function to model the linearized system, and \texttt{runODE.m} sets up and runs the ODE and plots the results.
+
+\lstinputlisting[language=Matlab, caption=nonLinear.m]{nonLinear.m}
+\lstinputlisting[language=Matlab, caption=linearized.m]{linearized.m}
+\lstinputlisting[language=Matlab, caption=runODE.m]{runODE.m}
+
+On figure \ref{fig:10}, below, we can see that for small perturbations in $\Delta u$, the linearized model follows the linear model very closely. When $\Delta u=100$, as in figure \ref{fig:100}, we can see that the linearized model differs from the nonlinear model more than when $\Delta u = 10$, but the shape of the linearized function still tracks the nonlinear model very closely. Lastly, in plot \ref{fig:300} when $\Delta u=300$ we can see that the linearized function diverges significantly from the nonlinear. From this we can see that the linearized model is only valid for relatively small perturbations from the nominal values for state and input.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{plot10.png}
+	\caption{}
+	\label{fig:10}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{plot100.png}
+	\caption{}
+	\label{fig:100}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{plot300.png}
+	\caption{}
+	\label{fig:300}
+\end{figure}
+
 \section*{Exercise A1}
 Suppose $A$ is invertible and 
 \begin{equation*}
@@ -294,10 +324,12 @@ The expression above reduces to the following:
 \begin{align*}
 	A^2 + AC &= 0 \\
 	C &= A^{-1}(-A^2) \\
+	&= -A \\
 	BA + AC &= I \\
 	BA - AA^{-1}A^2 &= I \\
 	BA &= I + A^2 \\
-	B &= A^{-1}(I+A^2)
+	B &= A^{-1}(I+A^2) \\
+	&= A^{-1} + A
 \end{align*}
 
 \section*{Exercise A2}
