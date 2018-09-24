@@ -147,4 +147,85 @@ How many vector measurements $y(k)$ are actually needed to estimate $x(0)$, i.e.
 \subsection*{Problem (f)}
 What happens to the observability of the system if only the first row of the output $y(k)$ is used for all $k\geq 1$? What if only the second row of the output vector $y(k)$ is used instead? Provide a physical explanation in each case.
 
+\section*{Exercise 2}
+(Luenberger, 1979) discusses a simple model for the national income dynamics. The national income $y_k$ in year $k$ in terms of consumer expenditure $c_k$, private investment $i_k$ and government expenditure $g_k$ is assumed to be given by $y_k=c_k+i_k+g_k$, where the interrelations between these quantities are specified by $c_{k+1}=\alpha y_k$ and $i_{k+1}=\beta(c_{k+1}-c_k)$. The constant $\alpha$ is called the marginal propensity to consume, while $\beta$ is a growth coefficient. Typically, $0<\alpha<1$ and $\beta > 0$.
+
+\subsection*{Problem (a)}
+Show that these relations can be rearranged into the following discrete time state space model with ($F,G,H,M$) matrix parameters:
+\begin{align*}
+	x_{k+1} = \begin{bmatrix} x_{1,k+1} \\ x_{2,k+1} \end{bmatrix} &= \begin{bmatrix} \alpha & \alpha \\ \beta(\alpha-1) & \beta\alpha \end{bmatrix} \begin{bmatrix} x_{1,k} \\ x_{2,k} \end{bmatrix} + \begin{bmatrix} \alpha \\ \beta\alpha \end{bmatrix} u_k \\
+	y_k &= \begin{bmatrix} 1 & 1 \end{bmatrix} \begin{bmatrix} x_{1,k} \\ x_{2,k} \end{bmatrix} + u_k
+\end{align*}
+where $x_{1,k}\equiv c_k$, $x_{2,k} \equiv i_k$, $u_k \equiv g_k$.
+
+\subparagraph*{}
+It is fairly simple to translate the formula for $y_k$ to matrix form:
+\begin{align*}
+	y_k &= c_k + i_k + g_k \\
+	&= x_{1,k} + x_{2,k} + u_k \\
+	&= \begin{bmatrix} 1 & 1 \end{bmatrix} \begin{bmatrix} x_{1,k} \\ x_{2,k} \end{bmatrix} + u_k \\
+\end{align*}
+Translating the formulas for $x_{1,k+1}$ and $x_{2,k+1}$ goes as follows:
+\begin{align*}
+	c_{k+1} = x_{1,k+1} &= \alpha y_k \\
+	&= \alpha(c_k + i_k + g_k) \\
+	&= \alpha(x_{1,k} + x_{2,k} + u_k) \\
+	&= \alpha x_{1,k} + \alpha x_{2,k} + \alpha u_k \\
+	\\
+	i_{k+1} = x_{2,k+1} &= \beta(c_{k+1} - c_k) \\
+	&= \beta(x_{1,k+1}-x_{1,k}) \\
+	&= \beta(\alpha(x_{1,k} + x_{2,k} + u_k) - x_{1,k}) \\
+	&= \beta(\alpha-1)x_{1,k} + \beta\alpha x_{2,k} + \beta\alpha u_k \\
+	\\
+	x_{k+1} &= \begin{bmatrix} \alpha & \alpha \\ \beta(\alpha-1) & \beta\alpha \end{bmatrix}\begin{bmatrix} x_{1,k} \\ x_{2,k} \end{bmatrix} + \begin{bmatrix} \alpha \\ \beta\alpha \end{bmatrix} u_k 
+\end{align*}
+
+\subsection*{Problem (b)}
+Let the parameters $(\alpha,\beta)$ take on the following pairs of values: $(0.75,1),\ (0.75,1.5)$, and $(1.25,1)$. For each case determine the eigenvalues for the $F$ matrix, and also plot the states for $0\leq k\leq30$ when $u_k$ is a unit step input (i.e. $u_k=1$ for all $k>0$) and $x_0=[0,0]^T$. Comment on the stability and observability of the system in each case.
+
+For the first pair of values, $(0.75,1.0)$, the eigenvalues of $F$ are $0.75\pm0.433j$ As the complex magnitudes of these eigenvalues are less than one, the eigenvalues of $F$ lie inside the unit circle. This means that the system is asymptotically stable for the given parameter values. Additionally, the observability matrix is full rank for $n=2$, 
+\begin{equation*}
+	\mathbb{O} = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix} 1.0 & 1.0 \\ 0.5 & 1.5 \end{bmatrix}
+\end{equation*}
+so the system is observable from two measurements. See figure (NEED FIGURE) for a plot of the system states for $0\leq k\leq 30$.
+
+For the second pair of values, $(0.75,1.5)$, the eigenvalues of $F$ are $0.938\pm0.496j$ As the complex magnitudes of these eigenvalues are greater than one, the eigenvalues of $F$ lie outside the unit circle. This means that the system is asymptotically unstable for the given parameter values. Additionally, the observability matrix is full rank for $n=2$, 
+\begin{equation*}
+	\mathbb{O} = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix} 1.0 & 1.0 \\ 0.375 & 1.875 \end{bmatrix}
+\end{equation*}
+so the system is observable from two measurements. See figure (NEED FIGURE) for a plot of the system states for $0\leq k\leq 30$.
+
+For the last pair of values, $(1.25,1.0)$, the eigenvalues of $F$ are $1.809$ and $0.691$. As the complex magnitudes of one of these eigenvalues is not less than one, that eigenvalue of $F$ lies outside the unit circle. This means that the system is asymptotically unstable for the given parameter values. Additionally, the observability matrix is full rank for $n=2$, 
+\begin{equation*}
+	\mathbb{O} = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix} 1.0 & 1.0 \\ 1.5 & 2.5 \end{bmatrix}
+\end{equation*}
+so the system is observable from two measurements. See figure (NEED FIGURE) for a plot of the system states for $0\leq k\leq 30$.
+
+\subsection*{Problem (c)}
+For each of the parameter cases in (b), plot the states for $k\geq0$ when $u_k=0$ for all time $k$ and $x_0=[5,1]^T$. Comment on your results.
+
+\subsection*{Problem (d)}
+For each of the parameter cases in (c), simulate a sequence of observations $y(0),\dots,y(9)$ and use all the data to estimate the initial condition $x_0$ as if it were unknown (assume $u_k$ is the same as in case (c)). Show a plot of your observation sequence vs time, and report your resulting estimates in each case (be sure to explain the approach used to get the estimates, and validate your estimates by plotting the resulting predicted $y(k)$ outputs vs time against the real $y(k)$ data generated in each case).
+
+\section*{Exercise 3}
+You are waiting around Gary Slick's dealership while your new Ferrari is being serviced when you notice local folk hero Pladimir Vutin walk in and start haggling with Slick over a vintage GAZ Chaika that is prominently on display. You can't help but overhear their discussion, and record the following discrete time series for Slick's offers ($z_1$, in tens of thousands of dollars) and Vutin's offers ($z_2$, in tens of thousands of dollars), stacked into the vector $z(k)=[z_1(k),z_2(k)]^T$,
+\begin{align*}
+	z(0) = \begin{bmatrix} 100 \\ 20 \end{bmatrix},\ z(1) &= \begin{bmatrix} 43.6658 \\ 39.2815 \end{bmatrix},\ z(2) = \begin{bmatrix} 40.5785 \\ 40.3382 \end{bmatrix} \\
+	z(3) = \begin{bmatrix} 40.4093 \\ 40.3961 \end{bmatrix},\ z(4) &= \begin{bmatrix} 40.4 \\ 40.3993 \end{bmatrix},\ z(5) = \begin{bmatrix} 40.3995 \\ 40.3995 \end{bmatrix}
+\end{align*}
+Having conducted your own negotiation with Slick recently, you assume the dynamics of $z(k)$ could reasonably be modeled as
+\begin{align*}
+	z_1(k+1)&=z_1(k)+\lambda[z_1(k) - z_2(k)] \\
+	z_2(k+1)&=z_2(k)+\mu[z_1(k)-z_2(k)]
+\end{align*}
+where the constants $\lambda$ and $\mu$ describe Slick's and Vutin's update parameters, respectively. You don't know what values of $\lambda$ and $\mu$ apply for this particular negotiation - but you'd sure like to figure out how Vutin galloped away with Slick's shirt on this deal.
+\subsection*{Problem (a)}
+Suppose the 'unknown state' to be estimated in this case is $x(k)=[\lambda,\mu]^T$, and (based on what you recorded) the 'observed output' for $k=0,1,2,\dots$ is taken to be $y(k+1)=[g(k+1),p(k+1)]^T$, where $g(k+1)=z_1(k+1)-z_1(k)$ and $p(k+1) = z_2(k+1)-z_2(k)$. Find a suitable DT linear state space system model for this problem, and discuss any interesting features of the $(F,G,H,M)$ matrix parameters for the model (e.g. which are time invariant or time varying?).
+
+\subsection*{Problem (b)}
+Under what conditions can the $\lambda$ and $\mu$ parameters be identified? Give a careful, precise mathematical justification and interpretation.
+
+\subsection*{Problem (c)}
+If the conditions hold for identifying $\lambda$ and $\mu$, set up a linear system of equations that could be solved to determine the parameters. What is your estimate, based on the observed sequence of bids recorded above? If the minimum required conditions do not hold, explain why not.
+
 \end{document}
