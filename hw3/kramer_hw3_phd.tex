@@ -104,18 +104,32 @@ We can regress $x(0)$ from the logged $n$ measurements by stacking the measureme
 \begin{equation*}
 	Y = \mathbb{O}x(0)
 \end{equation*}
-where $\mathbb{O}=[HF^0,\ HF^1,\ HF^2,\ \dots, HF^{n-1}]^T$. We can solve for $x(0)$ by multiplying both sides by the grammian of $\mathbb{O}$:
+where $\mathbb{O}=[HF^0,\ HF^1,\ HF^2,\ \dots, HF^{n-1}]^T$. However, this only applies when there is no input $u(t)$. If the input is nonzero our relationship becomes more complicated:
+\begin{align*}
+	y(0) &= Hx(0) \\
+	y(1) = Hx(1) &= H(Fx(0) + Gu(0)) \\
+	y(2) = Hx(2) = H(Fx(1) + Gu(1)) &= H(F(Fx(0) + Gu(0)) + Gu(1)) \\
+	&= HF^2x(0) + HFGu(0) + Gu(1) \\
+	y(n-1) &= HF^{n-2}x(0) + \sum_{i=0}^{n-1}HF^{n-2-i}Gu(i)
+\end{align*}
+So our equation for the measurements $Y$ becomes
 \begin{equation*}
-	x(0) = (\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}^TY
+	Y = \mathbb{O}x(0) + U
 \end{equation*}
-
-THE ABOVE ONLY HOLDS FOR SYSTEMS WITH NO INPUT!
+where
+\begin{equation*}
+	U=\begin{bmatrix} 0 \\ HGu(0) \\ HFGu(0) + HGu(1) \\ \dots \\ \sum_{i=0}^{n-2}HF^{n-2-i}Gu(i) \end{bmatrix}
+\end{equation*}
+We can still solve for $x(0)$ similar to the method used when $u(t)=0$:
+\begin{equation*}
+	x(0) = (\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}^T(Y-U)
+\end{equation*}
 
 \subsection*{Problem (d)}
 Estimate $x(k=0)$ and plot all the remaining states $x(k)$ for $k\geq 1$ vs time (in seconds) and separately plot their corresponding 'predicted' outputs $y(k)$ vs. time for all $k\geq 1$ in the recorded output time series. Validate your estimate by also separately plotting the differences between the 'predicted' and recorded $y(k)$ values vs. time.
 
 \subparagraph*{}
-In solving $(\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}^TY$ we find that $x(0)=[0.247,\ 0.434,\ -0.607,\ -1.697]$. See figure \ref{fig:1d_states} below for a plot of the predicted states vs. time and figure \ref{fig:1d_meas} for the predicted outputs. Figure \ref{fig:1d_diffs} shows the difference between the predicted and actual measurements. The predicted measurements match the actual measurements exactly in frequency, though their amplitude differs.
+In solving $(\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}^TY$ we find that $x(0)=[0.114,\ 0.272,\ -0.423,\ -0.814]$. See figure \ref{fig:1d_states} below for a plot of the predicted states vs. time and figure \ref{fig:1d_meas} for the predicted outputs. Figure \ref{fig:1d_diffs} shows the difference between the predicted and actual measurements. The predicted measurements match the actual measurements exactly in frequency, though their amplitude differs.
 
 \begin{figure}[h!]
 	\centering
@@ -143,9 +157,14 @@ How many vector measurements $y(k)$ are actually needed to estimate $x(0)$, i.e.
 \end{equation*}
 
 \subparagraph*{}
+Because the observability matrix is full rank when only 2 measurements are used (i.e. $\text{rank}([H,\ HF]^T)=4$), we only need 2 measurements to estimate $x(0)$. If $H$ were instead given by three different position sensors on the first mass, the system would require 4 measurements to be observable. This is because every entry in column $i$ of $HF^k$ will be equal to the first entry in column $i$ of $F^k$ for every possible value of $k$. This means $\text{rank}(\mathbb{O})=1$ when $\mathbb{O}=H$, $\text{rank}(\mathbb{O})=2$ when $\mathbb{O}=[H,\ HF]^T$, $\text{rank}(\mathbb{O})=3$ when $\mathbb{O}=[H,\ HF,\ HF^2]^T$ and $\mathbb{O}$ is full rank when $\mathbb{O}=[H,\ HF,\ HF^2,\ HF^3]^T$.
 
 \subsection*{Problem (f)}
 What happens to the observability of the system if only the first row of the output $y(k)$ is used for all $k\geq 1$? What if only the second row of the output vector $y(k)$ is used instead? Provide a physical explanation in each case.
+
+\subparagraph*{}
+When only the first row of $y(k)$ is used the system is observable when 4 measurements are used. This case is the same as the one in part (e). If only the position of the first mass is known, then 4 measurements are required to be able to calculate the position, mass, and acceleration of the first mass over 2 timesteps. If the acceleration of the mass 1 is known then we also know the net force on that mass. Because the position of mass 1 is also known we know the force from spring 1. From these two quantities, we can calculate the force from (and hence the displacement of) spring 2. Because we know the position of mass 1 and displacement of spring 2 we can calculate the position of mass 2. This only used 3 measurements, however. We need the 4th measurement because we also need to calculate the velocity of mass 2. To do this we need to calculate its position at 2 timesteps, hence the need for the 4th measurement. \\
+If only the second row of $y(k)$ is used the system is never observable. This is because for all $n>1$ $\mathbb{O}_3=-\mathbb{O}$ and $\mathbb{O}_4=-\mathbb{O}_2$ where $\mathbb{O}_i$ denotes the $i^\text{th}$ column of $\mathbb{O}$. This means $\text{rank}(\mathbb{O})=2$ for $n>1$. The state of this system is never observable because we only ever get information about the relative velocity of the 2 masses. We could integrate two relative velocity measurements to get their relative displacement. However, to get the full state we need the absolute displacements of the masses. To get the absolute displacements of the masses at timestep $k$ we would need to know their absolute displacements at some other timestep, and we will never get this information using only the second row of $y(k)$.
 
 \section*{Exercise 2}
 (Luenberger, 1979) discusses a simple model for the national income dynamics. The national income $y_k$ in year $k$ in terms of consumer expenditure $c_k$, private investment $i_k$ and government expenditure $g_k$ is assumed to be given by $y_k=c_k+i_k+g_k$, where the interrelations between these quantities are specified by $c_{k+1}=\alpha y_k$ and $i_{k+1}=\beta(c_{k+1}-c_k)$. The constant $\alpha$ is called the marginal propensity to consume, while $\beta$ is a growth coefficient. Typically, $0<\alpha<1$ and $\beta > 0$.
@@ -183,29 +202,108 @@ Translating the formulas for $x_{1,k+1}$ and $x_{2,k+1}$ goes as follows:
 \subsection*{Problem (b)}
 Let the parameters $(\alpha,\beta)$ take on the following pairs of values: $(0.75,1),\ (0.75,1.5)$, and $(1.25,1)$. For each case determine the eigenvalues for the $F$ matrix, and also plot the states for $0\leq k\leq30$ when $u_k$ is a unit step input (i.e. $u_k=1$ for all $k>0$) and $x_0=[0,0]^T$. Comment on the stability and observability of the system in each case.
 
+\subparagraph*{}
 For the first pair of values, $(0.75,1.0)$, the eigenvalues of $F$ are $0.75\pm0.433j$ As the complex magnitudes of these eigenvalues are less than one, the eigenvalues of $F$ lie inside the unit circle. This means that the system is asymptotically stable for the given parameter values. Additionally, the observability matrix is full rank for $n=2$, 
 \begin{equation*}
 	\mathbb{O} = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix} 1.0 & 1.0 \\ 0.5 & 1.5 \end{bmatrix}
 \end{equation*}
-so the system is observable from two measurements. See figure (NEED FIGURE) for a plot of the system states for $0\leq k\leq 30$.
+so the system is observable from two measurements. See figure \ref{fig:2b_plot1} for a plot of the system states for $0\leq k\leq 30$.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2b_plot1.png}
+	\caption{predicted states}
+	\label{fig:2b_plot1}
+\end{figure}
 
 For the second pair of values, $(0.75,1.5)$, the eigenvalues of $F$ are $0.938\pm0.496j$ As the complex magnitudes of these eigenvalues are greater than one, the eigenvalues of $F$ lie outside the unit circle. This means that the system is asymptotically unstable for the given parameter values. Additionally, the observability matrix is full rank for $n=2$, 
 \begin{equation*}
 	\mathbb{O} = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix} 1.0 & 1.0 \\ 0.375 & 1.875 \end{bmatrix}
 \end{equation*}
-so the system is observable from two measurements. See figure (NEED FIGURE) for a plot of the system states for $0\leq k\leq 30$.
+so the system is observable from two measurements. See figure \ref{fig:2b_plot2} for a plot of the system states for $0\leq k\leq 30$.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2b_plot2.png}
+	\caption{predicted states}
+	\label{fig:2b_plot2}
+\end{figure}
 
 For the last pair of values, $(1.25,1.0)$, the eigenvalues of $F$ are $1.809$ and $0.691$. As the complex magnitudes of one of these eigenvalues is not less than one, that eigenvalue of $F$ lies outside the unit circle. This means that the system is asymptotically unstable for the given parameter values. Additionally, the observability matrix is full rank for $n=2$, 
 \begin{equation*}
 	\mathbb{O} = \begin{bmatrix} H \\ HF \end{bmatrix} = \begin{bmatrix} 1.0 & 1.0 \\ 1.5 & 2.5 \end{bmatrix}
 \end{equation*}
-so the system is observable from two measurements. See figure (NEED FIGURE) for a plot of the system states for $0\leq k\leq 30$.
+so the system is observable from two measurements. See figure \ref{fig:2b_plot3} for a plot of the system states for $0\leq k\leq 30$.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2b_plot3.png}
+	\caption{predicted states}
+	\label{fig:2b_plot3}
+\end{figure}
 
 \subsection*{Problem (c)}
 For each of the parameter cases in (b), plot the states for $k\geq0$ when $u_k=0$ for all time $k$ and $x_0=[5,1]^T$. Comment on your results.
 
+\subparagraph*{}
+Figure \ref{fig:2c_plot1}, below, shows the state behavior when $\alpha=0.75$ and $\beta=1$. Notice the system is still stable, but it converges to a different values than when $u(k)$ is nonzero.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2c_plot1.png}
+	\caption{predicted states}
+	\label{fig:2c_plot1}
+\end{figure}
+
+Figure \ref{fig:2c_plot2}, below, shows the state behavior when $\alpha=0.75$ and $\beta=1.5$. The system is still asymptotically unstable.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2c_plot2.png}
+	\caption{predicted states}
+	\label{fig:2c_plot2}
+\end{figure}
+
+Figure \ref{fig:2c_plot1}, below, shows the state behavior when $\alpha=1.25$ and $\beta=1$. The system is still asymptotically unstable.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2c_plot3.png}
+	\caption{predicted states}
+	\label{fig:2c_plot3}
+\end{figure}
+
 \subsection*{Problem (d)}
 For each of the parameter cases in (c), simulate a sequence of observations $y(0),\dots,y(9)$ and use all the data to estimate the initial condition $x_0$ as if it were unknown (assume $u_k$ is the same as in case (c)). Show a plot of your observation sequence vs time, and report your resulting estimates in each case (be sure to explain the approach used to get the estimates, and validate your estimates by plotting the resulting predicted $y(k)$ outputs vs time against the real $y(k)$ data generated in each case).
+
+\subparagraph*{}
+
+Figure \ref{fig:2d_plot1}, below shows the predicted measurements for $\alpha=0.75$ and $\beta=1$. The predicted initial condition for this system was $x_0=[5,1]^T$, which perfectly matches the actual initial condition. The predicted initial condition was obtained by multiplying the grammian of the $30\times2$ observability matrix with the measurements plotted below as in $x(0)=(\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}Y$. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2d_plot1.png}
+	\caption{predicted measurements}
+	\label{fig:2d_plot1}
+\end{figure}
+
+Figure \ref{fig:2d_plot2}, below shows the predicted measurements for $\alpha=0.75$ and $\beta=1.5$. The predicted initial condition for this system was $x_0=[5,1]^T$, which perfectly matches the actual initial condition. The predicted initial condition was obtained by multiplying the grammian of the $30\times2$ observability matrix with the measurements plotted below as in $x(0)=(\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}Y$. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2d_plot2.png}
+	\caption{predicted measurements}
+	\label{fig:2d_plot2}
+\end{figure}
+
+Figure \ref{fig:2d_plot3}, below shows the predicted measurements for $\alpha=1.25$ and $\beta=1$. The predicted initial condition for this system was $x_0=[4.72,1.12]^T$, which does not match the actual initial condition. The predicted initial condition was obtained by multiplying the grammian of the $30\times2$ observability matrix with the measurements plotted below as in $x(0)=(\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}Y$. The discrepancy between the actual and predicted $x_0$ could be explained by the fact that the system was so unstable the state values got high enough to cause numerical errors, which resulted in the grammian of the observability matrix being nearly singular. This caused an innacurate prediction of $x_0$. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2d_plot3.png}
+	\caption{predicted measurements}
+	\label{fig:2d_plot3}
+\end{figure}
 
 \section*{Exercise 3}
 You are waiting around Gary Slick's dealership while your new Ferrari is being serviced when you notice local folk hero Pladimir Vutin walk in and start haggling with Slick over a vintage GAZ Chaika that is prominently on display. You can't help but overhear their discussion, and record the following discrete time series for Slick's offers ($z_1$, in tens of thousands of dollars) and Vutin's offers ($z_2$, in tens of thousands of dollars), stacked into the vector $z(k)=[z_1(k),z_2(k)]^T$,
