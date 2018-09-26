@@ -326,4 +326,41 @@ Under what conditions can the $\lambda$ and $\mu$ parameters be identified? Give
 \subsection*{Problem (c)}
 If the conditions hold for identifying $\lambda$ and $\mu$, set up a linear system of equations that could be solved to determine the parameters. What is your estimate, based on the observed sequence of bids recorded above? If the minimum required conditions do not hold, explain why not.
 
+\section*{AQ 1}
+A system is said to be \textit{fully state reachable} if it is always possible to find a sequence of inputs $u(k)$ $k=0,1,2,\dots$ that takes the system from an initial state $x_s$ at time $k=0$ to any other arbitrary state $x_f$ in a finite amount of time. LTI DT system reachability can be assessed by examining the rank of the reachability matrix $\mathbb{C} \in \mathbb{R}^{n\times m}$, which is defined analogously to the observability matrix $\mathbb{O}$ as 
+\begin{equation*}
+	\mathbb{C} = [G,\ FG,\ F^2G,\ \dots, F^{n-1}G]
+\end{equation*}
+
+\subsection*{Problem (a)}
+Show that the 2-mass/3-spring system from Problem 1 is fully state reachable.
+
+\subparagraph*{}
+The $C$ matrix for $n=2$, $\mathbb{C}=[G,\ FG]$ is full column rank. So the system is fully state reachable with 2 control inputs.
+
+\subsection*{Problem (b)}
+What happens to the system's reachability when either one of the actuator inputs $u_1$ or $u_2$ is removed, but the other control input remains? As with Problem 1(f), use insights about the system modes to help explain what's going on in each case.
+
+\subparagraph*{}
+The system will still be fully reachable with one input as the controllability matrix is full rank when $n=4$. 
+
+\subsection*{Problem(c)}
+Derive a linear system of equations that would theoretically allow you to solve for a sequence of control inputs $u(0),u(1),\dots,u(N-1)$ to take the system from an initial state $x(0)=x_s$ at time $k=0$ to any other arbitrary state $x(N)=x_f$ in a finite number of time steps (assuming both actuators are available and that both are operated in open-loop).
+
+\subparagraph*{}
+We can show the evolution of the state over time as
+\begin{align*}
+	x(1) &= Fx(0) + Gu(0) \\
+	x(2) &= F(Fx(0)+Gu(0)) + Gu(1) \\
+	x(3) &= F(F(Fx(0)+Gu(0))+Gu(1)) + Gu(2) \\
+	x(N) &= F^Nx(0) + \mathbb{C}U
+\end{align*}
+where $\mathbb{C}=[G,FG,F^2G,\dots,F^{N-1}G]$ and $U$ is an $Nm\times1$ vector of stacked control inputs. We can rearrange this equation as $U=(C^TC)^{-1}C^T(x(N)-F^Nx(0))$, or in terms of the problem statement $U=(C^TC)^{-1}C^T(x_s-x_f)$. 
+
+\subsection*{Problem (d)}
+How many solutions are possible in (c)? Is it possible to find a 'smallest' sollution, i.e. onee that leads to input vectors whose norms are as small as possible? If so, provide a formula for obtaining it.
+
+\subparagraph*{}
+A unique solution to the formula in problem (c) only exists if $N$ is equal to the rank of the $\mathbb{C}$ matrix is equal to the number of state variables, i.e. the system is not overdetermined. Otherwise there are infinitely many solutions.
+
 \end{document}
