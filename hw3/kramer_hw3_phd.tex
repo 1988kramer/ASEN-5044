@@ -320,11 +320,31 @@ where the constants $\lambda$ and $\mu$ describe Slick's and Vutin's update para
 \subsection*{Problem (a)}
 Suppose the 'unknown state' to be estimated in this case is $x(k)=[\lambda,\mu]^T$, and (based on what you recorded) the 'observed output' for $k=0,1,2,\dots$ is taken to be $y(k+1)=[g(k+1),p(k+1)]^T$, where $g(k+1)=z_1(k+1)-z_1(k)$ and $p(k+1) = z_2(k+1)-z_2(k)$. Find a suitable DT linear state space system model for this problem, and discuss any interesting features of the $(F,G,H,M)$ matrix parameters for the model (e.g. which are time invariant or time varying?).
 
+\subparagraph*{}
+In the expression for $g(k+1)$ we can replace $z_1(k+1)$ with $z_1(k)+\lambda[z_1(k)-z_2(k)]$ which gives us $g(k+1) = \lambda[z_1(k)-z_2(k)]$. We can do an analagous operation for $p(k+1)$, giving us $y(k+1) = Hx$ where:
+\begin{equation*}
+	H=\begin{bmatrix} z_1(k)-z_2(k) & 0 \\ 0 & z_1(k)-z_2(k) \end{bmatrix}
+\end{equation*}
+In this case, the $H$ matrix is time varying. Getting the $F$ matrix is much simpler. Because the problem states that $\mu$ and $\lambda$ are constant, $x(k+1) = x(k)$. So the $F$ matrix is simply identity. There are no inputs to the system, so $G$ and $M$ are zero.
+
 \subsection*{Problem (b)}
 Under what conditions can the $\lambda$ and $\mu$ parameters be identified? Give a careful, precise mathematical justification and interpretation.
 
+\subparagraph*{}
+$\lambda$ and $\mu$ are observable from a single observation when $z_1(k) - z_2(k)\neq0$. In linear algebra terms, this is because the $H$ matrix is full rank only if $z_1(k)-z_2(k)\neq0$. If that is not the case, the $H$ matrix is a $2\times2$ zero matrix, which is rank deficient.  
+
 \subsection*{Problem (c)}
 If the conditions hold for identifying $\lambda$ and $\mu$, set up a linear system of equations that could be solved to determine the parameters. What is your estimate, based on the observed sequence of bids recorded above? If the minimum required conditions do not hold, explain why not.
+
+\subparagraph*{}
+Because $\lambda$ and $\mu$ are constant, $\lambda$ and $\mu$ can be found from a single observation as
+\begin{equation*}
+	x=H^{-1}y(k)
+\end{equation*}
+as long as $z_1(k)-z_2(k)\neq0$. To estimate the state of this system, we can use
+\begin{equation*}
+	x = \begin{bmatrix} 80 & 0 \\ 0 & 80 \end{bmatrix}^{-1} \begin{bmatrix} 100-43.6658 \\ 20-39.2815\end{bmatrix} = \begin{bmatrix} 0.7041 \\ -0.2411 \end{bmatrix}
+\end{equation*}
 
 \section*{AQ 1}
 A system is said to be \textit{fully state reachable} if it is always possible to find a sequence of inputs $u(k)$ $k=0,1,2,\dots$ that takes the system from an initial state $x_s$ at time $k=0$ to any other arbitrary state $x_f$ in a finite amount of time. LTI DT system reachability can be assessed by examining the rank of the reachability matrix $\mathbb{C} \in \mathbb{R}^{n\times m}$, which is defined analogously to the observability matrix $\mathbb{O}$ as 
@@ -361,6 +381,6 @@ where $\mathbb{C}=[G,FG,F^2G,\dots,F^{N-1}G]$ and $U$ is an $Nm\times1$ vector o
 How many solutions are possible in (c)? Is it possible to find a 'smallest' sollution, i.e. onee that leads to input vectors whose norms are as small as possible? If so, provide a formula for obtaining it.
 
 \subparagraph*{}
-A unique solution to the formula in problem (c) only exists if $N$ is equal to the rank of the $\mathbb{C}$ matrix is equal to the number of state variables, i.e. the system is not overdetermined. Otherwise there are infinitely many solutions.
+A unique solution to the formula in problem (c) only exists if $N$ is equal to the rank of the $\mathbb{C}$ matrix is equal to the number of state variables, i.e. the system is not overdetermined. Otherwise there can be infinitely many solutions.
 
 \end{document}
