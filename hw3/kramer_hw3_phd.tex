@@ -277,7 +277,6 @@ Figure \ref{fig:2c_plot1}, below, shows the state behavior when $\alpha=1.25$ an
 For each of the parameter cases in (c), simulate a sequence of observations $y(0),\dots,y(9)$ and use all the data to estimate the initial condition $x_0$ as if it were unknown (assume $u_k$ is the same as in case (c)). Show a plot of your observation sequence vs time, and report your resulting estimates in each case (be sure to explain the approach used to get the estimates, and validate your estimates by plotting the resulting predicted $y(k)$ outputs vs time against the real $y(k)$ data generated in each case).
 
 \subparagraph*{}
-
 Figure \ref{fig:2d_plot1}, below shows the predicted measurements for $\alpha=0.75$ and $\beta=1$. The predicted initial condition for this system was $x_0=[5,1]^T$, which perfectly matches the actual initial condition. The predicted initial condition was obtained by multiplying the grammian of the $30\times2$ observability matrix with the measurements plotted below as in $x(0)=(\mathbb{O}^T\mathbb{O})^{-1}\mathbb{O}Y$. 
 
 \begin{figure}[h!]
@@ -362,9 +361,9 @@ The $C$ matrix for $n=2$, $\mathbb{C}=[G,\ FG]$ is full column rank. So the syst
 What happens to the system's reachability when either one of the actuator inputs $u_1$ or $u_2$ is removed, but the other control input remains? As with Problem 1(f), use insights about the system modes to help explain what's going on in each case.
 
 \subparagraph*{}
-The system will still be fully reachable with one input as the controllability matrix is full rank when $n=4$. 
+The system will still be fully reachable when either control input is turned off as the controllability matrix has a rank of 4 when $n=4$ in either case. 
 
-\subsection*{Problem(c)}
+\subsection*{Problem (c)}
 Derive a linear system of equations that would theoretically allow you to solve for a sequence of control inputs $u(0),u(1),\dots,u(N-1)$ to take the system from an initial state $x(0)=x_s$ at time $k=0$ to any other arbitrary state $x(N)=x_f$ in a finite number of time steps (assuming both actuators are available and that both are operated in open-loop).
 
 \subparagraph*{}
@@ -381,6 +380,16 @@ where $\mathbb{C}=[G,FG,F^2G,\dots,F^{N-1}G]$ and $U$ is an $Nm\times1$ vector o
 How many solutions are possible in (c)? Is it possible to find a 'smallest' sollution, i.e. onee that leads to input vectors whose norms are as small as possible? If so, provide a formula for obtaining it.
 
 \subparagraph*{}
-A unique solution to the formula in problem (c) only exists if $N$ is equal to the rank of the $\mathbb{C}$ matrix is equal to the number of state variables, i.e. the system is not overdetermined. Otherwise there can be infinitely many solutions.
+A unique solution to find $U$ where $x(N)=F^Nx(0)+\mathbb{C}U$ only exists if $N$ is equal to the rank of the $\mathbb{C}$ matrix is equal to the number of state variables, i.e. the system is not underspecified. Otherwise there can be infinitely many solutions. However, we can demonstrate that $U=(C^TC)^{-1}C^T(x(N)-F^Nx(0))$ results in the minimum norm solution. Let us say the minimum norm solution is $U_\text{min}$ and any other solution is given by $U$. So because $\mathbb{C}(U-U_\text{min})=0$, 
+\begin{align*}
+	(U-U_\text{min})^TU_\text{min} &= (U-U_\text{min})^T(\mathbb{C}^T\mathbb{C})^{-1}C^T(x(N)-F^Nx(0)) \\
+	&= (\mathbb{C}(U-U_\text{min}))^T(\mathbb{C}^T\mathbb{C})^{-1}(x(N)-F^Nx(0)) \\
+	&= 0
+\end{align*}
+In other words, $(U-U_\text{min})\bot U_\text{min}$. So
+\begin{equation*}
+	\|U\|^2=\|U_\text{min}+U-U_\text{min}\|^2=\|U_\text{min}\|^2+\|U-U_\text{min}\|^2 \geq \|U_\text{min}\|^2
+\end{equation*}
+
 
 \end{document}
