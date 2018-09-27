@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+
+% ==== PACKAGES ==== %
+% \usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epic}
+\usepackage{eepic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[letterpaper, margin=1in]{geometry}
+
+% ==== MARGINS ==== %
+% \pagestyle{empty}
+% \setlength{\oddsidemargin}{0in}
+% \setlength{\textwidth}{6.8in}
+% \setlength{\textheight}{9.5in}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{ASEN 5044}
+\lhead{Homework 1}
+\rfoot{Page \thepage}
+
+
+\newtheorem*{solution*}{Solution}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\lstset{moredelim=[is][\bfseries]{[*}{*]}}
+
+% ==== DOCUMENT PROPER ==== %
+\begin{document}
+
+\thispagestyle{empty}
+
+% --- Header Box --- %
+\newlength{\boxlength}\setlength{\boxlength}{\textwidth}
+\addtolength{\boxlength}{-4mm}
+
+\begin{center}\framebox{\parbox{\boxlength}{\bf
+      Statistical Estimation \hfill Homework 2\\
+      ASEN 5044 Fall 2018 \hfill Due Date: Sep 20, 2018\\
+      Name: Andrew Kramer \hfill PhD Student
+}}
+\end{center}
+
+\section*{Exercise 1}
+In the game of blackjack, the player is initially dealt two cards from a deck of ordinary playing cards. Without going into all the game's details, it is enough to know the best possible hand for a player to receive on the initial deal is a combination of an ace of any suit and any face card or ten. What is the probability that a player will be dealt this combination?
+
+\section*{Exercise 2}
+
+\section*{Exercise 3}
+
+\section*{Exercise 4}
+
+\section*{Exercise 5}
+
+\section*{Exercise 6}
+
+\section*{AQ 1}
+
+\section*{AQ 2}
+
+\end{document}
