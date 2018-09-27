@@ -54,11 +54,140 @@
 \section*{Exercise 1}
 In the game of blackjack, the player is initially dealt two cards from a deck of ordinary playing cards. Without going into all the game's details, it is enough to know the best possible hand for a player to receive on the initial deal is a combination of an ace of any suit and any face card or ten. What is the probability that a player will be dealt this combination?
 
+\subparagraph*{}
+The number of ways a single player can be dealt a blackjack (assuming there is only one player) is ${4\choose1}{16\choose1} = 64$. So the number of events in our event space (which we'll call $A$) is 64. The total number of ways to deal 2 cards to that player is ${52\choose2} = 1326$. So, the number of events in the whole sample space is 1326. the probability of a single player being dealt a blackjack is therefore
+\begin{equation*}
+	\frac{N_A}{N} = \frac{{4\choose1}}{{16\choose1}} = \frac{64}{1326} = 0.048
+\end{equation*}
+
 \section*{Exercise 2}
+Discrete and random variables $X$ and $Y$ can each take on integer values 1, 3, and 5. The joint probability table of $X$ and $Y$ is given below.
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Your first table.}
+    \label{tab:table1}
+    \begin{tabular}{c|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      X & Y=1 & Y=3 & Y=5\\
+      \hline
+      1 & 1/18 & 1/18 & 1/18 \\
+      3 & 1/18 & 1/18 & 1/6 \\
+      5 & 1/18 & 1/6 & 1/3\\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection*{Problem (a)}
+Are the random variables $X$ and $Y$ independent?
+
+\subparagraph*{}
+No, the table clearly shows that the probability of $X$ taking on certain values changes depending on the value of $Y$. For instance $P(X=3|Y=3)\neq P(X=3|Y=5)$ If $X$ and $Y$ were independent then $P(X=x|Y=y)$ would be the same for all values of $y$.
+
+\subsection*{Problem (b)}
+Find the unconditional (marginal) probability $P(Y=5)$.
+
+\subparagraph*{}
+The marginal probability $P(Y=5) = P(Y=5|X=1) + P(Y=5|X=3) + P(Y=5|X=5) = (1/18) + (1/6) + (1/3) = (5/9)$.
+
+\subsection*{Problem (c)}
+What is the conditional probability $P(Y=5|X=3)$?
+
+\subparagraph*{}
+Generally $P(A|B)=\frac{P(A,B)}{P(B)}$. This means we need to calculate the marginal probability $P(X=3)=(1/18)+(1/18)+(1/6)=(5/18)$. With this information we can find
+\begin{equation*}
+	P(Y=5|X=3)=\frac{P(Y=5,X=3)}{P(X=3)}=\frac{1/6}{5/18}=\frac{3}{5}
+\end{equation*}
 
 \section*{Exercise 3}
+Determine the value of $a$ in the function 
+\begin{equation*}
+	f_X(x) = \begin{cases}
+			 	ax(1-x) & x\in[0,1] \\
+			 	0 & \text{otherwise}
+			 \end{cases}
+\end{equation*}
+so that $f_X(x)$ is a valid probability density function.
+
+\subparagraph*{}
+For $f_X(x)$ to be a valid probability density function $\int_{-\infty}^{\infty}f_X(x)dx$ must be equal to one.
+\begin{align*}
+	1 &= \int_{-\infty}^{\infty}f_X(x)dx \\ 
+	&= \int_{0}^{1}ax(1-x)dx \\
+	&= a\int_{0}^{1}(x-x^2)dx \\
+	&= a\Big[\frac{x^2}{2} - \frac{x^3}{3}\Big|_0^1 \\
+	&= a\Big(\frac{1}{2}-\frac{1}{3}\Big) \\
+	1 &= \frac{a}{6} \\
+	a &= 6
+\end{align*}
 
 \section*{Exercise 4}
+The probability density function of an exponentially distributed random variable is defined as follows
+\begin{equation*}
+	f_X(x)=\begin{cases}
+		   		ae^{-ax} & x>0 \\
+		   		0 & x\leq0 
+		   \end{cases}
+\end{equation*}
+where $a\geq0$.
+
+\subsection*{Problem (a)}
+Find the probability distribution function of an exponentially distributed random variable.
+
+\subparagraph*{}
+\begin{align*}
+	P(a\leq X\leq b) &= \int_a^b f_X(x)dx \\
+	&= \int_a^b ae^{-ax}dx \\
+	&= -e^{-ax}|_a^b
+\end{align*}
+assuming $0<a\leq b$.
+
+\subsection*{Problem (b)}
+Find the mean of an exponentially distributed random variable.
+
+\subparagraph*{}
+\begin{align*}
+	E[X] &= \int_{-\infty}^\infty xf_X(x)dx \\
+	&= a\int_0^\infty xe^{-ax}dx \\
+	&= a\Bigg[\Big(-\frac{x}{a}-\frac{1}{a^2}\Big)e^{-ax}\Bigg|_0^\infty \\
+	&= \Bigg[\Big(-x-\frac{1}{a}\Big)e^{-ax}\Bigg|_0^\infty \\
+	&= \Big(-\infty-\frac{1}{a}\Big)e^{-a\infty} + \frac{1}{a}e^0
+\end{align*}
+Because $e^{-\infty}=0$, $E[X]=\frac{1}{a}$.
+
+\subsection*{Problem (c)}
+Find the second moment of an exponentially distributed random variable.
+
+\subparagraph*{}
+\subparagraph*{}
+\begin{align*}
+	E[X^2] &= \int_{-\infty}^\infty x^2f_X(x)dx \\
+	&= \int_0^\infty x^2ae^{-ax}dx \\
+	&= \frac{1}{a^2}\int_0^\infty t^2e^-tdt \\
+	&= \frac{1}{a^2}\Gamma(2+1)=\frac{2!}{a^2} \\
+	&= \frac{2}{a^2}
+\end{align*}
+
+\subsection*{Problem (d)}
+Find the variance of an exponentially distributed random variable.
+
+\subparagraph*{}
+\begin{align*}
+	\sigma_x^2 &= E[X^2]-(E[X])^2)\\
+	&= \frac{2}{a^2} - \Big(\frac{1}{a}\Big)^2 \\
+	&= \frac{1}{a^2}
+\end{align*}
+
+\subsection*{Problem (e)}
+What is the probability that an exponentially distributed random variable takes on a value within one standard deviation of its mean?
+
+\subparagraph*{}
+The standard deviation is $\sqrt{\frac{1}{a}}=\frac{1}{a}$, so we simply need to evaluate the probability distribution function from $0$ to $\frac{2}{a}$:
+\begin{align*}
+	P\Big(0<X\leq\frac{2}{a}\Big) &= 1-e^{-ax}\Big|_0^{2/a} \\
+	&= (1-e^{-a\frac{2}{a}})-(1-e^0) \\
+	&= 1-e^{-2}
+\end{align*}
+So the probability that $X$ falls within one standard deviation of the mean is a constant, unrelated to the value of $a$.
 
 \section*{Exercise 5}
 
