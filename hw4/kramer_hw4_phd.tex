@@ -65,7 +65,7 @@ Discrete and random variables $X$ and $Y$ can each take on integer values 1, 3, 
 
 \begin{table}[h!]
   \begin{center}
-    \caption{Your first table.}
+    \caption{Joint Probabilities}
     \label{tab:table1}
     \begin{tabular}{c|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       X & Y=1 & Y=3 & Y=5\\
@@ -190,6 +190,61 @@ The standard deviation is $\sqrt{\frac{1}{a}}=\frac{1}{a}$, so we simply need to
 So the probability that $X$ falls within one standard deviation of the mean is a constant, unrelated to the value of $a$.
 
 \section*{Exercise 5}
+Generate $N=50$ independent random numbers, each uniformly distributed between 0 and 1. Plot a histogram of the random numbers using 10 bins. What is the sample mean and standard deviation of the numbers that you generated? What would you expect to see for the mean and standard deviation? Repeat for $N=500$ and $N=5000$ random numbers. What changes do you see in the histogram as $N$ increases?
+
+\subparagraph*{}
+Our uniformly distributed probability density function is defined as
+\begin{equation*}
+	f(x) = \begin{cases}
+				c & x \in [0,1] \\
+				0 & \text{otherwise}
+		   \end{cases}
+\end{equation*}
+Because $\int_{-\infty}^\infty f(x) = 1$, $c=1$. The expected value of this pdf is
+\begin{align*}
+	E[X] &= \int_{-\infty}^\infty xf(x)dx \\
+	&= \int_0^1xdx \\
+	&= \frac{1}{2}x^2\big|_0^1 \\
+	&= \frac{1}{2}
+\end{align*}
+and the expected value of $X^2$ is
+\begin{align*}
+	E[X^2] &= \int_{-\infty}^\infty x^2f(x)dx \\
+	&= \int_0^1 x^2dx \\
+	&= \frac{1}{3}x^3\big|_0^1 \\
+	&= \frac{1}{3}
+\end{align*}
+So the variance can be calculated as
+\begin{equation*}
+	\sigma^2 = E[X^2] - (E[X])^2 = \frac{1}{3} - \frac{1}{4} = \frac{1}{12}
+\end{equation*}
+which means the standard deviation is $\sqrt{\sigma^2} = 0.2887$. \\
+With a sample size $N=50$ we get $\mu=0.4899$ and $\sigma=0.2786$, which is fairly close to the theoretical values. See figure \ref{5_plot1}, below, for a histogram of the experimental values. From the histogram we can see that the actual distribution of values is not terribly uniform.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{5_plot1.png}
+	\caption{histogram for $N=50$}
+	\label{5_plot1}
+\end{figure}
+
+With a sample size $N=500$ we get $\mu=0.4862$ and $\sigma=0.2898$, which is fairly close to the theoretical values, though the $\mu$ value is actually further from the theoretical value than when $N=50$. See figure \ref{5_plot2}, below, for a histogram of the experimental values. From the histogram we can see that the actual distribution of values is more uniform than in the previous case, though it still has distinct peaks that one would not expect with a truly uniform distribution.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{5_plot2.png}
+	\caption{histogram for $N=500$}
+	\label{5_plot2}
+\end{figure}
+
+With a sample size $N=500$ we get $\mu=0.4999$ and $\sigma=0.2892$, which is nearly the same as the theoretical values. See figure \ref{5_plot3}, below, for a histogram of the experimental values. From the histogram we can see that the actual distribution of values is very nearly uniform, with each of the 10 bins containing about 500 values.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{5_plot3.png}
+	\caption{histogram for $N=5000$}
+	\label{5_plot3}
+\end{figure}
 
 \section*{Exercise 6}
 
