@@ -247,8 +247,48 @@ With a sample size $N=500$ we get $\mu=0.4999$ and $\sigma=0.2892$, which is nea
 \end{figure}
 
 \section*{Exercise 6}
+Generate $10000$ samples of $(x_1+x_2)/2$, where each $x_i$ is a random number uniformly distributed on $[-1/2,+1/2]$. Plot the samples in a 50-bin histogram. Repeat for $(x_1+x_2+x_3+x_4)/4$. Describe the difference between the two histograms.
+
+\subparagraph*{}
+The plot below shows a histogram for $10000$ samples of $(x_1 + x_2)/2$. Because each value in this distribution is the mean of two samples from a uniform probability distribution one would expect the distribution to be more heavily weighted toward the mean and to taper off linearly as $x$ diverges from the mean. This is exactly what we see in figure \ref{6_plot1}, below.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{6_plot1.png}
+	\caption{histogram for $(x_1 + x_2)/2$}
+	\label{6_plot1}
+\end{figure}
+
+The plot below shows a histogram for $10000$ samples of $(x_1 + x_2 + x_3 + x_4)/4$. Because each value in this distribution is the mean of four samples from a uniform probability distribution one would expect the distribution to be more heavily weighted toward the mean as in the previous case. However, instead of tapering linearly we would expect the tapering to approximate a polynomial shape. Again, this is what we see in figure \ref{6_plot2}, below.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{6_plot2.png}
+	\caption{histogram for $(x_1 + x_2 + x_3 + x_4)/4$}
+	\label{6_plot2}
+\end{figure}
 
 \section*{AQ 1}
+Consider the following probability density function:
+\begin{equation*}
+	f_X(x) = \frac{ab}{b^2+x^2},\quad b>0
+\end{equation*}
+
+\subsection*{Problem (a)}
+Determine the value of a in the pdf so that $f_X(x)$ is a valid probability density function. Note: the correct value of $a$ makes $f_X(x)$ a Cauchy pdf.
+
+\subparagraph*{}
+Knowing $\int_{-\infty}^\infty f_X(x)dx = 1$ we can find $a$ via the following:
+\begin{align*}
+	1 &= \int_{-\infty}^\infty \frac{ab}{b^2+x^2}dx \\
+	&= ab\int_{-\infty}^\infty \frac{1}{b^2 + x^2}dx \\
+	&= ab\Bigg[\frac{1}{b}\tan^{-1}\frac{x}{b}\Bigg|_{-\infty}^\infty \\
+	&= a\tan^{-1}\frac{x}{b}\Bigg|_{-\infty}{\infty} \\
+	&= \frac{a\pi}{2}  + \frac{a\pi}{2} \\
+	&= a\pi \\ 
+	a &= \frac{1}{\pi}
+\end{align*}
+
+\subsection*{Problem (b)}
+Find the mean of a Cauchy random variable.
 
 \section*{AQ 2}
 
