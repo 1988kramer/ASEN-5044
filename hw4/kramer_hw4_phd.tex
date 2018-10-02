@@ -340,7 +340,7 @@ See figure \ref{AQ2_plot1} below for a plot of the resulting pdf for the given p
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.6\linewidth]{AQ2_plot1.png}
-	\caption{histogram for mixture model}
+	\caption{pdf for mixture model}
 	\label{AQ2_plot1}
 \end{figure}
 
@@ -356,37 +356,84 @@ Use (b)'s results to compute the following via numerical grid-based approximatio
 \subparagraph*{}
 The expected value of $p(x)$ found by numerically integrating $xp(x)$ over $[-6,8]$ is 1.0523. This agrees well with the analytical mean of 1.0518. \\
 The variance of $p(x)$ found by numerically integrating $x^2p(x)$ over $[-6,8]$ is 10.2705. This also agrees well with the analytical variance of 10.2695. \\
-Because $\log(0)=-\infty$, I dropped any point where $p(x)=0$ from the integration. The numerical integration of $-x\log(p(x))$ resulted in a differetial entropy of 55.3429. \\
-I found the Kullbach-Leibler divergence to be -15.527 by numerically integrating $x\log(p(x)/q(x))$, again dropping any values of $p$ or $q$ that would result in an infinite value for the log.
+Because $\log(0)=-\infty$, I dropped any point where $p(x)=0$ from the integration. The numerical integration of $-p(x)\log(p(x))$ resulted in a differetial entropy of 2.1265. \\
+I found the Kullbach-Leibler divergence to be 0.2712 by numerically integrating $p(x)\log(p(x)/q(x))$, again dropping any values of $p$ or $q$ that would result in an infinite value for the log.
 
 \subsection*{Problem (d)}
 Generate random sample sets of size $N=100$, $N=1000$, and $N=50000$ from $p(x)$ and plot the results on histograms with 1000 bins to compare to (b)'s results.
 
 \subparagraph*{}
-
+When only 100 samples are drawn from the mixture distribution, a histogram of those samples, shown in figure \ref{AQ2d_plot1}, does not closely resemble the pdf shown in figure \ref{AQ2_plot1}.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.6\linewidth]{AQ2d_plot1.png}
-	\caption{histogram for mixture model}
+	\caption{histogram of samples from mixture model with $N=100$}
 	\label{AQ2d_plot1}
 \end{figure}
 
+When 1000 samples are drawn from the mixture distribution, a histogram of those samples, shown in figure \ref{AQ2d_plot2}, begins to resemble the pdf shown in figure \ref{AQ2_plot1}, but the resemblance is still rough.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.6\linewidth]{AQ2d_plot2.png}
-	\caption{histogram for mixture model}
+	\caption{histogram of samples from mixture model with $N=1000$}
 	\label{AQ2_plot1}
 \end{figure}
 
+When 50000 samples are drawn from the mixture distribution, a histogram of those samples, shown in figure \ref{AQ2d_plot3}, now very closely matches the pdf shown in figure \ref{AQ2_plot1}.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.6\linewidth]{AQ2d_plot3.png}
-	\caption{histogram for mixture model}
+	\caption{histogram of samples from mixture model with $N=50000$}
 	\label{AQ2d_plot3}
 \end{figure}
 
 
 \subsection*{Problem (e)}
 Use each of the sample sets from (d) to produce direct Monte Carlo approximations of the quantities evaluated in (c). How do the results for each sample set size compare to each other and to the results from part (c)?
+
+\subparagraph*{}
+For a sample size of 100, the results can be seen below in table \ref{tab:table2}.
+\begin{table}[h!]
+  \begin{center}
+    \caption{Approximations with $n=100$}
+    \label{tab:table2}
+    \begin{tabular}{c|c}
+      E[x] & 1.2142 \\
+      \text{var}(x) & 10.0645 \\
+      H[p(x)] &  \\
+      KL[p(x)\|q(x)] &  \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+For a sample size of 1000, the results can be seen below in table \ref{tab:table3}.
+\begin{table}[h!]
+  \begin{center}
+    \caption{Approximations with $n=1000$}
+    \label{tab:table3}
+    \begin{tabular}{c|c}
+      E[x] & 1.0743 \\
+      \text{var}(x) & 9.0373 \\
+      H[p(x)] &  \\
+      KL[p(x)\|q(x)] &  \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+For a sample size of 50000, the results can be seen below in table \ref{tab:table4}.
+\begin{table}[h!]
+  \begin{center}
+    \caption{Approximations with $n=50000$}
+    \label{tab:table4}
+    \begin{tabular}{c|c}
+      E[x] & 1.0614 \\
+      \text{var}(x) & 9.1879 \\
+      H[p(x)] &  \\
+      KL[p(x)\|q(x)] &  \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+In all cases the monte-carlo estimates of $\mu$ and $\sigma^2$ approximate the true values fairly well. Interestingly, the estimated value for $\mu$ converges to the true value as sample size increases but the estimated value for $\sigma^2$ diverges from the true value as sample size increases.
 
 \end{document}
