@@ -398,10 +398,10 @@ For a sample size of 100, the results can be seen below in table \ref{tab:table2
     \caption{Approximations with $n=100$}
     \label{tab:table2}
     \begin{tabular}{c|c}
-      E[x] & 1.2142 \\
-      \text{var}(x) & 10.0645 \\
-      H[p(x)] &  \\
-      KL[p(x)\|q(x)] &  \\
+      $E[x]$ & 1.2142 \\
+      $\text{var}(x)$ & 10.0645 \\
+      $H[p(x)]$ & 4.446 \\
+      $KL[p(x)\|q(x)]$ & 0.0 \\
     \end{tabular}
   \end{center}
 \end{table}
@@ -412,10 +412,10 @@ For a sample size of 1000, the results can be seen below in table \ref{tab:table
     \caption{Approximations with $n=1000$}
     \label{tab:table3}
     \begin{tabular}{c|c}
-      E[x] & 1.0743 \\
-      \text{var}(x) & 9.0373 \\
-      H[p(x)] &  \\
-      KL[p(x)\|q(x)] &  \\
+      $E[x]$ & 1.0743 \\
+      $\text{var}(x)$ & 9.0373 \\
+      $H[p(x)]$ & 3.483 \\
+      $KL[p(x)\|q(x)]$ &  \\
     \end{tabular}
   \end{center}
 \end{table}
@@ -426,14 +426,14 @@ For a sample size of 50000, the results can be seen below in table \ref{tab:tabl
     \caption{Approximations with $n=50000$}
     \label{tab:table4}
     \begin{tabular}{c|c}
-      E[x] & 1.0614 \\
-      \text{var}(x) & 9.1879 \\
-      H[p(x)] &  \\
-      KL[p(x)\|q(x)] &  \\
+      $E[x]$ & 1.0614 \\
+      $\text{var}(x)$ & 9.1879 \\
+      $H[p(x)]$ & 6.8013 \\
+      $KL[p(x)\|q(x)]$ &  \\
     \end{tabular}
   \end{center}
 \end{table}
 
-In all cases the monte-carlo estimates of $\mu$ and $\sigma^2$ approximate the true values fairly well. Interestingly, the estimated value for $\mu$ converges to the true value as sample size increases but the estimated value for $\sigma^2$ diverges from the true value as sample size increases.
+In all cases the monte-carlo estimates of $\mu$ and $\sigma^2$ approximate the true values fairly well. Interestingly, the estimated value for $\mu$ converges to the true value as sample size increases but the estimated value for $\sigma^2$ diverges from the true value as sample size increases. My estimates for the differential entropy are of the same order of magnitude as the analytical result, but they are not very close. My method for estimating the differential entropy was likely incorrect. I was unable to find a way to estimate the Kullback Leibler divergence from sampled data.
 
 \end{document}
