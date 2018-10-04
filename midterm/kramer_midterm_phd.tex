@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}
+
+% ==== PACKAGES ==== %
+% \usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epic}
+\usepackage{eepic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[letterpaper, margin=1in]{geometry}
+
+% ==== MARGINS ==== %
+% \pagestyle{empty}
+% \setlength{\oddsidemargin}{0in}
+% \setlength{\textwidth}{6.8in}
+% \setlength{\textheight}{9.5in}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{ASEN 5044}
+\lhead{Midterm 1}
+\rfoot{Page \thepage}
+
+
+\newtheorem*{solution*}{Solution}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\lstset{moredelim=[is][\bfseries]{[*}{*]}}
+
+% ==== DOCUMENT PROPER ==== %
+\begin{document}
+
+\thispagestyle{empty}
+
+% --- Header Box --- %
+\newlength{\boxlength}\setlength{\boxlength}{\textwidth}
+\addtolength{\boxlength}{-4mm}
+
+\begin{center}\framebox{\parbox{\boxlength}{\bf
+      Statistical Estimation \hfill Midterm 1\\
+      ASEN 5044 Fall 2018 \hfill Due Date: Oct 11, 2018\\
+      Name: Andrew Kramer \hfill PhD Student
+}}
+\end{center}
+
+\section*{Problem 1}
+Inverted pendulum with equations of motion:
+\begin{align*}
+	(M+m)\ddot{z}-ml\ddot{\theta}\cos\theta&+ml\dot{\theta}^2\sin\theta=P \\
+	l\ddot{\theta}-g\sin\theta &= \ddot{z}\cos\theta
+\end{align*}
+\subsection*{Part (a)}
+
+The system's state equations can be expressed as follows:
+\begin{equation*}
+	\dot{x} = \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4 \end{bmatrix} = \begin{bmatrix} x_2 \\ \frac{P-g\sin x_3 \cos x_3-mlx_4^2\sin x_3}{M+m\sin^2x_3}\cos x_3 \\ x_4 \\ \frac{P\cos x_3 + (M+m)g\sin x_3 + ml x_4^2\sin x_3 \cos x_3}{Ml + ml\sin^2x_3} \end{bmatrix}
+\end{equation*}
+To demonstrate the system is in equilibrium at $\dot{z}=0,\ \theta=0,\ \dot{\theta}=0$, and $P(t)=0$ we note first that at the given conditions the equations of motion become 
+\begin{align*}
+	(M+m)\ddot{z}-ml\ddot{\theta} &= 0 \\
+	l\ddot{\theta} &= \ddot{z}
+\end{align*}
+If we plug the second equation back into the first we get
+\begin{equation*}
+	(M+m)\ddot{z} - m\ddot{z}=M\ddot{z}=0
+\end{equation*}
+Because we know $M$ is not equal to zero, this means $\ddot{z}$ must be equal to zero. Additionally, because $\ddot{z} = l\ddot{\theta}$ and $l\neq0$ we can also conclude that $\ddot{\theta}=0$. This means $\dot{x}=0$ under the given conditions and the system is therefore in equilibrium.
+
+\subsection*{Part (b)}
+
+
+
+\subsection*{Part (c)}
+\subsection*{Part (d)}
+\subsection*{Part (e)}
+\subsection*{Part (f)}
+\subsection*{Part (g)}
+\section*{Problem 2}
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\subsection*{Part (c)}
+\subsection*{Part (d)}
+\section*{Problem 3}
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\subsection*{Part (c)}
+\section*{Problem 4}
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\section*{Problem AQ1}
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\subsection*{Part (c)}
+\subsection*{Part (d)}
+\end{document}
