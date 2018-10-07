@@ -84,11 +84,59 @@ Because we know $M$ is not equal to zero, this means $\ddot{z}$ must be equal to
 \subsection*{Part (f)}
 \subsection*{Part (g)}
 \section*{Problem 2}
+Two 6-sided dice rolls with $R_1$ and $R_2$ denoting the outcome of the first and second die, respectively.
+
 \subsection*{Part (a)}
+$P(R_1)=P(R_2)=\frac{1}{6}$ for all $R_1$ and $R_2$. Because the outcomes $R_1$ and $R_2$ are independent, $P(R_1,R_2)=P(R_1)*P(R_2)$. So
+\begin{equation*}
+	P(R_1,R_2)=\frac{1}{36},\ \forall R_1,R_2
+\end{equation*}
+
 \subsection*{Part (b)}
+The joint probabilities for $X$ and $Y$ are shown in table \ref{joints} below
+\begin{table}[h!]
+  \begin{center}
+    \caption{Joint Probabilities}
+    \label{joints}
+    \begin{tabular}{c|c|c|c|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      X & Y=1 & Y=2 & Y=3 & Y=4 & Y=5 & Y=6 \\
+      \hline
+      1 & 1/36 & 2/36 & 2/36 & 2/36 & 2/36 & 2/36 \\
+      2 & 0 & 1/36 & 2/36 & 2/36 & 2/36 & 2/36 \\
+      3 & 0 & 0 & 1/36 & 2/36 & 2/36 & 2/36 \\
+      4 & 0 & 0 & 0 & 1/36 & 2/36 & 2/36 \\
+      5 & 0 & 0 & 0 & 0 & 1/36 & 2/36 \\
+      6 & 0 & 0 & 0 & 0 & 0 & 1/36 \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
 \subsection*{Part (c)}
+The marginal probabilities of $X$ obtained from the sum $\sum_yP(X=x,Y=y)$
+and the marginal probabilities of $Y$ obtained from the sum $\sum_xP(X=x,Y=y)$ are shown below in table \ref{marginals}.
+\begin{table}[h!]
+  \begin{center}
+    \caption{Marginal Probabilities}
+    \label{marginals}
+    \begin{tabular}{c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+       & X & Y \\
+      \hline
+      1 & 11/36 & 1/36 \\
+      2 & 9/36 & 3/36 \\
+      3 & 7/36 & 5/36 \\
+      4 & 5/36 & 7/36 \\
+      5 & 3/36 & 9/36 \\
+      6 & 1/36 & 11/36 \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
 \subsection*{Part (d)}
+$X$ and $Y$ are not independent. Two variables are considered independent if the realization of one variable does not affect the probability of the other. This is not the case for $X$ and $Y$. By the definitions of $X$ and $Y$, the value of $Y$ cannot be less than the value of $X$, since the maximum of $R_1$ and $R_2$ cannot be less than the minimum. So the $P(Y=3,X=5)=0$, while $P(Y=3,X=1) = 2/36$.
+
 \section*{Problem 3}
+A random variable $X$ has the pdf $p(x)=k(1-x^4)$ for $-1\leq x\leq1$ and $p(x)=0$ elsewhere.
+
 \subsection*{Part (a)}
 \subsection*{Part (b)}
 \subsection*{Part (c)}
