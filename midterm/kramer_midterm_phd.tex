@@ -138,11 +138,79 @@ $X$ and $Y$ are not independent. Two variables are considered independent if the
 A random variable $X$ has the pdf $p(x)=k(1-x^4)$ for $-1\leq x\leq1$ and $p(x)=0$ elsewhere.
 
 \subsection*{Part (a)}
+Because $\int_{-\infty}^\infty p(x)dx = 1$ we can find $k$ as follows:
+\begin{align*}
+	\int_{-1}^1 k(1-x^4)dx &= 1 \\
+	k\int_{-1}^1(1-x^4)dx &= \\
+	k \big[x-\frac{1}{5}x^5 \big|_{-1}^1 &= \\
+	k\Big(1-\frac{1}{5}+1-\frac{1}{5}\Big) &= \\
+	\frac{8k}{5} &= 1 \\
+	k = \frac{5}{8}
+\end{align*}
+Now we can calculate $E[x] = \int_{-\infty}^\infty xp(x)dx$ as follows:
+\begin{align*}
+	\int_{-\infty}^\infty xp(x)dx &= \frac{5}{8}\int_{-1}^1x(1-x^4)dx \\
+	&= \frac{5}{8}\int_{-1}^1(x-x^5)dx \\
+	&= \frac{5}{8} \Bigg[\frac{1}{2}x^2 - \frac{1}{6}x^6 \Bigg|_{-1}^1 \\
+	&= \frac{5}{8} \Bigg(\frac{1}{2} - \frac{1}{6} - \frac{1}{2} + \frac{1}{6}\Bigg) \\
+	&= 0
+\end{align*}
+Next we find $E[x^2] = \int_{-\infty}^\infty x^2p(x)dx$ as
+\begin{align*}
+	\int_{-\infty}^\infty x^2p(x)dx &= \frac{5}{8}\int_{-1}^1x^2(1-x^4)dx \\
+	&= \frac{5}{8}\int_{-1}^1(x^2-x^6)dx \\
+	&= \frac{5}{8} \Bigg[\frac{1}{3}x^3 - \frac{1}{7}x^7 \Bigg|_{-1}^1 \\
+	&= \frac{5}{8} \Bigg(\frac{1}{3} - \frac{1}{7} + \frac{1}{3} - \frac{1}{7}\Bigg) \\
+	&= \frac{5}{21}
+\end{align*}
+Finally we can find $\text{var}(x) = E[x^2]-(E[x])^2 = \frac{5}{21}-0=\frac{5}{21}$.
+
 \subsection*{Part (b)}
+The cumulative distribution function is defined as $P_X(\zeta)=\int_{-\infty}^\zeta p(x)dx$. So the cdf is:
+\begin{align*}
+	P_X(\zeta)&=\int_{-\infty}^\zeta p(x)dx \\
+	&= \frac{5}{8}\int_{-1}^\zeta (1-x^4)dx \\
+	&= \frac{5}{8} \Big[x-\frac{1}{5}x^5\Big|_{-1}^\zeta \\
+	&= \frac{5}{8} \Big(\zeta - \frac{1}{5}\zeta^5 + \frac{4}{5}\Big)
+\end{align*}
+
 \subsection*{Part (c)}
+Because the pdf is symmetric about zero, $P(|X| < 0.5)$ is equivalent to $P(-0.5<X<0.5)$, which can be found as
+\begin{equation*}
+	P(-0.5<X<0.5) = P_X(0.5) - P_X(-0.5) = 0.7895
+\end{equation*}
+
 \section*{Problem 4}
+Blood alcohol tests on drivers given the conditional probabilities given in table \ref{conditionals}:
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Conditional Probabilities}
+    \label{conditionals}
+    \begin{tabular}{c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      $P(T|A)$ & $A=\text{drunk}$ & $A=\text{sober}$ \\
+      \hline
+      $T=\text{positive}$ & 0.99 & 0.001 \\
+      $T=\text{negative}$ & 0.01 & 0.999 \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
 \subsection*{Part (a)}
+We can find $P(A=\text{drunk}|T=\text{positive})$ through a straightforward application of Bayes' rule:
+\begin{equation*}
+	P(A=\text{drunk}|T=\text{positive}) = \frac{P(T=\text{positive}|A=\text{drunk})*P(A=\text{drunk})}{P(T=\text{positive})}
+\end{equation*}
+Since we aren't given a number for $P(T=\text{positive})$ we can find it as $P(T=\text{positive})=P(T=\text{positive}|A=\text{drunk})P(A=\text{drunk})+P(T=\text{positive}|A=\text{sober})P(A=\text{sober})=0.99*0.2+0.001*0.8=0.1988$. So the conditional probability is:
+\begin{equation*}
+	P(A=\text{drunk}|T=\text{positive}) = \frac{0.99*0.2}{0.1988} = 0.996
+\end{equation*}
 \subsection*{Part (b)}
+If $P(A=\text{drunk})=0.001$ the probability $P(T=\text{positive})=0.99*0.001+.001*0.999=0.002$. So the conditional probability becomes
+\begin{equation*}
+	P(A=\text{drunk}|T=\text{positive}) = \frac{0.99*0.001}{0.002} = 0.495
+\end{equation*}
+
 \section*{Problem AQ1}
 \subsection*{Part (a)}
 \subsection*{Part (b)}
