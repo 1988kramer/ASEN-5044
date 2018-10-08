@@ -75,11 +75,11 @@ If we plug the second equation back into the first we get
 Because we know $M$ is not equal to zero, this means $\ddot{z}$ must be equal to zero. Additionally, because $\ddot{z} = l\ddot{\theta}$ and $l\neq0$ we can also conclude that $\ddot{\theta}=0$. This means $\dot{x}=0$ under the given conditions and the system is therefore in equilibrium.
 
 \subsection*{Part (b)}
-We'll noting that our measurement function in state space form is
+We'll begin by noting that our measurement function in state space form is
 \begin{equation*}
 	y = h(x,u,t) = x_1 - l\sin x_3
 \end{equation*}
-Next we define $\tilde{x}$, $\tilde{y}y$, and $\tilde{u}$ where $\tilde{x}(t) = x(t) - x_\text{nom}(t)$, and $\tilde{y}$ and $\tilde{u}$ are defined similarly. We can then find $A|_\text{nom}$, $B|_\text{nom}$, $C|_\text{nom}$, and $D|_\text{nom}$ such that 
+Next we define $x_\text{nom} = [0,0,0,0]^T$, $u_\text{nom} = 0$ and $y_\text{nom}=0$. We can then define $\tilde{x}$, $\tilde{y}$, and $\tilde{u}$ where $\tilde{x}(t) = x(t) - x_\text{nom}(t)$, and $\tilde{y}$ and $\tilde{u}$ are defined similarly. We can then find $A|_\text{nom}$, $B|_\text{nom}$, $C|_\text{nom}$, and $D|_\text{nom}$ such that 
 \begin{align*}
 	\dot{\tilde{x}} &= A|_\text{nom}\tilde{x}(t) + B|_\text{nom}\tilde{u}(t) \\
 	\tilde{y} &= C|_\text{nom}\tilde{x}(t) + D|_\text{nom}\tilde{u}(t)
@@ -103,7 +103,7 @@ where
 	\frac{\partial f_4}{\partial x_3} &= \frac{-2lm(P\cos x_3 + g(M+m)\sin x_3 - lmx_4^2\sin x_3 \cos x_3)\sin x_3 \cos x_3}{(Ml + ml\sin^2x_3)^2} \\ &\qquad + \frac{-P\sin x_3 + g(M+m)\cos x_3 + lmx_4^2\sin^2x_3 - lmx_4^2\cos^2x_3}{Ml + ml\sin^2x_3} \\
 	\frac{\partial f_4}{\partial x_4} &= -\frac{2mlx_4\sin x_3 \cos x_3}{ML + ml\sin^2x_3}
 \end{align*}
-When these jacobians are evaluated at $x_\text{nom}$, $u_\text{nom}$ we get the following matrices our linearized state-space equations:
+When these jacobians are evaluated at $x_\text{nom}$, $u_\text{nom}$ we get the following matrices for our linearized state-space equations:
 \begin{align*}
 	A|_\text{nom} &= \begin{bmatrix} 
 					0 & 1 & 0 & 0 \\ 
