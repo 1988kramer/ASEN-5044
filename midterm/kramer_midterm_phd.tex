@@ -212,9 +212,65 @@ If $P(A=\text{drunk})=0.001$ the probability $P(T=\text{positive})=0.99*0.001+.0
 \end{equation*}
 
 \section*{Problem AQ1}
+Probability of abiogenesis occurring on an Earth-like planet is given by 
+\begin{equation*}
+	P(\lambda,n,t)=\text{Poisson}[\lambda,n,t]=e^{-\lambda(t-t_\text{min})}\frac{\{\lambda(t-t_\text{min}\}^n}{n!}
+\end{equation*}
 
 \subsection*{Part (a)}
+The probability of life arising at least once ($n\geq1$) could be calculated from the infinite sum
+\begin{equation*}
+	P(\lambda,n\geq1,t)=\sum_{n=1}^\infty P[\lambda,n,t]
+\end{equation*}
+This sum would be difficult to evaluate, however, and we can make things easier for ourselves by noting that the probability life arises at least once is equivalent to the probability that it doesn't arise zero times. Because $\sum_{n=0}^\infty P(\lambda,n,t)=1$, we can calculate the probability life arises at least once as:
+\begin{equation*}
+	P(\lambda,n\geq1,t) = 1-P(\lambda,0,t)=1-e^{-\lambda(t-t_\text{min})}\frac{\{\lambda(t-t_\text{min}\}^0}{0!} = 1-e^{-\lambda(t-t_\text{min})}
+\end{equation*}
+
 \subsection*{Part (b)}
+The probability life arises at least once within $t_\text{emerge}$ is 
+\begin{equation*}
+	P(E=1)=1-e^{-\lambda(t_\text{emerge}-t_\text{min})}
+\end{equation*} 
+Similarly, the probability life arises at least once within $t_\text{req}$ is
+\begin{equation*}
+	P(R=1)=1-e^{-\lambda(t_\text{req}-t_\text{min})}
+\end{equation*}
+Lastly, because $t_\text{min} < t_\text{emerge} < t_\text{req}$, we know that if life has arisen within $t_\text{emerge}$ then it definitely has also arisen within $t_\text{required}$, so $P(R=1|E=1)=1$. Using these probabilities we can apply Bayes rule to get
+\begin{equation*}
+	P(E=1|R=1) = \frac{P(R=1|E=1)P(E=1)}{P(R=1)} = \frac{1-e^{-\lambda(t_\text{emerge}-t_\text{min})}}{1-e^{-\lambda(t_\text{req}-t_\text{min})}}
+\end{equation*}
+
 \subsection*{Part (c)}
+The conditional probability $P(E=1|R=1,\lambda,t_\text{min})$ can be expressed as the following likelihood function given $y=\log_{10}\lambda$:
+\begin{equation*}
+	P(E=1|R=1,y,t_\text{min})=\frac{1-e^{-(10^y)(t_\text{emerge}-t_\text{min})}}{1-e^{-(10^y)(t_\text{req}-t_\text{min})}}
+\end{equation*}
+Given this likelihood function, we can find the posterior for $y$ via Bayes' rule
+\begin{equation*}
+	P(y|E=1,R=1,t_\text{min}) = \frac{P(y)P(E=1|R=1,y,t_\text{min})}{\int_{-\infty}^\infty P(y)P(E=1|R=1,y,t_\text{min})dy}
+\end{equation*}
+For the given cases, $P(y)$ was replaced with the appropriate density function, $P(E=1|R=1,y,t_\text{min})$ was replaced with the likelihood function given above and $P(y)P(E=1|R=1,y,t_\text{min})$ was evaluated at $10^4$ points in the range $[-3,3]$. These samples were normalized with the integral $\int_{-\infty}^\infty P(y)P(E=1|R=1,y,t_\text{min})dy$, numerically evaluated using a right Reimann sum over the same range of $y$ values. The posteriors $P(y|R=1,E=1,t_\text{min})$ for cases 1, 2, and 3 are plotted in figures \ref{AQ1_plot1}, \ref{AQ1_plot2}, and \ref{AQ1_plot3}, respectively. On each figure the posterior is plotted in blue, while the likelihood function is plotted in red and the prior is plotted in yellow.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{AQ1_plot1.png}
+	\caption{pdfs for case 1}
+	\label{AQ1_plot1}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{AQ1_plot2.png}
+	\caption{pdfs for case 2}
+	\label{AQ1_plot2}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{AQ1_plot2.png}
+	\caption{pdfs for case 2}
+	\label{AQ1_plot3}
+\end{figure}
+
 \subsection*{Part (d)}
+Case 1 shows the greatest change from the prior. As can be seen in figures \ref{AQ1_plot2} and \ref{AQ1_plot3}, the prior essentially overrides the likelyhood function in cases 2 and 3, and there is little difference between the prior and posterior in these cases. If the intention of conditioning the prior using the likelihood function is to update the prior given information from the likelihood function, then the prior from case 1 is the best. This is because the posterior in case 1 is clearly a fusion of the prior and the likelihood function. In cases 2, and 3, it is difficult to tell that the likelihood function has had any affect at all on the posterior.
+
 \end{document}
