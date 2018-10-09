@@ -107,7 +107,7 @@ When these jacobians are evaluated at $x_\text{nom}$, $u_\text{nom}$ we get the 
 \begin{align*}
 	A|_\text{nom} &= \begin{bmatrix} 
 					0 & 1 & 0 & 0 \\ 
-					0 & 0 & 2m-\frac{g}{m} & 0 \\
+					0 & 0 & 2m-\frac{g}{M} & 0 \\
 					0 & 0 & 0 & 1 \\ 
 					0 & 0 & \frac{g(M+m)}{Ml} & 0 \end{bmatrix} \\
 	B|_\text{nom} &= \begin{bmatrix} 
@@ -119,6 +119,18 @@ When these jacobians are evaluated at $x_\text{nom}$, $u_\text{nom}$ we get the 
 \end{align*}
 
 \subsection*{Part (c)}
+We find the discretized $F$ and $G$ matrices by taking $e^{\hat{A}\Delta t}$ where $\hat{A}$ is made by horizontally concatenating the $A$ and $B$ matrices and then adding enough rows of zeros to form a square matrix. $F$ is the upper-left submatrix of $e^{\hat{A}\Delta t}$ with dimensions equal to $A$ and $G$ is the upper-right submatrix with dimensions equal to $B$:
+\begin{equation*}
+	F = \begin{bmatrix} 1 & 0.05 & -0.0036 & -0.0001 \\
+						0 & 1 & -0.1461 & -0.0036 \\
+						0 & 0 & 1.0185 & 0.0503 \\
+						0 & 0 & 0.7403 & 1.0185 \end{bmatrix},\qquad
+	G = \begin{bmatrix} 0.0006 & 0.025 & 0.0006 & 0.0252 \end{bmatrix}
+\end{equation*}
+The $H$ and $M$ matrices are simply equal to the $C$ and $D$ matrices for the continuous time system. \\
+Because one of the eigenvalues of $F$ lies outside the unit circle in the complex plane we can say the system is asymptotically unstable. \\
+The observability matrix $O = [H, HF, \dots, HF^{n-1}]$ is full rank when $n$, the number of observations, is equal to 4. So the system is fully observable from 4 observations.
+
 \subsection*{Part (d)}
 \subsection*{Part (e)}
 \subsection*{Part (f)}
