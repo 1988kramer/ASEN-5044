@@ -132,6 +132,11 @@ Because one of the eigenvalues of $F$ lies outside the unit circle in the comple
 The observability matrix $O = [H, HF, \dots, HF^{n-1}]$ is full rank when $n$, the number of observations, is equal to 4. So the system is fully observable from 4 observations.
 
 \subsection*{Part (d)}
+To find the CT LTI state space equations for the case where $u(t)=-K\tilde{x}(t)$, we take the state space model $\dot{\tilde{x}}=A\tilde{x}+B\tilde{u}$ and replace $\tilde{u}$ with $-K\tilde{x}$, giving us $\dot{\tilde{x}}=(A-BK)\tilde{x}$. So it could be said that $A_{CL}=A-BK$ and $B_{CL}=0$. Similarly, the observation equation becomes $y=(C-DK)\tilde{x}$, so $C_{CL}=C-DK$ and $D_{CL}=0$. Given the $K$ matrix given in \texttt{midterm1problem1data.mat}, we find
+\begin{equation*}
+	A_{CL} = \begin{bmatrix} \end{bmatrix},\qquad C_{CL} = \begin{bmatrix} \end{bmatrix}
+\end{equation*}
+
 \subsection*{Part (e)}
 \subsection*{Part (f)}
 \subsection*{Part (g)}
