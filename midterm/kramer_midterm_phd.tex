@@ -132,9 +132,50 @@ Because one of the eigenvalues of $F$ lies outside the unit circle in the comple
 The observability matrix $O = [H, HF, \dots, HF^{n-1}]$ is full rank when $n$, the number of observations, is equal to 4. So the system is fully observable from 4 observations.
 
 \subsection*{Part (d)}
+The system with full-state feedback can be modeled as $\dot{\tilde{x}}(t)=A\tilde{x}(t)-BK\tilde{x}(t)$, which can be rewritten as $\dot{\tilde{x}}=(A-BK)\tilde{x}$. So one could define $A_{CL}=(A-BK)$, and $B_{CL}=B$. Similarly, we can define $C_{CL}=C-DK$ and $D_{CL}=D$ because $y=(C-DK)\tilde{x}$.
+\begin{align*}
+	A_{CL}&= \begin{bmatrix} 0 & 1 & 0 & 0 \\ 
+							 0.0071 & 0.064 & -19.2471 & -1.364 \\
+							 0 & 0 & 0 & 1 \\
+							 0.0071 & 0.0640 & -1.6271 & -1.3640 \end{bmatrix}\qquad
+	B_{CL} = \begin{bmatrix} 0 \\ 0.5 \\ 0 \\ 0.5 \end{bmatrix} \\
+	C_{CL}&= \begin{bmatrix} 1 & 0 & -1 & 0 \end{bmatrix}\qquad
+	D_{CL} = [0]
+\end{align*}
+
 \subsection*{Part (e)}
+\begin{align*}
+	F_{CL}&= \begin{bmatrix} 1 & 0.0501 & -0.024 & -0.0021 \\
+							 3.41e-4 & 1.0031 & -0.9605 & -0.0895 \\
+							 8.67e-6 & 7.84e-5 & 0.998 & 0.0483 \\
+							 3.43e-4 & 0.0031 & -0.0801 & 0.932 \end{bmatrix} \qquad
+	G_{CL} = \begin{bmatrix} 6.092e-4 \\ 0.024 \\ 6.115e-4 \\ 0.0242 
+			 \end{bmatrix} \\
+	H_{CL}&= \begin{bmatrix} 1 & 0 & -1 & 0 \end{bmatrix}
+	M_{CL} = [0]
+\end{align*}
+Because the eigenvalues of the $F_{CL}$ matrix have complex magnitudes less than 1, the system is asymptotically stable. As in the zero input case, the observability matrix is full rank when $n=4$, so the state is fully observable from 4 measurements.
+
 \subsection*{Part (f)}
+We first construct an observation matrix for the system as $O=[H, HF, \dots HF^{n-1}]$ for $n=301$ because we have 301 observations. We find the initial state $x_0 = (O^TO)^{-1}O^TY = [0.1776,-1.4567,-0.0155,0.0435]^T$ where $Y$ is the vector of stacked observations. 
+
 \subsection*{Part (g)}
+The predicted and actual measurements are plotted in figure \ref{1g_plot1}. We can see the predicted measurements track the actual measurements fairly well. However, the changes in the predicted measurements clearly lag behind the actual measurements, and they seem to lag more as time goes on. Also, the predicted and actual measurements at $t=0$ do not match, so our predicted initial state is not completely accurate.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{1g_plot1.png}
+	\caption{predicted vs actual measurements for $x_0$ from all observations}
+	\label{1g_plot1}
+\end{figure}
+
+If we use only the first four observations to calculate $x_0$ we find $x_0=[-0.0708,-0.2894,0.0923,-0.0346]^T$. Interestingly this $x_0$ gives us a $y(0)$ that matches the actual measurement much better, as seen in figure \ref{1g_plot2}. However, the predicted measurement deviate from the actual measurements much more than in the previous case, and we still see the increasing time lag between the actual and predicted measurements.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{1g_plot2.png}
+	\caption{predicted vs actual measurements for $x_0$ from first 4 observations}
+	\label{1g_plot2}
+\end{figure}
+
 \section*{Problem 2}
 Two 6-sided dice rolls with $R_1$ and $R_2$ denoting the outcome of the first and second die, respectively.
 
