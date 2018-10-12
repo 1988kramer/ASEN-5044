@@ -26,7 +26,6 @@
 \lhead{Homework 1}
 \rfoot{Page \thepage}
 
-
 \newtheorem*{solution*}{Solution}
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{theorem}[lemma]{Theorem}
@@ -51,7 +50,70 @@
 }}
 \end{center}
 
-\section*{Exercise 1}
+\section*{Problem 1}
+Consider two zero-mean uncorrelated random variables $W$ and $V$ with standard deviations $\sigma_w$ $\sigma_v$, respectively. What is the standard deviation of the random variable $X=W+V$?
 
+\section*{Problem 2}
+Consider two scalar RVs $X$ and $Y$.
+
+\subsection*{Part a}
+Prove that if $X$ and $Y$ are independent their correlation coefficient $\rho=0$.
+
+\subsection*{Part b}
+Find an example of two RVs that are not independent but have a correlation coefficient of zero.
+
+\subsection*{Part c}
+Prove that if $Y$ is a linear function of $X$ then $P=\pm1$.
+
+\section*{Problem 3}
+Consider the following function
+\begin{equation*}
+	f_{XY}=\begin{cases} ae^{-2x}e^{-3y} & x>0,\ y>0 \\ 0 & \text{otherwise} \end{cases}
+\end{equation*}
+
+\subsection*{Part a}
+Find the value of $a$ so that $f_{XY}(x,y)$ is a valid joint probability density function.
+
+\subsection*{Part b}
+Calculate $\bar{x}$ and $\bar{y}$.
+
+\subsection*{Part c}
+Calculate $E(X^2)$, $E(Y^2)$, and $E(XY)$.
+
+\subsection*{Part d}
+Calculate the autocorrelation matrix of the random vector $[X\ Y]^T$.
+
+\subsection*{Part e}
+Calculate the variance $\sigma_x^2$ and $\sigma_y^2$ and the covariance $C_{XY}$.
+
+\subsection*{Part f}
+Calculate the autocovariance matrix of the random vector $[X\ Y]^T$.
+
+\subsection*{Part g}
+Calculate the correlation coefficient between $X$ and $Y$.
+
+\section*{Problem 4}
+Prove the following two results used in lectire to derive the theoretical expectations for the Gaussian sampling experiment where $x\sim \mathcal{N}(\bar{x},\sigma_x^2)$, $e\sim \mathcal{N}(0,\sigma_e^2)$, and $y=cx+d$.
+
+\subsection*{Part a}
+$\text{cov}(X,Y) = E[(x-\bar{x})(y-\bar{y})]=E[XY]-\bar{x}\bar{y}$
+
+\subsection*{Part b}
+$\text{var}(Y) = E[(y-\bar{y})^2]=c^2\sigma_x^2+d^2\sigma_e^2$
+
+\section*{Problem 5}
+Consider two continuous random variables $x$ and $y$, where $y=\ln(x)$ and $x>0$. Derive analytical closed-form expressions for each of the following:
+
+\subsection*{Part a}
+$p(y)$ if $p(x) = \mathcal{U}[a,b]$ (i.e. if $x$ has a uniform pdf for $0<a\leq x \leq b$)
+
+\subsection*{Part b}
+$p(y)$ if $p(\frac{1}{x})=\mathcal{U}[c,d]$ (i.e. if $\frac{1}{x}$ has a uniform pdf $0<c\leq \frac{1}{x} \leq d$)
+
+\subsection*{Part c}
+$p(x)$ if $p(y) = \mathcal{U}[l,m]$ (i.e. if $y$ has a uniform pdf for $l\leq y \leq m$)
+
+\subsection*{Part d}
+$p(x)$ if $p(y) = \mathcal{N}(\mu_y,\sigma_y^2)$ (i.e. if $y$ has a Gaussian pdf with mean $\mu_y$ and variance $\sigma_y^2$)
 
 \end{document}
