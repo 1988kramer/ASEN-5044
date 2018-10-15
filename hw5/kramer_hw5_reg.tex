@@ -174,17 +174,56 @@ To find $E(X)$ and $E(Y)$ we do the following:
 \subsection*{Part c}
 Calculate $E(X^2)$, $E(Y^2)$, and $E(XY)$.
 
+\subparagraph*{}
+\begin{align*}
+	E(X^2) &= \int_X x^2f_Xdx \\
+	&= 2\int_X x^2e^{-2x}dx \\
+	&= \frac{-2x^2-2x-1}{2}e^{-2x}\Big|_0^\infty \\
+	&= \frac{1}{2} \\
+	E(Y^2) &= \int_Y y^2f_Ydy \\
+	&= 3 \int_Y y^2e^{-3y}dy \\
+	&= \frac{-9y^2-6y-2}{9}e^{-3y}\Big|_0^\infty \\
+	&= \frac{2}{9} \\
+	E(XY) &= \int_Y\int_X xyf_{XY}dxdy \\
+	&= 6\int_Y\int_X e^{-2x}e^{-3y}dxdy \\
+	&= 6\int_Y\Big[\frac{-2x-1}{4}e^{-2x}ye^{-3y}\Big|_{x=0}^\infty dy \\
+	&= \frac{6}{4}\int_Y ye^{-3y}dy \\
+	&= \frac{6}{4}\frac{-3y-1}{9}e^{-3y}\Big|_{y=0}^\infty \\
+	&= \frac{1}{6}
+\end{align*}
+
 \subsection*{Part d}
 Calculate the autocorrelation matrix of the random vector $[X\ Y]^T$.
+
+\subparagraph*{}
+\begin{equation*}
+	R_{XY} = \begin{bmatrix} E(X^2) & E(XY) \\ E(YX) & E(Y^2) \end{bmatrix}
+	= \begin{bmatrix} 1/2 & 2/9 \\ 2/9 & 1/6 \end{bmatrix}
+\end{equation*}
 
 \subsection*{Part e}
 Calculate the variance $\sigma_x^2$ and $\sigma_y^2$ and the covariance $C_{XY}$.
 
+\subparagraph*{}
+\begin{align*}
+	\sigma_x^2 &= E(X^2)-E(X)^2 = \frac{1}{2}-\frac{1}{4} = \frac{1}{4} \\
+	\sigma_y^2 &= E(Y^2)-E(Y)^2 = \frac{2}{9}-\frac{1}{9} = \frac{1}{9} \\
+	C_{XY} &= E(XY) - E(X)E(Y) = \frac{1}{6}-\frac{1}{6} = 0
+\end{align*}
+
 \subsection*{Part f}
 Calculate the autocovariance matrix of the random vector $[X\ Y]^T$.
 
+\subparagraph*{}
+\begin{equation*}
+	C = \begin{bmatrix} \sigma_X^2 & C_{XY} \\ C_{XY} & \sigma_Y^2 \end{bmatrix} = \begin{bmatrix} 1/4 & 0 \\ 0 & 1/9 \end{bmatrix}
+\end{equation*}
+
 \subsection*{Part g}
 Calculate the correlation coefficient between $X$ and $Y$.
+
+\subparagraph*{}
+Because the covariance $C_{XY}=0$ the correlation coefficient $\rho=\frac{C_{XY}}{\sigma_x\sigma_y}$ is also equal to zero.
 
 \section*{Problem 4}
 Prove the following two results used in lectire to derive the theoretical expectations for the Gaussian sampling experiment where $x\sim \mathcal{N}(\bar{x},\sigma_x^2)$, $e\sim \mathcal{N}(0,\sigma_e^2)$, and $y=cx+d$.
