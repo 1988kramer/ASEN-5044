@@ -226,13 +226,36 @@ Calculate the correlation coefficient between $X$ and $Y$.
 Because the covariance $C_{XY}=0$ the correlation coefficient $\rho=\frac{C_{XY}}{\sigma_x\sigma_y}$ is also equal to zero.
 
 \section*{Problem 4}
-Prove the following two results used in lectire to derive the theoretical expectations for the Gaussian sampling experiment where $x\sim \mathcal{N}(\bar{x},\sigma_x^2)$, $e\sim \mathcal{N}(0,\sigma_e^2)$, and $y=cx+d$.
+Prove the following two results used in lectire to derive the theoretical expectations for the Gaussian sampling experiment where $x\sim \mathcal{N}(\bar{x},\sigma_x^2)$, $e\sim \mathcal{N}(0,\sigma_e^2)$, and $y=cx+de$.
 
 \subsection*{Part a}
 $\text{cov}(X,Y) = E[(x-\bar{x})(y-\bar{y})]=E[XY]-\bar{x}\bar{y}$
 
+\subparagraph*{}
+\begin{align*}
+	\text{cov}(X,Y) &= E[(x-\bar{x})(y-\bar{x})] \\
+	&= E[xy - x\bar{y} - \bar{x}y + \bar{x}\bar{y}] \\
+	&= E(xy) - \bar{y}E(x) - \bar{x}E(y) +\bar{x}\bar{y} \\
+	&= E(xy) - \bar{y}\bar{x} - \bar{x}\bar{y} + \bar{x}\bar{y} \\
+	&= E(xy) - \bar{x}\bar{y}
+\end{align*}
+
 \subsection*{Part b}
 $\text{var}(Y) = E[(y-\bar{y})^2]=c^2\sigma_x^2+d^2\sigma_e^2$
+
+\subparagraph*{}
+The expected value of a linear combination of gaussians is $\sum_i c_i\bar{x}_i$ so the expected value of $y$ is $\bar{y}=c\bar{x}+d\bar{e}$. But since $\bar{e}=0$, $\bar{y}=c\bar{x}$. With this we can find $\text{var}(Y)$ as follows:
+\begin{align*}
+	\text{var}(Y) &= E((y-\bar{y})^2) \\
+	&= E((cx+de-c\bar{x})^2) \\
+	&= c^2E(x^2)+cdE(ex)+c^2\bar{x}E(x)+cdE(ex)+d^2E(e^2)-dc\bar{x}E(e)-\\
+	&\qquad c^2\bar{x}E(x)-cd\bar{x}E(e)+c^2\bar{x}^2 \\
+	& \text{since $x$ and $e$ are independent} \\
+	&= c^2(E(x^2)-\bar{x}^2)+d^2E(e^2)-2cdE(e)E(x)-2dc\bar{x}E(e)\\
+	& \text{and since $E(e)=0$} \\
+	&= c^2(E(x^2)-\bar x^2) + d^2(E(e^2) - \bar{e}^2) \\
+	&= c^2\sigma_x^2 + d^2\sigma_e^2
+\end{align*}
 
 \section*{Problem 5}
 Consider two continuous random variables $x$ and $y$, where $y=\ln(x)$ and $x>0$. Derive analytical closed-form expressions for each of the following:
