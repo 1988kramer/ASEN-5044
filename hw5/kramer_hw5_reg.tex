@@ -248,7 +248,7 @@ The expected value of a linear combination of gaussians is $\sum_i c_i\bar{x}_i$
 \begin{align*}
 	\text{var}(Y) &= E((y-\bar{y})^2) \\
 	&= E((cx+de-c\bar{x})^2) \\
-	&= c^2E(x^2)+cdE(ex)+c^2\bar{x}E(x)+cdE(ex)+d^2E(e^2)-dc\bar{x}E(e)-\\
+	&= c^2E(x^2)+cdE(ex)-c^2\bar{x}E(x)+cdE(ex)+d^2E(e^2)-dc\bar{x}E(e)-\\
 	&\qquad c^2\bar{x}E(x)-cd\bar{x}E(e)+c^2\bar{x}^2 \\
 	& \text{since $x$ and $e$ are independent} \\
 	&= c^2(E(x^2)-\bar{x}^2)+d^2E(e^2)-2cdE(e)E(x)-2dc\bar{x}E(e)\\
