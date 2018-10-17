@@ -263,13 +263,59 @@ Consider two continuous random variables $x$ and $y$, where $y=\ln(x)$ and $x>0$
 \subsection*{Part a}
 $p(y)$ if $p(x) = \mathcal{U}[a,b]$ (i.e. if $x$ has a uniform pdf for $0<a\leq x \leq b$)
 
+\subparagraph*{}
+Generally, if $Y=g(X)$ then $p(y)=\Big|\frac{d}{dy}g^{-1}(y)\Big|p(g^{-1}(y))$. So for the given distribution for $X$,
+\begin{align*}
+	g^{-1}(y) &= e^y \\
+	\frac{d}{dy}g^{-1}(y) &= e^y \\
+	f(g^{-1}) &= \begin{cases} \frac{1}{\ln(b)-\ln(a)} & \ln(a) \leq y \leq \ln(b) \\ 0 & \text{otherwise} \end{cases} \\
+	p(y) &= \begin{cases} \frac{e^y}{\ln(b)-\ln(a)} & \ln(a)\leq y \leq\ln(b) \\ 0 & \text{otherwise} \end{cases}
+\end{align*}
+
 \subsection*{Part b}
 $p(y)$ if $p(\frac{1}{x})=\mathcal{U}[c,d]$ (i.e. if $\frac{1}{x}$ has a uniform pdf $0<c\leq \frac{1}{x} \leq d$)
+
+\subparagraph*{}
+We are not directly given the distribution for $X$. Instead we are given $p(z)=\mathcal{U}[c,d]$ where $z=1/x$, so we need to derive the distribution for $X$.
+\begin{align*}
+	z &= h(x) = \frac{1}{x}\\
+	h^{-1}(z) &= \frac{1}{z}\\
+	\frac{d}{dz} &= -\frac{1}{z^2} \\
+	p(z) &= \Big|\frac{d}{dz}h^{-1}(z)\Big|p(h^{-1}(z)) \\
+	\frac{1}{z^2}p(h^{-1}(z)) &= \begin{cases} \frac{1}{d-c} & c\leq z \leq d \\ 0 & \text{otherwise} \end{cases} \\
+	p(h^{-1}(z)) &= \begin{cases} \frac{z^2}{d-c} & c\leq z \leq d \\ 0 & \text{otherwise} \end{cases} \\
+	p(x) &= \begin{cases} \frac{(1/x)^2}{(1/d)-(1/c)} & 1/c \leq x \leq 1/d \\ 0 & \text{otherwise} \end{cases}
+\end{align*}
+Given this distribution for $p(x)$ we can calculate $p(y)=\Big|\frac{d}{dy}g^{-1}(y)\Big|p(g^{-1}(y))$.
+\begin{align*}
+	p(y) &= \begin{cases} \frac{(1/e^y)^2}{\ln(1/d)-\ln(1/c)}e^y & \ln(1/d)\leq y \leq \ln(1/c) \\ 0 & \text{otherwise} \end{cases} \\
+	&= \begin{cases} \frac{e^{-y}}{\ln(c)-\ln(d)} & -\ln(d) \leq y \leq -\ln(c) \end{cases}
+\end{align*}
 
 \subsection*{Part c}
 $p(x)$ if $p(y) = \mathcal{U}[l,m]$ (i.e. if $y$ has a uniform pdf for $l\leq y \leq m$)
 
+\subparagraph*{}
+
+\begin{align*}
+	x &= g(y) = e^y \\
+	y &= g^{-1}(x) = \ln(x) \\
+	\frac{d}{dx}g^{-1}(x) &= \frac{1}{x} \\
+	\mathcal{U}[l,m] &= \Big|\frac{d}{dx}g^{-1}(x)\Big|p(g^{-1}(x)) \\
+	\mathcal{U}[l,m] &= \frac{1}{x}p(g^{-1}(x)) \\
+	p(g^{-1}) &= \begin{cases} \frac{x}{m-l} & l \leq x \leq m \\ 0 & \text{otherwise} \end{cases} \\
+	p(y) &= \begin{cases} \frac{e^y}{\ln(m)-\ln(n)} & \ln(l) \leq y \leq \ln(m) \\ 0 & \text{otherwise} \end{cases}
+\end{align*}
+
 \subsection*{Part d}
 $p(x)$ if $p(y) = \mathcal{N}(\mu_y,\sigma_y^2)$ (i.e. if $y$ has a Gaussian pdf with mean $\mu_y$ and variance $\sigma_y^2$)
+
+\subparagraph*{}
+The probability distribution for $X$ is given by
+\begin{align*}
+	p(x) &= \Big|\frac{d}{dx}g^{-1}(x)\Big|p_Y(g^{-1}(x)) \\
+	&= \frac{1}{x} \frac{1}{\sqrt{2\pi}\sigma_y}e^{-\frac{(\ln(x)-\mu_y)^2}{2\sigma_y^2}} \\
+\end{align*}
+which is the log-normal distribution.
 
 \end{document}
