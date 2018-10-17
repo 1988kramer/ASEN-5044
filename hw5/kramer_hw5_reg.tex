@@ -301,10 +301,9 @@ $p(x)$ if $p(y) = \mathcal{U}[l,m]$ (i.e. if $y$ has a uniform pdf for $l\leq y 
 	x &= g(y) = e^y \\
 	y &= g^{-1}(x) = \ln(x) \\
 	\frac{d}{dx}g^{-1}(x) &= \frac{1}{x} \\
-	\mathcal{U}[l,m] &= \Big|\frac{d}{dx}g^{-1}(x)\Big|p(g^{-1}(x)) \\
-	\mathcal{U}[l,m] &= \frac{1}{x}p(g^{-1}(x)) \\
-	p(g^{-1}) &= \begin{cases} \frac{x}{m-l} & l \leq x \leq m \\ 0 & \text{otherwise} \end{cases} \\
-	p(y) &= \begin{cases} \frac{e^y}{\ln(m)-\ln(n)} & \ln(l) \leq y \leq \ln(m) \\ 0 & \text{otherwise} \end{cases}
+	p_X(x) &= \Big|\frac{d}{dx}g^{-1}(x)\Big|p_Y(g^{-1}(x)) \\
+	&= \frac{1}{x}p_Y(g^{-1}(x)) \\
+	&= \begin{cases} \frac{1}{x(\ln(m)-\ln(l))} & \ln(l) \leq x \leq \ln(m) \\ 0 & \text{otherwise} \end{cases} \\
 \end{align*}
 
 \subsection*{Part d}
