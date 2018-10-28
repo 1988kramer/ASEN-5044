@@ -60,8 +60,19 @@ where $z(t)$ is the response variable (e.g. position) and $f(t)$ is a white nois
 \subsection*{part (a)}
 Let $z$ and $\dot{z}$ be the state variables for this system. Write out the dynamics for this CT system in stochastic LTI form.
 
+\subparagraph*{}
+If $x=[z,\ \dot{z}]^T$, then the system in LTI form is expressed as
+\begin{equation*}
+	\dot{x} = \begin{bmatrix} \dot{z} \\ \ddot{z} \end{bmatrix} = \begin{bmatrix} 0 & 1 \\ -100 & -10 \end{bmatrix}\begin{bmatrix} z \\ \dot{z}\end{bmatrix} + \begin{bmatrix} 0 \\ 1 \end{bmatrix} f(t)
+\end{equation*}
+
 \subsection*{part (b)}
 Suppose this process is sampled at a uniform rate beginning at time $t=0$, with $\Delta T=0.2$ seconds. Convert the CT stochastic LTI model from part (a) into DT form, and report the corresponding $F$ and $Q$ matrices.
+
+\subparagraph*{}
+\begin{equation*}
+	F=\begin{bmatrix} 0.151 & 0.042 \\ -4.193 & -0.269 \end{bmatrix} \qquad Q = \begin{bmatrix} 0.004 & 0.009 \\ 0.009 & 0.376 \end{bmatrix}
+\end{equation*}
 
 \subsection*{part (c)}
 Suppose the units of $z$ are in meters and $\dot{z}$ are in m/s. Provide the corresponding units of the elements of $Q$, and explain what $Q$ says physically about the elements of the DT process noise vector $w(k)$ and its effect on the DT state $x(k)$.
