@@ -95,11 +95,41 @@ Consider a battery with a completely unknown voltage ($P_0=\infty$). Two indepen
 \subsection*{part (a)}
 Write the weighted least squares voltage estimate in terms of the two measurements $y_1$ and $y_2$.
 
+\subparagraph*{}
+The measurement model for this system is $y(k)=Hx+\mathcal{N}(0,R)$ where $y=[y_1,\ y_2]^T$, $H=[1,\ 1]^T$, and 
+\begin{equation*}
+	R = \begin{bmatrix} 1 & 0 \\ 0 & 4 \end{bmatrix}
+\end{equation*}
+So the weighted least squares estimate of this system's state is
+\begin{align*}
+	\hat{x}_{LS} &= (H^TR^{-1}H)^{-1}H^TR^{-1}y \\
+	&= \Bigg\{ [1\ 1] \begin{bmatrix} 1&0\\0&4 \end{bmatrix} \begin{bmatrix} 1\\1 \end{bmatrix} \Bigg\}^{-1} [1\ 1] \begin{bmatrix} 1&0\\0&4 \end{bmatrix} \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} \\
+	&= 1.25^{-1} [1\ 0.25]\begin{bmatrix} y_1 \\ y_2 \end{bmatrix} \\
+	&= \frac{y_1 + 0.25y_2}{1.25}
+\end{align*}
+
 \subsection*{part (b)}
 If weighted least squares is used to estimate the voltage, what is the variance of the voltage estimate after the first measurement? After the second measurement?
 
+\subparagraph*{}
+The covariance of the estimate is calculated as $P_e=(H^TR^{-1}H)^{-1}$. The covariance after the first measurement is simply $(1\times1^{-1}1)^{-1}=1$. The covariance after the second measurement is
+\begin{equation*}
+	\Bigg\{ [1\ 1] \begin{bmatrix} 1 & 0 \\ 0 & 4 \end{bmatrix} \begin{bmatrix} 1\\1 \end{bmatrix} \Bigg\}^{-1} = 0.8
+\end{equation*}
+
 \subsection*{part (c)}
 If the voltage is estimated as $(y_1+y_2)/2$, what is the variance of the voltage estimate?
+
+\subparagraph*{}
+In this case $\hat{x}$ is estimated as $(H^TH)^{-1}H^Ty$. This means the estimation error $e=-(H^TH)^{-1}H^Tv$. Because of this the estimate covariance becomes
+\begin{align*}
+	P_e &= E(ee^T) \\
+	&= E((H^TH)^{-1}H^Tv\{\dots\}^T) \\
+	&= (H^TH)^{-1} H^T E(vv^T) (H^T)^T(H^TH)^{-T} \\
+	&= (H^TH)^{-1} H^T R H(H^TH)^{-T} \\
+	&= \frac{1}{2} \begin{bmatrix} 1 & 1 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 4 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \end{bmatrix} \frac{1}{2} \\
+	&= 1.25
+\end{align*}
 
 \section*{Problem 3}
 The production of steel in the United States between 1946 and 1956 was 66.6, 84.9, 88.6, 78.0, 96.8, 105.2, 93.2, 111.6, 88.3, 117.0, and 115.2 million tons. Find the least squares fit to these data using the following functions. Include a plot of the original data along with the least squares curve, the rms error of the least squares fit, and a prediction for steel production in 1957.
