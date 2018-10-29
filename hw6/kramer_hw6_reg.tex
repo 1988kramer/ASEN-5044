@@ -77,8 +77,17 @@ Suppose this process is sampled at a uniform rate beginning at time $t=0$, with 
 \subsection*{part (c)}
 Suppose the units of $z$ are in meters and $\dot{z}$ are in m/s. Provide the corresponding units of the elements of $Q$, and explain what $Q$ says physically about the elements of the DT process noise vector $w(k)$ and its effect on the DT state $x(k)$.
 
+\subparagraph*{}
+If $x_1$ is in m and $x_2$ is in m/s, then the units of $Q_{1,1}$ are in $\text{m}^2$ and $Q_{2,2}$ are in $(\text{m/s})^2$. Because $Q$ is the covariance of the multivariate white gaussian noise distribution, the diagonal elements of $Q$ represent the variances of the additive noise to the state vector and the off-diagonal elements represent their covariances.
+
 \subsection*{part (d)}
 Suppose a sensor is attached to this system, with the CT model $y(t)=z+\dot{z}\Delta T+\tilde{v}(t)$, where $\tilde{v}(t)$ is a white noise input with PSD of 3 units. Report the $H$ and $R$ matrices for the corresponding DT model; also report the units of $R$ if $z$ has units of meters.
+
+\subparagraph*{}
+\begin{equation*}
+	H=[1\ \Delta T]^T
+\end{equation*}
+Because $y(k)$ is a scalar, the $R$ 'matrix' is simply the 1D variance of the additive white gaussian noise. This means $R=3$.
 
 \section*{Problem 2}
 Consider a battery with a completely unknown voltage ($P_0=\infty$). Two independent measurements of the voltage are taken to estimate the voltage, the first with a variance of 1 and the second with a variance of 4.
