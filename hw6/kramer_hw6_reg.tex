@@ -214,6 +214,14 @@ Suppose the true robot position is known to be at $\xi_0=\eta_0=z_0=1\text{m}$. 
 \subsection*{part (b)}
 Compute the sample covariance matrix for the simulated measurement vectors from part (a). How does the estimated covariance compare to $R$?
 
+\subparagraph*{}
+\begin{equation*}
+	\text{cov}(y) = \begin{bmatrix} 8.5824 & 5.5126 & 7.8048 \\
+									5.5126 & 5.1172 & -3.1177 \\ 
+									7.8048 & -3.1177 & 53.3990 \end{bmatrix}
+\end{equation*}
+The diagonal elements of the sample covariance matrix are within 8\% of their corresponding values in $R$. The off diagonal elements are less accurate and are within 24\% of their corresponding values in $R$. 
+
 \subsection*{part (c)}
 Use the simulated data from part (a) to estimate the robot's 3D position via batch weighted least squares using the first 3 samples, then the first 10 samples, and finally using all 100 samples. Report the \textbf{estimation error covariance} matrix in all 3 cases (be sure to provide units). How accurate are these estimates compared to the ground truth?
 
