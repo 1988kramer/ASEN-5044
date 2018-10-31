@@ -138,7 +138,11 @@ The production of steel in the United States between 1946 and 1956 was 66.6, 84.
 Linear Curve Fit
 
 \subparagraph*{}
-The RMS error for the linear fit is $8.7823$ and the predicted steel production for 1957 is $118.715$ million tons. Figure \ref{p1_plot1} shows the estimated vs actual steel production for 1946 through 1956.
+To find the linear fit coefficients we model each measurement as $y_i = \beta_0 + \beta_1x_i + \epsilon_i$ where $\beta_0$ and $\beta_1$ are the coefficients and $\epsilon_i$ is the noise at timestep $i$. This model is expressed in matrix form as 
+\begin{equation*}
+	\begin{bmatrix} y_0 \\ y_1 \\ \vdots \\ y_n \end{bmatrix} = \begin{bmatrix} 1 & x_0 \\ 1 & x_1 \\ \vdots & \vdots \\ 1 & x_n \end{bmatrix} \begin{bmatrix} \beta_0 \\ \beta_1 \end{bmatrix} + \begin{bmatrix} \epsilon_0 \\ \epsilon_1 \\ \vdots \\ \epsilon_n \end{bmatrix}
+\end{equation*}
+or $Y=X\beta + \epsilon$. This equation is solved for $\beta$ as $\hat{\beta}=(X^TX)^{-1}X^TY$, giving us the linear fit pictured below in figure \ref{p1_plot1}. The RMS error for the linear fit is $8.7823$ and the predicted steel production for 1957 is $118.715$ million tons. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{p1_plot1.png}
@@ -150,7 +154,12 @@ The RMS error for the linear fit is $8.7823$ and the predicted steel production 
 Quadratic Curve Fit
 
 \subparagraph*{}
-The RMS error for the linear fit is $8.6665$ and the predicted steel production for 1957 is $114.530$ million tons. Figure \ref{p1_plot2} shows the estimated vs actual steel production for 1946 through 1956.
+To find the polynomial fit coefficients we simply extend the linear model as $y_i = \beta_0 + \beta_1x_i + \dots + \beta_m^m + \epsilon_i$ where $\beta_i$ are the coefficients of a polynomial of degree $m$ and $\epsilon_i$ is the noise at timestep $i$. This model is expressed in matrix form as 
+\begin{equation*}
+	\begin{bmatrix} y_0 \\ y_1 \\ \vdots \\ y_n \end{bmatrix} = \begin{bmatrix} 1 & x_0 & x_0^2 & \dots & x_0^m \\ 1 & x_1 & x_1^2 & \dots & x_1^m \\ \vdots & \vdots & \ddots & \vdots \\ 1 & x_n & x_n^2 & \dots & x_n^m \end{bmatrix} \begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \\ \dots \\ \beta_m \end{bmatrix} + \begin{bmatrix} \epsilon_0 \\ \epsilon_1 \\ \vdots \\ \epsilon_n \end{bmatrix}
+\end{equation*}
+or $Y=X\beta + \epsilon$. We can still solve for $\beta$ as $\hat{\beta}=(X^TX)^{-1}X^TY$, giving us the least squares approximation for the polynomial coefficients. Note that parts (c) and (d) used this same method but with $m=3$ and $4$, respectively. 
+The quadratic (degree 2 polynomial) fit is pictured below in figure \ref{p1_plot2}. The RMS error for the linear fit is $8.6665$ and the predicted steel production for 1957 is $114.530$ million tons. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{p1_plot2.png}
@@ -162,7 +171,7 @@ The RMS error for the linear fit is $8.6665$ and the predicted steel production 
 Cubic Curve Fit
 
 \subparagraph*{}
-The RMS error for the linear fit is $8.2889$ and the predicted steel production for 1957 is $126.188$ million tons. Figure \ref{p1_plot3} shows the estimated vs actual steel production for 1946 through 1956.
+The RMS error for the cubic fit is $8.2889$ and the predicted steel production for 1957 is $126.188$ million tons. Figure \ref{p1_plot3} shows the estimated vs actual steel production for 1946 through 1956.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{p1_plot3.png}
@@ -174,7 +183,7 @@ The RMS error for the linear fit is $8.2889$ and the predicted steel production 
 Quartic Curve Fit
 
 \subparagraph*{}
-The RMS error for the linear fit is $8.2816$ and the predicted steel production for 1957 is $128.861$ million tons. Figure \ref{p1_plot4} shows the estimated vs actual steel production for 1946 through 1956.
+The RMS error for the quartic fit is $8.2816$ and the predicted steel production for 1957 is $128.861$ million tons. Figure \ref{p1_plot4} shows the estimated vs actual steel production for 1946 through 1956.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{p1_plot4.png}
@@ -225,13 +234,63 @@ The diagonal elements of the sample covariance matrix are within 8\% of their co
 \subsection*{part (c)}
 Use the simulated data from part (a) to estimate the robot's 3D position via batch weighted least squares using the first 3 samples, then the first 10 samples, and finally using all 100 samples. Report the \textbf{estimation error covariance} matrix in all 3 cases (be sure to provide units). How accurate are these estimates compared to the ground truth?
 
+\subparagraph*{}
+Estimates for $\hat{x}$ are shown below in table \ref{x_hats}.
+\begin{center}
+\begin{tabular}{ c | c | c | c }
+ num samples & $\hat{x}_1$ (m)& $\hat{x}_2$ (m) & $\hat{x}_3$ (m) \\ 
+ \hline
+ 3 & 2.094 & 1.531 & 1.607 \\  
+ 10 & 2.778 & 2.376 & 1.247 \\
+ 100 & 1.091 & 0.95 & 1.43 \\ 
+ \hline
+\end{tabular}
+\label{x_hats}
+\end{center}
+The covariances for each estimate are shown below. Units are in meters squared. The covariances suggest that the estimates increase in accuracy as more measurements are incorporated into the estimation. The estimates of $\hat{x}$ reflect this, as they come closer to the groundtruth as the number of measurements increases.
+\begin{equation*}
+	P_{3} = \begin{bmatrix} 2.67&1.72&2.17\\1.72&1.67&-1.36\\2.16&-1.35&16.7 \end{bmatrix} \quad
+	P_{10} = \begin{bmatrix} 0.800&0.515&0.650\\0.515&0.500&-0.407\\0.650&-0.407&5.00 \end{bmatrix} \quad
+	P_{100} = \begin{bmatrix} 0.080&0.052&0.065\\0.051&0.50&-0.041\\0.065&-0.041&0.500 \end{bmatrix}
+\end{equation*}
+
 \subsection*{part (d)}
 Using the data log of $y(k)$ vectors over $T'=30$ time steps in the \texttt{hw6problem5data.csv} file provided on D2L, estimate the robot's position using batch weighted least squares and report the estimated error covariance matrix (be sure to provide units).
+
+\subparagraph*{}
+The estimated $x$ and measurement covariance are shown below. The units of $x$ are in meters and covariance is in meters squared.
+\begin{equation*}
+	\hat{x}_{LS} = \begin{bmatrix} 4.39 \\ -16.5 \\ 42.2 \end{bmatrix} \quad 
+	\begin{bmatrix} 0.267 & 0.172 & 0.217 \\ 0.172 & 0.167 & -0.136 \\ 0.217 & -0.136 & 1.67 \end{bmatrix}
+\end{equation*}
 
 \subsection*{part (e)}
 Repeat (d) using batch unweighted least squares. Compare the final result and its covariance to the results from part (d).
 
+\subparagraph*{}
+The unweighted estimate is calculated as $\hat{x}=(H^TR^{-1}H)^{-1}H^TR^{-1}y$, except with $R$ replaced by the identity matrix. In this case the unweighted $\hat{x}$ is actually equal to the weighted estimate. This is because the measurement covariance is constant over time. So each $y_i(k)$, the $i^\text{th}$ component of $y$ at timestep $k$ is weighted equally to every other $y_i$. The covariance of the unweighted estimate depends on the assumed variance of each measurement. If the variance is assumed to be 1 the covariance is simply $(1/n)*I$ where n is the number of measurements used.
+
 \subsection*{part (f)}
 Repeat (d) using recursive weighted least squares and report the results by showing a separate plot for each of the estimated states (using solid lines) and their associated $\pm2\sigma$ error bounds (using dashed lines) evolving vs time step $k$. In other words, plot how the state estimate and error bounds evolve as each new measurement vector $y(k)$ comes in for $k=1$ to $T'$ and be sure to provide units.
+
+\subparagraph*{}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{p4_plot1.png}
+	\caption{$x_1$ vs $t$}
+	\label{p4_plot1}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{p4_plot2.png}
+	\caption{$x_2$ vs $t$}
+	\label{p4_plot2}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{p4_plot3.png}
+	\caption{$x_3$ vs $t$}
+	\label{p3_plot1}
+\end{figure}
 
 \end{document}
