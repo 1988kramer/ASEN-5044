@@ -66,6 +66,17 @@ Where $A$ is the CT LTI state matrix for the system.
 \subsection*{part (a)}
 Find $A$ ignoring measurements $y$ and process noise for now. What is the DT LTI model for this system (also ignoring process noise)?
 
+\subparagraph*{}
+The $A$ matrix for the continuous time system is:
+\begin{equation*}
+	A = \begin{bmatrix} 0 & 1 & 0 & 0 \\
+											0 & 0 & 0 & -\Omega \\
+											0 & 0 & 0 & 1 \\
+											0 & 0 & 0 & \Omega \end{bmatrix}
+\end{equation*}
+Because there is no control input and no process noise, the discrete time system is described $x(k)=Fx(k-1)$ where $F=\text{exp}\{A\Delta t\}$ as given in the problem statement.
+
+
 \subsection*{part (b)}
 For the following questions (i)-(ii) assume a sampling time of $\Delta t=0.5$s, $\Omega=0.045\frac{\text{rad}}{\text{s}}$, and an initial DT state uncertainty $x(0)~\mathcal{N}(\mu(0),P(0))$ at $k=0$. Again, disregard process noise and measuremenths for now.
 
