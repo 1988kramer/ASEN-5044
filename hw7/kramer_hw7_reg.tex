@@ -62,4 +62,46 @@ where $\Omega$ is the constant angular rate, such that $\Omega > 0$ implies a co
 	e^{A\Delta t} = \begin{bmatrix} 1 & \frac{\sin(\Omega\Delta t)}{\Omega} & 0 & -\frac{1-\cos(\Omega\Delta t)}{\Omega} \\ 0 & \cos(\Omega\Delta t) & 0 & -\sin(\Omega\Delta t) \\ 0 & \frac{1-\cos(\Omega\Delta t)}{\Omega} & 1 & \frac{\sin(\Omega\Delta t)}{\Omega} \\ 0 & \sin(\Omega\Delta t) & 0 & \cos(\Omega\Delta t) \end{bmatrix}
 \end{equation*}
 Where $A$ is the CT LTI state matrix for the system.
+
+\subsection*{part (a)}
+Find $A$ ignoring measurements $y$ and process noise for now. What is the DT LTI model for this system (also ignoring process noise)?
+
+\subsection*{part (b)}
+For the following questions (i)-(ii) assume a sampling time of $\Delta t=0.5$s, $\Omega=0.045\frac{\text{rad}}{\text{s}}$, and an initial DT state uncertainty $x(0)~\mathcal{N}(\mu(0),P(0))$ at $k=0$. Again, disregard process noise and measuremenths for now.
+
+\subsubsection*{part (i)}
+Derive an expression for the predicted DT state mean $\mu(k)=E[x(k)]$ and state covariance $P(k)=E[(x(k)-\mu(k))(x(k)-\mu(k))^T]$ for an arbitrary number of steps $k=N$ into the future, starting from $k=0$. Be sure to express your answer in terms of $N$, $\mu(0)$, and $P(0)$ and the DT state transition matrix $F$.
+
+\subsubsection*{part (ii)}
+Assume
+\begin{align*}
+	\mu(0) &= [0\text{m},\ 85\cos(\pi/4)\text{m/s},\ 0\text{m},\ -85\sin(\pi/4)\text{m/s}]^T \\
+	P_a(0) &= \text{diag}([10\text{m}^2,\ 2\text{(m/s)}^2,\ 10\text{m}^2,\ 2\text{(m/s)}^2])
+\end{align*}
+Perform a 150 step calculation of $\mu(k)$ and $P(k)$ for $k=1,2,\dots,150$ starting from these initial conditions. Plot the following in separate plots:
+\begin{itemize}
+	\item each state element of $\mu(k)$ versus time, along with $\pm2\sigma$ upper/lower bounds showing the uncertainty for each state at each time $k$.
+	\item only the positive $2\sigma$ values versus time for each state at time $k$.
+\end{itemize}
+Be sure to label all axis with appropriate units and comment on the results.
+
+\subsection*{part (c)}
+Consider now computing the probability of collision for two aircraft turning independently at the same altitude at the same time, where the initial position and velocity of the aircraft are unknown. Let $x_a$ denote the state of aircraft $a$ and let $x_b$ denote the state of aircraft $b$. A collition will simply be modeled as an event where both aircraft occupy a bounded rectangular region of airspace at the same time. That is, if $r_a(k)=[\xi_a(k),\eta_a(k)]^T$ and $r_b(k)=[\xi_b(k),\eta_b(k)]^T$, a collition occurs at time $k$ whenever $r_c(k) = r_k(k)-r_b(k)$ lies inside the region $R$ defined by $\Delta\xi(k)\in[-\xi_R,\xi_R]$ and $\Delta\eta(k)\in[-\eta_R,\eta_R]$, where $\Delta\xi(k)=\xi_a(k)-\xi_b(k)$, $\Delta\eta(k)=\eta_a(k)-\eta_b(k)$, and $\xi_R$ and $\eta_R$ are known constants. At time $k=0$, suppose both aircraft states are independent and normally distributed, with $x_a(0)~\mathcal{N}(\mu_a(0),P_a(0))$ and $x_k(0)~\mathcal{N}(\mu_b(0),P_b(0))$. Also assume that $\Delta t=0.5$s, $\Omega_a=0.045$rad/s and $\Omega_b=-0.045$rad/s. Again, ignore process noise and measurements.
+
+\subsubsection*{part (i)}
+Derive the expression for the mean and covariance parameters af the pdf $p(r_c(k))$ at any time $k$, given that $r_c(k)~\mathcal{N}(\mu_{r_c}(k),P_{r_c}(k))$ (i.e. the pdf for $r_c(k)$ must be a multivariate Gaussian). Your answers should be in terms of $F_a$ and $F_b$ (the STMs for each aircraft), as well as $\mu_a(0)$, $\mu_b(0)$, and $P_a(0)$, $P_b(0)$. (\textbf{Hint:} the concept of marginalizing multivariate Gaussian pdfs will be useful here.)
+
+\subsubsection*{part (ii)}
+Use the result from part (i) to derive an integral expression for the probability of collision at any time $k$.
+
+\subsubsection*{part (iii)}
+Plot the probability of collision vs time using a simulation run of 150 seconds starting from the following initial conditions
+\begin{align*}
+	\mu_a(0) &= [0\text{m},\ 85\cos(\pi/4)\text{m/s},\ 0\text{m},\ -85\sin(\pi/4)\text{m/s}]^T \\
+	P_a(0) &= \text{diag}([10\text{m}^2,\ 4\text{(m/s)}^2,\ 10\text{m}^2,\ 4\text{(m/s)}^2]) \\
+	\mu_b(0) &= [3200\text{m},\ 85\cos(\pi/4)\text{m/s},\ 3200\text{m},\ -85\sin(\pi/4)\text{m/s}]^T \\
+	P_b(0) &= \text{diag}([11\text{m}^2,\ 3.5\text{(m/s)}^2,\ 11\text{m}^2,\ 3.5\text{(m/s)}^2])
+\end{align*}
+and using $\xi_R=100$m, $\eta_R=100$m. Be sure to label axes with appropriate units, and comment on the results. In particular, at what time steps are the vehicles in greatest danger of colliding? Also, what happens to the probability of collision as time increases? What explains this behavior? Matlab's \texttt{mvncdf.m} command is useful here.
+
 \end{document}
