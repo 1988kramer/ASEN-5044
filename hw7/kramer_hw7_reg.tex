@@ -50,6 +50,16 @@
 }}
 \end{center}
 
+\section*{Problem 1}
 
-
+Consider an aircraft moving in a plane with constant speed (the magnitude of the velocity vector) and turning with a constant angular rate. Such a model is often used by air traffic control tracking algorithms to describe aircraft executing coordinated turns. Given 2D inertial position variables $\xi(t)$, east position, and $\eta(t)$, north position. The equations of motion are 
+\begin{align*}
+	\ddot{\xi} &= -\Omega\dot{\eta} \\
+	\ddot{\eta} &= \Omega\dot{\eta}
+\end{align*}
+where $\Omega$ is the constant angular rate, such that $\Omega > 0$ implies a counterclockwise turn. Using the state representation $x(t)=[\xi,\dot{\xi},\eta,\dot{\eta}]^T$, it can be shown that 
+\begin{equation*}
+	e^{A\Delta t} = \begin{bmatrix} 1 & \frac{\sin(\Omega\Delta t)}{\Omega} & 0 & -\frac{1-\cos(\Omega\Delta t)}{\Omega} \\ 0 & \cos(\Omega\Delta t) & 0 & -\sin(\Omega\Delta t) \\ 0 & \frac{1-\cos(\Omega\Delta t)}{\Omega} & 1 & \frac{\sin(\Omega\Delta t)}{\Omega} \\ 0 & \sin(\Omega\Delta t) & 0 & \cos(\Omega\Delta t) \end{bmatrix}
+\end{equation*}
+Where $A$ is the CT LTI state matrix for the system.
 \end{document}
