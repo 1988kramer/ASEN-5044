@@ -55,7 +55,7 @@
 Consider an aircraft moving in a plane with constant speed (the magnitude of the velocity vector) and turning with a constant angular rate. Such a model is often used by air traffic control tracking algorithms to describe aircraft executing coordinated turns. Given 2D inertial position variables $\xi(t)$, east position, and $\eta(t)$, north position. The equations of motion are 
 \begin{align*}
 	\ddot{\xi} &= -\Omega\dot{\eta} \\
-	\ddot{\eta} &= \Omega\dot{\eta}
+	\ddot{\eta} &= \Omega\dot{\xi}
 \end{align*}
 where $\Omega$ is the constant angular rate, such that $\Omega > 0$ implies a counterclockwise turn. Using the state representation $x(t)=[\xi,\dot{\xi},\eta,\dot{\eta}]^T$, it can be shown that 
 \begin{equation*}
@@ -70,18 +70,27 @@ Find $A$ ignoring measurements $y$ and process noise for now. What is the DT LTI
 The $A$ matrix for the continuous time system is:
 \begin{equation*}
 	A = \begin{bmatrix} 0 & 1 & 0 & 0 \\
-											0 & 0 & 0 & -\Omega \\
-											0 & 0 & 0 & 1 \\
-											0 & 0 & 0 & \Omega \end{bmatrix}
+						0 & 0 & 0 & -\Omega \\
+						0 & 0 & 0 & 1 \\
+						0 & \Omega & 0 & 0 \end{bmatrix}
 \end{equation*}
 Because there is no control input and no process noise, the discrete time system is described $x(k)=Fx(k-1)$ where $F=\text{exp}\{A\Delta t\}$ as given in the problem statement.
 
 
 \subsection*{part (b)}
-For the following questions (i)-(ii) assume a sampling time of $\Delta t=0.5$s, $\Omega=0.045\frac{\text{rad}}{\text{s}}$, and an initial DT state uncertainty $x(0)~\mathcal{N}(\mu(0),P(0))$ at $k=0$. Again, disregard process noise and measuremenths for now.
+For the following questions (i)-(ii) assume a sampling time of $\Delta t=0.5$s, $\Omega=0.045\frac{\text{rad}}{\text{s}}$, and an initial DT state uncertainty $x(0)\sim\mathcal{N}(\mu(0),P(0))$ at $k=0$. Again, disregard process noise and measuremenths for now.
 
 \subsubsection*{part (i)}
 Derive an expression for the predicted DT state mean $\mu(k)=E[x(k)]$ and state covariance $P(k)=E[(x(k)-\mu(k))(x(k)-\mu(k))^T]$ for an arbitrary number of steps $k=N$ into the future, starting from $k=0$. Be sure to express your answer in terms of $N$, $\mu(0)$, and $P(0)$ and the DT state transition matrix $F$.
+
+\subparagraph*{}
+Because there is no additive process noise, the state transition from $x(0)$ to $x(1)$ is a linear function of $x(0)$. In fact, any $x(k)$ can be expressed as a function of $x(0)$ per the following:
+\begin{align*}
+	x(1) &= Fx(0) \\
+	x(2) &= Fx(1) = F^2x(0) \\
+	x(k) &= F^kx(0)
+\end{align*}
+So any $x(k)$ is a linear function of the random variable $x(0)$. This means the mean $\mu(N) = F^N\mu(0)$ and $P(N) = F^NP(0)(F^N)^T$. 
 
 \subsubsection*{part (ii)}
 Assume
@@ -95,6 +104,9 @@ Perform a 150 step calculation of $\mu(k)$ and $P(k)$ for $k=1,2,\dots,150$ star
 	\item only the positive $2\sigma$ values versus time for each state at time $k$.
 \end{itemize}
 Be sure to label all axis with appropriate units and comment on the results.
+
+\subparagraph*{}
+
 
 \subsection*{part (c)}
 Consider now computing the probability of collision for two aircraft turning independently at the same altitude at the same time, where the initial position and velocity of the aircraft are unknown. Let $x_a$ denote the state of aircraft $a$ and let $x_b$ denote the state of aircraft $b$. A collition will simply be modeled as an event where both aircraft occupy a bounded rectangular region of airspace at the same time. That is, if $r_a(k)=[\xi_a(k),\eta_a(k)]^T$ and $r_b(k)=[\xi_b(k),\eta_b(k)]^T$, a collition occurs at time $k$ whenever $r_c(k) = r_k(k)-r_b(k)$ lies inside the region $R$ defined by $\Delta\xi(k)\in[-\xi_R,\xi_R]$ and $\Delta\eta(k)\in[-\eta_R,\eta_R]$, where $\Delta\xi(k)=\xi_a(k)-\xi_b(k)$, $\Delta\eta(k)=\eta_a(k)-\eta_b(k)$, and $\xi_R$ and $\eta_R$ are known constants. At time $k=0$, suppose both aircraft states are independent and normally distributed, with $x_a(0)~\mathcal{N}(\mu_a(0),P_a(0))$ and $x_k(0)~\mathcal{N}(\mu_b(0),P_b(0))$. Also assume that $\Delta t=0.5$s, $\Omega_a=0.045$rad/s and $\Omega_b=-0.045$rad/s. Again, ignore process noise and measurements.
