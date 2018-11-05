@@ -9,6 +9,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{fancyhdr}
 \usepackage{color}
 \usepackage{bbm}
@@ -106,7 +107,83 @@ Perform a 150 step calculation of $\mu(k)$ and $P(k)$ for $k=1,2,\dots,150$ star
 Be sure to label all axis with appropriate units and comment on the results.
 
 \subparagraph*{}
+The plots in figures \ref{x1_plots} to \ref{x4_plots} show the values of each $x$ variable bounded by $2\sigma$ an subplot a and the value for $2\sigma$ in subplot b. Note the variance for the position variables $x_1$ and $x_3$ appears to be periodic over time but the variance on the velocities $x_2$ and $x_4$ is constant.
 
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt1.png}
+	\caption{$x_1$ (m) vs timestep}
+	\label{x1}
+\end{subfigure}
+~
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt2.png}
+	\caption{$\sigma_1$ ($\text{m}^2$) vs timestep}
+	\label{sigma1}
+\end{subfigure}
+\caption{Plots for $x_1$ and $\sigma_1$}
+\label(x1_plots)
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt3.png}
+	\caption{$x_2$ (m/s) vs timestep}
+	\label{x2}
+\end{subfigure}
+~
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt4.png}
+	\caption{$\sigma_1$ ($\text{(m/s)}^2$) vs timestep}
+	\label{sigma2}
+\end{subfigure}
+\caption{Plots for $x_2$ and $\sigma_2$}
+\label(x2_plots)
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt5.png}
+	\caption{$x_3$ (m) vs timestep}
+	\label{x3}
+\end{subfigure}
+~
+\begin{subfigure}[b]{.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt6.png}
+	\caption{$\sigma_3$ ($\text{m}^2$) vs timestep}
+	\label{sigma3}
+\end{subfigure}
+\caption{Plots for $x_3$ and $\sigma_3$}
+\label(x3_plots)
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt7.png}
+	\caption{$x_4$ (m/s) vs timestep}
+	\label{x4}
+\end{subfigure}
+~
+\begin{subfigure}[b]{.45\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{p1_plt8.png}
+	\caption{$\sigma_4$ ($\text{(m/s)}^2$) vs timestep}
+	\label{sigma4}
+\end{subfigure}
+\caption{Plots for $x_4$ and $\sigma_4$}
+\label(x4_plots)
+\end{figure}
 
 \subsection*{part (c)}
 Consider now computing the probability of collision for two aircraft turning independently at the same altitude at the same time, where the initial position and velocity of the aircraft are unknown. Let $x_a$ denote the state of aircraft $a$ and let $x_b$ denote the state of aircraft $b$. A collition will simply be modeled as an event where both aircraft occupy a bounded rectangular region of airspace at the same time. That is, if $r_a(k)=[\xi_a(k),\eta_a(k)]^T$ and $r_b(k)=[\xi_b(k),\eta_b(k)]^T$, a collition occurs at time $k$ whenever $r_c(k) = r_k(k)-r_b(k)$ lies inside the region $R$ defined by $\Delta\xi(k)\in[-\xi_R,\xi_R]$ and $\Delta\eta(k)\in[-\eta_R,\eta_R]$, where $\Delta\xi(k)=\xi_a(k)-\xi_b(k)$, $\Delta\eta(k)=\eta_a(k)-\eta_b(k)$, and $\xi_R$ and $\eta_R$ are known constants. At time $k=0$, suppose both aircraft states are independent and normally distributed, with $x_a(0)~\mathcal{N}(\mu_a(0),P_a(0))$ and $x_k(0)~\mathcal{N}(\mu_b(0),P_b(0))$. Also assume that $\Delta t=0.5$s, $\Omega_a=0.045$rad/s and $\Omega_b=-0.045$rad/s. Again, ignore process noise and measurements.
