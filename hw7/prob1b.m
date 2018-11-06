@@ -1,6 +1,6 @@
 deltaT = 0.5;
 omega = 0.045;
-k = 150; 
+k = 300; 
 
 A = [0 1 0 0; 0 0 0 -omega; 0 0 0 1; 0 omega 0 0];
 F = expm(A.*deltaT);
