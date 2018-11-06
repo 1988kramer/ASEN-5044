@@ -99,7 +99,7 @@ Assume
 	\mu(0) &= [0\text{m},\ 85\cos(\pi/4)\text{m/s},\ 0\text{m},\ -85\sin(\pi/4)\text{m/s}]^T \\
 	P_a(0) &= \text{diag}([10\text{m}^2,\ 2\text{(m/s)}^2,\ 10\text{m}^2,\ 2\text{(m/s)}^2])
 \end{align*}
-Perform a 150 step calculation of $\mu(k)$ and $P(k)$ for $k=1,2,\dots,150$ starting from these initial conditions. Plot the following in separate plots:
+Perform a 300 step calculation of $\mu(k)$ and $P(k)$ for $k=1,2,\dots,300$ starting from these initial conditions. Plot the following in separate plots:
 \begin{itemize}
 	\item each state element of $\mu(k)$ versus time, along with $\pm2\sigma$ upper/lower bounds showing the uncertainty for each state at each time $k$.
 	\item only the positive $2\sigma$ values versus time for each state at time $k$.
@@ -186,16 +186,47 @@ The plots in figures \ref{x1plots} to \ref{x4plots} show the values of each $x$ 
 \end{figure}
 
 \subsection*{part (c)}
-Consider now computing the probability of collision for two aircraft turning independently at the same altitude at the same time, where the initial position and velocity of the aircraft are unknown. Let $x_a$ denote the state of aircraft $a$ and let $x_b$ denote the state of aircraft $b$. A collition will simply be modeled as an event where both aircraft occupy a bounded rectangular region of airspace at the same time. That is, if $r_a(k)=[\xi_a(k),\eta_a(k)]^T$ and $r_b(k)=[\xi_b(k),\eta_b(k)]^T$, a collition occurs at time $k$ whenever $r_c(k) = r_k(k)-r_b(k)$ lies inside the region $R$ defined by $\Delta\xi(k)\in[-\xi_R,\xi_R]$ and $\Delta\eta(k)\in[-\eta_R,\eta_R]$, where $\Delta\xi(k)=\xi_a(k)-\xi_b(k)$, $\Delta\eta(k)=\eta_a(k)-\eta_b(k)$, and $\xi_R$ and $\eta_R$ are known constants. At time $k=0$, suppose both aircraft states are independent and normally distributed, with $x_a(0)\sim\mathcal{N}(\mu_a(0),P_a(0))$ and $x_b(0)\sim\mathcal{N}(\mu_b(0),P_b(0))$. Also assume that $\Delta t=0.5$s, $\Omega_a=0.045$rad/s and $\Omega_b=-0.045$rad/s. Again, ignore process noise and measurements.
+Consider now computing the probability of collision for two aircraft turning independently at the same altitude at the same time, where the initial position and velocity of the aircraft are unknown. Let $x_a$ denote the state of aircraft $a$ and let $x_b$ denote the state of aircraft $b$. A collition will simply be modeled as an event where both aircraft occupy a bounded rectangular region of airspace at the same time. That is, if $r_a(k)=[\xi_a(k),\eta_a(k)]^T$ and $r_b(k)=[\xi_b(k),\eta_b(k)]^T$, a collition occurs at time $k$ whenever $r_c(k) = r_a(k)-r_b(k)$ lies inside the region $R$ defined by $\Delta\xi(k)\in[-\xi_R,\xi_R]$ and $\Delta\eta(k)\in[-\eta_R,\eta_R]$, where $\Delta\xi(k)=\xi_a(k)-\xi_b(k)$, $\Delta\eta(k)=\eta_a(k)-\eta_b(k)$, and $\xi_R$ and $\eta_R$ are known constants. At time $k=0$, suppose both aircraft states are independent and normally distributed, with $x_a(0)\sim\mathcal{N}(\mu_a(0),P_a(0))$ and $x_b(0)\sim\mathcal{N}(\mu_b(0),P_b(0))$. Also assume that $\Delta t=0.5$s, $\Omega_a=0.045$rad/s and $\Omega_b=-0.045$rad/s. Again, ignore process noise and measurements.
 
 \subsubsection*{part (i)}
 Derive the expression for the mean and covariance parameters af the pdf $p(r_c(k))$ at any time $k$, given that $r_c(k)~\mathcal{N}(\mu_{r_c}(k),P_{r_c}(k))$ (i.e. the pdf for $r_c(k)$ must be a multivariate Gaussian). Your answers should be in terms of $F_a$ and $F_b$ (the STMs for each aircraft), as well as $\mu_a(0)$, $\mu_b(0)$, and $P_a(0)$, $P_b(0)$. (\textbf{Hint:} the concept of marginalizing multivariate Gaussian pdfs will be useful here.)
 
+\subparagraph*{}
+We can start by finding the distribution for the difference of the full states $x_a$ and $x_b$. 
+\begin{align*}
+	\mu_{x_c}(0) &= \mu_{x_a}(0) - \mu_{x_b}(0) \\
+	\mu_{x_c}(k) &= \mu_{x_a}(k) - \mu_{x_b}(0) \\
+	&= F_a^k\mu_{x_a}(0) - F_b^k\mu_{x_b}(0) \\
+	P_{x_c}(0) &= P_{x_a}(0) + P_{x_b}(0) \\
+	P_{x_c}(0) &= P_{x_a}(k) + P_{k_b}(k) \\
+	&= F_a^k P_{x_a}(0) (F_a^k)^T + F_b^k P_{x_b}(0) (F_b^k)^T
+\end{align*}
+Now that we have the distribution for $x_c(k)\sim\mathcal{N}(\mu_{x_c},P_{x_c})$ we can marginalize out the velocity terms to get the distribution for $r_c$:
+\begin{align*}
+	r_c(k) &\sim \mathcal{N}(\mu_c(k),P_c(k)) \\
+	\mu_c(k) &= J\mu_{x_c}(k) \\
+	P_c(k) &= JP_{x_c}(k)J^T
+\end{align*}
+where
+\begin{equation*}
+	J = \begin{bmatrix} 1&0&0&0\\0&0&1&0 \end{bmatrix}  
+\end{equation*}
+So the full expression for the mean and covariance of $p(r_c(N))$ is
+\begin{align*}
+	\mu_c(N) &= J(F_a^N\mu_{x_a}(0)-F_b^N\mu_{x_b}(0)) \\
+	P_c(N) &= J(F_a^NP_{x_a}(0)(F_a^N)^T + F_b^NP_{x_b}(0)(F_b^k)^T)J^T
+\end{align*}
+
 \subsubsection*{part (ii)}
 Use the result from part (i) to derive an integral expression for the probability of collision at any time $k$.
 
+\subparagraph*{}
+\begin{equation*}
+	p(c(k))=\int_{-\xi_R}^{\xi_R}\int_{-\eta_R}^{\eta_R}\mathcal{N}(\mu_c(k),P_c(k))
+\end{equation*}
+
 \subsubsection*{part (iii)}
-Plot the probability of collision vs time using a simulation run of 150 seconds starting from the following initial conditions
+Plot the probability of collision vs time using a simulation run of 300 seconds starting from the following initial conditions
 \begin{align*}
 	\mu_a(0) &= [0\text{m},\ 85\cos(\pi/4)\text{m/s},\ 0\text{m},\ -85\sin(\pi/4)\text{m/s}]^T \\
 	P_a(0) &= \text{diag}([10\text{m}^2,\ 4\text{(m/s)}^2,\ 10\text{m}^2,\ 4\text{(m/s)}^2]) \\
@@ -203,5 +234,15 @@ Plot the probability of collision vs time using a simulation run of 150 seconds 
 	P_b(0) &= \text{diag}([11\text{m}^2,\ 3.5\text{(m/s)}^2,\ 11\text{m}^2,\ 3.5\text{(m/s)}^2])
 \end{align*}
 and using $\xi_R=100$m, $\eta_R=100$m. Be sure to label axes with appropriate units, and comment on the results. In particular, at what time steps are the vehicles in greatest danger of colliding? Also, what happens to the probability of collision as time increases? What explains this behavior? Matlab's \texttt{mvncdf.m} command is useful here.
+
+\subparagraph*{}
+The plot of the collision probability over timesteps 0 through 300 is shown in figure \ref{Pc}. The probability of collision is greatest at timesteps 80 and 201 which correspond to times 40s and 105s. The probability of collision is generally 0 except at those two times, when the two airplanes are the closest to each other.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{p1_plt9.png}
+	\caption{Probability of collision vs timestep}
+	\label{Pc}
+\end{figure}
 
 \end{document}
