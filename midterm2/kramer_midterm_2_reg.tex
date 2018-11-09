@@ -52,6 +52,20 @@
 \end{center}
 
 \section*{Problem 1}
+Suppose that a dynamic scalar system is given as $x_{k+1}=f_{x_k}+w_k$ where $w_k$ is zero-mean white noise with variance $q$. Show that if the variance of $x_k$ is $\sigma^2$ for all $k$, then it must be true that $f^2=(\sigma^2-q)/\sigma^2$. \textbf{Hint:} The problem says the variance of $x_k$ is $\sigma^2$ for all time steps $k$. It does \textit{not} say $x_k$ is zero mean for all $k$.
+
+\subparagraph*{}
+If we start with the assumption that $x_k\sim\mathcal{N}(\mu_k,\sigma^2)$ and $w_k\sim\mathcal{N}(0,q)$, then we can find the variance of $x_{k+1}$ as the variance of the linear combination $fx_k+w_k$:
+\begin{equation*}
+	\sigma_{x_{k+1}}^2 = f^2\sigma_{x_k}^2 + q
+\end{equation*}
+But since $x_k$ has the same variance at all timesteps $k$ the expression becomes $\sigma^2=f^2\sigma^2+q$. If we solve this equation for $f^2$ we get
+\begin{equation*}
+	f^2 = \frac{\sigma^2-q}{\sigma^2}
+\end{equation*}
+
+\section*{Problem 2}
+Given the random vector $x\in\mathbb{R}^n$ (with some finite mean and covariance matrix) and the constant non-random matrix $A\in\mathbb{R}^{n\times n}$ where $A=A^T$, find $\mathbb{E}[x^TAx]$. Be sure to show and properly explain all steps used to get your result. \textbf{Hint:} Ref lecture 2, slide 2. Think about the size of the result of the quadratic form to see the relevant connection. To use this fact, you should first prove that, if $Z$ is a square matrix whose elements are random variables then $\mathbb{E}[\text{tr}(AZ)]=\text{tr}(A\mathbb{E}[Z])$.
 
 \end{document}
 
