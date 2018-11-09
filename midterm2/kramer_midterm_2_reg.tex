@@ -67,5 +67,16 @@ But since $x_k$ has the same variance at all timesteps $k$ the expression become
 \section*{Problem 2}
 Given the random vector $x\in\mathbb{R}^n$ (with some finite mean and covariance matrix) and the constant non-random matrix $A\in\mathbb{R}^{n\times n}$ where $A=A^T$, find $\mathbb{E}[x^TAx]$. Be sure to show and properly explain all steps used to get your result. \textbf{Hint:} Ref lecture 2, slide 2. Think about the size of the result of the quadratic form to see the relevant connection. To use this fact, you should first prove that, if $Z$ is a square matrix whose elements are random variables then $\mathbb{E}[\text{tr}(AZ)]=\text{tr}(A\mathbb{E}[Z])$.
 
+\subparagraph*{}
+$\mathbb{E}[x^TAx]$ can be broken down as follows:
+\begin{align*}
+	\mathbb{E}[x^TAx] &= \mathbb{E}\Big[\sum_{i=1}^n\sum_{j=1}^n a_{ij}x_ix_j\Big] \\
+	&= \sum_{i=1}^n\sum_{j=1}^na_{ij}\mathbb{E}[x_ix_j]\\
+	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}(\sigma_{ij}+\mu_i\mu_j) \\
+	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}\sigma_{ij} + \sum_{i=1}^n\sum_{j=1}^n a_{ij}\mu_i\mu_j \\
+	&= \sum_{i=1}^n(AP)_{ii} + \mu^TA\mu \\
+	&= \text{tr}(AP) + \mu^TA\mu
+\end{align*}
+
 \end{document}
 
