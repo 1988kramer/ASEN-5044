@@ -98,6 +98,41 @@ Derive an analytical expression for the batch estimator $\hat{x}(0)$ which minim
 \end{equation*}
 where $\hat{y}_k$ is the time $k$ estimator-based predicted measurement (a function of $\hat{x}(0)$) and $y_k$ is the actual measurement at time $k$. Be sure to precisely and carefully define all matrices and vectors used by the estimator, for the case where $x_k$ and $y_k$ obey equations (1) and (2).
 
+\subparagraph*{}
+The cost function is
+\begin{align*}
+	J(T) &= \sum_{k=1}^T(y_k-\hat{y}_k)^T[R(k)]^{-1}(y_k-\hat{y}_k) \\
+	&= \sum_{k=1}^T(y_k-Hx(k))^T[R(k)]^{-1}(y_k-Hx(k)) \\
+	&= \sum_{k=1}^T(y_k-HF^kx(0))^T[R(k)]^{-1}(y_k-HF^kx(0)) \\
+	&= \sum_{k=1}^T \Big(y_k^T[R(k)]^{-1}y_k - y_k^T[R(k)]^{-1}HF^kx(0) \\
+	&\qquad-x(0)^T[F^k]^TH^T[R(k)]^{-1}y_k + x(0)^T[F^k]^TH^T[R(k)]^{-1}HF^kx(0) \Big) \\
+	&= \sum_{k=1}^T (y_k^TR(k)^{-1}y_k - M_1(k)x(0) - x(0)^TM_2(k)+x(0)^TM_3(k)x(0))
+\end{align*}
+Where $M_1(k) = y_k^TR(k)^{-1}y_kHF^k$, $M_2(k) = (F^k)^TH^TR(k)^{-1}y_k$, and $M_3(k)=(F^k)^TH^TR(k)^{-1}HF^k$. We should note that because $R(k)$ is symmetric its inverse is also symmetric. This means $M_1(k)^T=M_2(k)$. The batch LLS estimate for $\hat{x}(0)$ is
+\begin{equation*}
+	\hat{x}(0) = \text{argmin}_{x(0)}J(T)
+\end{equation*}
+so we need to find the $x(0)$ that produces the minimum value for the cost function $J(T)$. We do this by finding the value of $x(0)$ at which the derivative of the cost function with respect to $x(0)$, $\nabla_{x(0)}J(T)$ is equal to zero. Noting, as we did in lecture 21, slide 6 that 
+\begin{align*}
+	\frac{\partial}{\partial x}(x^TMx) &= 2Mx \qquad \text{when $M$ is symmetric}\\ 
+	\frac{\partial}{\partial x}M^Tx &= \frac{\partial}{\partial x}x^TM = M \qquad \text{for any M}
+\end{align*}
+This means the derivative of our cost function is
+\begin{align*}
+	\nabla_{x(0)}J(T) &= \sum_{k=1}^T (2M_3(k)x(0)-2M_2(k)) \\
+	&= \sum_{k=1}^T (2[F^k]^TH^T[R(k)]^{-1}HF^kx(0)-2[F^k]^TH^TR(k)^{-1}y_k)
+\end{align*}
+We can get rid of the summations by stacking the $y_k$ vectors into a $\mathbb{Y}$ vector, rearranging the $R(k)^{-1}$ matrices into a block diagonal $\mathbb{R}^{-1}$ matrix, and stacking the $HF^k$ matrices (with dimension $p\times n$) into a $\mathbb{H}$ matrix (with dimension $pT\times n$). This results in 
+\begin{equation*}
+	\nabla_{x(0)}J(t) = 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}x(0) - 2\mathbb{H}^T\mathbb{R}\mathbb{Y}
+\end{equation*}
+To find the LLS estimate $\hat{x}(0)$, the above equation for $\nabla_{x(0)}J(T)$ is set equal to zero and solved for $x(0)$:
+\begin{align*}
+	0 &= 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}\hat{x}(0)-2\mathbb{H}^T\mathbb{R}\mathbb{Y} \\
+	2\mathbb{H}^T\mathbb{R}\mathbb{Y} &= 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}\hat{x}(0) \\
+	\hat{x}(0) &= 2\mathbb{H}^T\mathbb{R}\mathbb{Y}(2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H})^{-1}
+\end{align*}
+
 \subsection*{part (b)}
 Suppose a ground tracking station monitors aircraft $A$ which is turning with $\Omega_A=0.045$ rad/s and converts 3D range and bearing data into 2D pseudo-measurements $y_A(k)$ with the following DT measurement model
 \begin{align*}
