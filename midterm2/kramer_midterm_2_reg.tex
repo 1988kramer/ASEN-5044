@@ -70,13 +70,49 @@ Given the random vector $x\in\mathbb{R}^n$ (with some finite mean and covariance
 \subparagraph*{}
 $\mathbb{E}[x^TAx]$ can be broken down as follows:
 \begin{align*}
-	\mathbb{E}[x^TAx] &= \mathbb{E}\Big[\sum_{i=1}^n\sum_{j=1}^n a_{ij}x_ix_j\Big] \\
+	\mathbb{E}[x^TAx] &= \mathbb{E}\Bigg[\sum_{i=1}^n\sum_{j=1}^n a_{ij}x_ix_j\Bigg] \\
 	&= \sum_{i=1}^n\sum_{j=1}^na_{ij}\mathbb{E}[x_ix_j]\\
-	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}(\sigma_{ij}+\mu_i\mu_j) \\
-	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}\sigma_{ij} + \sum_{i=1}^n\sum_{j=1}^n a_{ij}\mu_i\mu_j \\
-	&= \sum_{i=1}^n(AP)_{ii} + \mu^TA\mu \\
+	&= \sum_{i=1}^n\sum_{j=1}^na_{ij}\Bigg[\text{cov}(x_ix_j)+\mathbb{E}[x_i]\mathbb{E}[x_j]\Bigg] \\
+	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}(\sigma_{ji}+\mu_i\mu_j)\quad \text{noting: } \text{cov}(x_ix_j)=\text{cov}(x_jx_i)\\
+	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}\sigma_{ji} + \sum_{i=1}^n\sum_{j=1}^n a_{ij}\mu_i\mu_j \\
 	&= \text{tr}(AP) + \mu^TA\mu
 \end{align*}
+where $\sigma_{ij}$ is the covariance between $x_i$ and $x_j$, $P$ is the full covariance matrix of $x$, and $\mu$ is the expected value of $x$.
+
+\section*{Problem 3}
+Consider the coordinated turning aircraft problem from homework 7. Assume again the dynamics are free of process noise,
+\begin{equation*}
+	x(k+1)=Fx(k)
+\end{equation*}
+for the $F$ matrix and states as defined in homework 7 for some unknown turning rate $\Omega$ and discretization step $\Delta T$. Now add measurements of the form 
+\begin{align*}
+	y(k+1)&=Hx(k+1)+v(k) \\
+	\mathbb{E}[v(k)] &= 0,\quad \mathbb{E}[v(k)v(j)^T] = \delta(k,j)R(k)
+\end{align*}
+with additive white noise $v(k)$ and non-stationary noise covariance $R(k)$. For each part of this problem, it is desired to estimate the initial state $x(0)\in\mathbb{R}^n$ of a dynamical system consisting of either one or two turning aircraft at time $k=0$ from noisy measurements $y(k)\in\mathbb{R}^p$ taken at time steps $k=1,2,\dots,T$.
+
+\subsection*{part (a)}
+Derive an analytical expression for the batch estimator $\hat{x}(0)$ which minimizes the cost function
+\begin{equation*}
+	J(T)=\sum_{k=1}^T(y_k-\hat{y}_k)^T[R(k)]^{-1}(y_k-\hat{y}_k)
+\end{equation*}
+where $\hat{y}_k$ is the time $k$ estimator-based predicted measurement (a function of $\hat{x}(0)$) and $y_k$ is the actual measurement at time $k$. Be sure to precisely and carefully define all matrices and vectors used by the estimator, for the case where $x_k$ and $y_k$ obey equations (1) and (2).
+
+\subsection*{part (b)}
+Suppose a ground tracking station monitors aircraft $A$ which is turning with $\Omega_A=0.045$ rad/s and converts 3D range and bearing data into 2D pseudo-measurements $y_A(k)$ with the following DT measurement model
+\begin{align*}
+	y_A(k) &= Hx_A(k)+v_A(k) \\
+	H = \begin{bmatrix} 1&0&0&0\\0&0&1&0 \end{bmatrix},\quad R_A &= \begin{bmatrix} 75&7.5\\7.5&75 \end{bmatrix} + \begin{bmatrix} 12.5\sin(k/10) & 25.5\sin(k/10) \\ 25.5\sin(k/10) & 12.5\cos(k/10) \end{bmatrix}
+\end{align*}
+where $R_A$ has units of $\text{m}^2$. Using the data posted in \texttt{midterm2\_problem3b.mat}, use your result from part (a) to compute the estimate $x_A(0)$, and report the final state estimation error covariance matrix. Note the data pravided is for time steps $k\geq1$ and each column $k$ corresponds to a single $y_k$ vector at step $k$.
+
+\subsection*{part (c)}
+Suppose now there is a second aircraft $B$ which is turning with $\Omega_B=-0.045$ rad/s. The tracking station can only directly sense one aircraft at a time, and thus cannot sense $B$ while it senses $A$. However, a transponder between $A$ and $B$ provides a noisy measurement $y_D(k)$ of the difference in their 2D positions as they are turning, $r_A=[\xi_A,\eta_A]^T$ and $r_B=[\xi_B,\eta_B]$,
+\begin{align*}
+	y_D(k)&=r_A(k)-r_B(k)+v_D(k) \\
+	R_D &= \begin{bmatrix} 8000 & 500 \\ 500 & 8000 \end{bmatrix}
+\end{align*}
+where $R_D$ has units of $\text{m}^2$ and $v_D\sim\mathcal{N}(0,R_D)$ follows a stationary white noise process. Using the data posted in \texttt{midterm2\_problem3c.mat} in the array 'yaugHist' (where each column contains a concatenated $4\times1$ vector $[y_A^T(k),y_D^T(k)]^T$ that includes a new set of $y_A(k)$ measurements for time steps $k\geq1$), compute an RLLS estimate for $x(0)=[x_A(0),x_B(0)]^T$. In separate plots, show the evolution of each aircraft's state estimate vs $k$ using 4 subplots per aircraft. Also on 4 separate subplots per aircraft show positive $2\sigma$ bounds ofr each estimated state vs $k$. Be sure to explain how you set up the RLLS estimator to estimate $x(0)$ and how you initialized the estimator.
 
 \end{document}
 
