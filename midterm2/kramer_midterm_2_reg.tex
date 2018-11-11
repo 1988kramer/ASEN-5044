@@ -124,13 +124,13 @@ This means the derivative of our cost function is
 \end{align*}
 We can get rid of the summations by stacking the $y_k$ vectors into a $\mathbb{Y}$ vector, rearranging the $R(k)^{-1}$ matrices into a block diagonal $\mathbb{R}^{-1}$ matrix, and stacking the $HF^k$ matrices (with dimension $p\times n$) into a $\mathbb{H}$ matrix (with dimension $pT\times n$). This results in 
 \begin{equation*}
-	\nabla_{x(0)}J(t) = 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}x(0) - 2\mathbb{H}^T\mathbb{R}\mathbb{Y}
+	\nabla_{x(0)}J(t) = 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}x(0) - 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{Y}
 \end{equation*}
 To find the LLS estimate $\hat{x}(0)$, the above equation for $\nabla_{x(0)}J(T)$ is set equal to zero and solved for $x(0)$:
 \begin{align*}
-	0 &= 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}\hat{x}(0)-2\mathbb{H}^T\mathbb{R}\mathbb{Y} \\
-	2\mathbb{H}^T\mathbb{R}\mathbb{Y} &= 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}\hat{x}(0) \\
-	\hat{x}(0) &= 2\mathbb{H}^T\mathbb{R}\mathbb{Y}(2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H})^{-1}
+	0 &= 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}\hat{x}(0)-2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{Y} \\
+	2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{Y} &= 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}\hat{x}(0) \\
+	\hat{x}(0) &= (2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H})^{-1}2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{Y}
 \end{align*}
 
 \subsection*{part (b)}
@@ -139,7 +139,13 @@ Suppose a ground tracking station monitors aircraft $A$ which is turning with $\
 	y_A(k) &= Hx_A(k)+v_A(k) \\
 	H = \begin{bmatrix} 1&0&0&0\\0&0&1&0 \end{bmatrix},\quad R_A &= \begin{bmatrix} 75&7.5\\7.5&75 \end{bmatrix} + \begin{bmatrix} 12.5\sin(k/10) & 25.5\sin(k/10) \\ 25.5\sin(k/10) & 12.5\cos(k/10) \end{bmatrix}
 \end{align*}
-where $R_A$ has units of $\text{m}^2$. Using the data posted in \texttt{midterm2\_problem3b.mat}, use your result from part (a) to compute the estimate $x_A(0)$, and report the final state estimation error covariance matrix. Note the data pravided is for time steps $k\geq1$ and each column $k$ corresponds to a single $y_k$ vector at step $k$.
+where $R_A$ has units of $\text{m}^2$. Using the data posted in \texttt{midterm2\_problem3b.mat}, use your result from part (a) to compute the estimate $x_A(0)$, and report the final state estimation error covariance matrix. Note the data provided is for time steps $k\geq1$ and each column $k$ corresponds to a single $y_k$ vector at step $k$.
+
+\subsection*{}
+The estimate for the initial state is $\hat{x}_A(0) = [7121,\ -13647,\ -180,\ 774]^T$. The final state estimation error covariance is 
+\begin{equation*}
+	\text{cov}(e_\text{LS})=(\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H})^{-1} = \begin{bmatrix} 0.906&-1.81&0.116&-0.212 \\ -1.81&310&-0.252&41.4 \\ 0.116&-0.252&0.896&-1.79 \\ -0.2124&41.1&-1.79&352 \end{bmatrix}
+\end{equation*}
 
 \subsection*{part (c)}
 Suppose now there is a second aircraft $B$ which is turning with $\Omega_B=-0.045$ rad/s. The tracking station can only directly sense one aircraft at a time, and thus cannot sense $B$ while it senses $A$. However, a transponder between $A$ and $B$ provides a noisy measurement $y_D(k)$ of the difference in their 2D positions as they are turning, $r_A=[\xi_A,\eta_A]^T$ and $r_B=[\xi_B,\eta_B]$,
@@ -148,6 +154,52 @@ Suppose now there is a second aircraft $B$ which is turning with $\Omega_B=-0.04
 	R_D &= \begin{bmatrix} 8000 & 500 \\ 500 & 8000 \end{bmatrix}
 \end{align*}
 where $R_D$ has units of $\text{m}^2$ and $v_D\sim\mathcal{N}(0,R_D)$ follows a stationary white noise process. Using the data posted in \texttt{midterm2\_problem3c.mat} in the array 'yaugHist' (where each column contains a concatenated $4\times1$ vector $[y_A^T(k),y_D^T(k)]^T$ that includes a new set of $y_A(k)$ measurements for time steps $k\geq1$), compute an RLLS estimate for $x(0)=[x_A(0),x_B(0)]^T$. In separate plots, show the evolution of each aircraft's state estimate vs $k$ using 4 subplots per aircraft. Also on 4 separate subplots per aircraft show positive $2\sigma$ bounds ofr each estimated state vs $k$. Be sure to explain how you set up the RLLS estimator to estimate $x(0)$ and how you initialized the estimator.
+
+\subparagraph*{}
+We can first combine the measurements into a single measurement vector $y(k)=[y_A(k),\ y_D(k)]^T$. We can say in this case that $y(k) = H_Dx(k)$ where $x(k) = [x_A(k),\ x_B(k)]^T$ and
+\begin{equation*}
+	H_D = \begin{bmatrix} H & 0 \\ H & -H \end{bmatrix} = \begin{bmatrix} 1&0&0&0&0&0&0&0 \\ 0&0&1&0&0&0&0&0 \\ 1&0&0&0&-1&0&0&0 \\ 0&0&1&0&0&0&-1&0 \end{bmatrix}
+\end{equation*}
+We can put this in terms of $x(0)$ if $H_D(k)$ is 
+\begin{equation*}
+	H_D(k) = \begin{bmatrix} HF_A^k & 0 \\ HF_A^k & -HF_B^k \end{bmatrix}
+\end{equation*}
+So the full measurement function is $y(k)=H_D(k)x(0)+v(k)$ where $v(k)\sim\mathcal{N}(0,R(k))$
+\begin{equation*}
+	R(k) = \begin{bmatrix} R_A(k) & 0 \\ 0 & R_D \end{bmatrix}
+\end{equation*}
+So we can set up our RLLS estimator for $x(0)$ as 
+\begin{align*}
+	K_k &= P_{k-1}H_D(k)^T(H_D(k)P_{k-1}H_D(k)^T + R(k))^{-1} \\
+	\hat{x}_k(0) &= \hat{x}_{k-1}(0) + K_k(y_k-H_D(k)\hat{x}_{k-1}(0)) \\
+	P_k &= (I-K_kH_D(k))P_{k-1}(I-K_kH_D(k))^T + K_kR(k)K_k^T
+\end{align*}
+and we initialize our estimator using a batch estimate from the first 2 measurements, because the system is observable with 2 measurements.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob3c_plt1.png}
+	\caption{Estimate of initial conditions for aircraft 1}
+	\label{xA0}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob3c_plt2.png}
+	\caption{Estimate of initial conditions for aircraft 2}
+	\label{xB0}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob3c_plt3.png}
+	\caption{Variance of initial condition estimate for aircraft 1}
+	\label{sigmaA}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob3c_plt4.png}
+	\caption{Variance of initial condition estimate for aircraft 2}
+	\label{sigmaB}
+\end{figure}
 
 \end{document}
 
