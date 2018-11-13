@@ -214,8 +214,18 @@ If $F$ is stable, then as $k\rightarrow \infty$, this equation leads to a DT \te
 \subsection*{part (a)}
 Suppose $F=f$ is some scalar constant, where $|f|<1$, and $Q=q$ is an arbitrary process noise variance, with $q>0$. Derive an analytical solution for the scalar steady state covariance $P_\infty=\sigma_\infty^2$.
 
+\subparagraph*{}
+\begin{align*}
+	\sigma_\infty^2&=\sigma_\infty^2f^2+q \\
+	\sigma_\infty^2(1-f^2)&=q \\
+	\sigma_\infty^2 &= \frac{q}{1-f^2}
+\end{align*}
+
 \subsection*{part (b)}
-Run and report (using suitably labeled/scaled plots) a simple simulation of the covariance prediction update for 50 time steps at values of $f=0.8$, $q=10$, and $\sigma_0^2=50$, and compare this to the analytical result from part (a). Repeat and report the comparison for $\sigma_0^2=10$. What do these sets of results tell you about the sensitivity of the steady state variance on the initial variance ot time 0?.
+Run and report (using suitably labeled/scaled plots) a simple simulation of the covariance prediction update for 50 time steps at values of $f=0.8$, $q=10$, and $\sigma_0^2=50$, and compare this to the analytical result from part (a). Repeat and report the comparison for $\sigma_0^2=10$. What do these sets of results tell you about the sensitivity of the steady state variance on the initial variance ot time 0?
+
+\subparagraph*{}
+With $\sigma_0^2=50$, $\sigma_{50}^2=27.7777777823$, while $\sigma_\infty^2=27.7777777777$. When $\sigma_0^2=10$, $\sigma_{50}^2=27.7777777774$. This shows the steady state variance is not dependent on the initial variance value.
 
 \subsection*{part (c)}
 Now suppose $F$ is an arbitrary non-diagonal but stable $2\times2$ state transition matrix and $Q$ is an arbitrary non-diagonal $2\times2$ covariance matrix. Manually derive an analytical expression for a system of linear equations that provides the solution for the elements of $P_\infty$ in terms of the elements of $F$ and $Q$. You do not need to explicitly solve for each unknown $P_\infty$ element, but you must specify all coefficients for each equation corresponding to the unknown $P_\infty$ elements, and express these together in an appropriate matrix-vector form (don't use a symbolic solver). \textbf{Hint:} the fact that $P_\infty$ and $Q$ are both covariance matrices makes it easy to describe their elements.
