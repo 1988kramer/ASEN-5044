@@ -201,5 +201,33 @@ and we initialize our estimator using a batch estimate from the first 2 measurem
 	\label{sigmaB}
 \end{figure}
 
+\section*{Problem 4}
+Consider the pure prediction update for the state covariance of a DT linear Gaussian system with state transition matrix $F$ and process noise covariance matrix $Q$,
+\begin{equation*}
+	P_{k+1} = FP_kF^T + Q
+\end{equation*}
+If $F$ is stable, then as $k\rightarrow \infty$, this equation leads to a DT \textit{Lyapunov equation} for the steady-state covariance $P_\infty$,
+\begin{equation*}
+	P_\infty=FP_\infty F^T + Q
+\end{equation*}
+
+\subsection*{part (a)}
+Suppose $F=f$ is some scalar constant, where $|f|<1$, and $Q=q$ is an arbitrary process noise variance, with $q>0$. Derive an analytical solution for the scalar steady state covariance $P_\infty=\sigma_\infty^2$.
+
+\subsection*{part (b)}
+Run and report (using suitably labeled/scaled plots) a simple simulation of the covariance prediction update for 50 time steps at values of $f=0.8$, $q=10$, and $\sigma_0^2=50$, and compare this to the analytical result from part (a). Repeat and report the comparison for $\sigma_0^2=10$. What do these sets of results tell you about the sensitivity of the steady state variance on the initial variance ot time 0?.
+
+\subsection*{part (c)}
+Now suppose $F$ is an arbitrary non-diagonal but stable $2\times2$ state transition matrix and $Q$ is an arbitrary non-diagonal $2\times2$ covariance matrix. Manually derive an analytical expression for a system of linear equations that provides the solution for the elements of $P_\infty$ in terms of the elements of $F$ and $Q$. You do not need to explicitly solve for each unknown $P_\infty$ element, but you must specify all coefficients for each equation corresponding to the unknown $P_\infty$ elements, and express these together in an appropriate matrix-vector form (don't use a symbolic solver). \textbf{Hint:} the fact that $P_\infty$ and $Q$ are both covariance matrices makes it easy to describe their elements.
+
+\subsection*{part (d)}
+Use the result from part (c) to solve for the elements of $P_\infty$ for the following $F$ and $Q$ values:
+\begin{equation*}
+	F=\begin{bmatrix} 0.99&0.2\\0&-0.76 \end{bmatrix}\quad Q=\begin{bmatrix} 1&0.37\\0.37&2.5 \end{bmatrix}
+\end{equation*}
+
+\subsection*{part (e)}
+Use suitably labeled/scaled plots to validate your results from part (d) by comparing to both (a) a sufficiently long predicted covariance simulation for $P_0=10\dot I_{2\times 2}$, and (b) the output of the \texttt{dlyap.m} command in Matlab.
+
 \end{document}
 
