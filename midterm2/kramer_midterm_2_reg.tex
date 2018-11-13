@@ -230,14 +230,69 @@ With $\sigma_0^2=50$, $\sigma_{50}^2=27.7777777823$, while $\sigma_\infty^2=27.7
 \subsection*{part (c)}
 Now suppose $F$ is an arbitrary non-diagonal but stable $2\times2$ state transition matrix and $Q$ is an arbitrary non-diagonal $2\times2$ covariance matrix. Manually derive an analytical expression for a system of linear equations that provides the solution for the elements of $P_\infty$ in terms of the elements of $F$ and $Q$. You do not need to explicitly solve for each unknown $P_\infty$ element, but you must specify all coefficients for each equation corresponding to the unknown $P_\infty$ elements, and express these together in an appropriate matrix-vector form (don't use a symbolic solver). \textbf{Hint:} the fact that $P_\infty$ and $Q$ are both covariance matrices makes it easy to describe their elements.
 
+\subparagraph*{}
+The lyapunov equation for $2\times2$ $F$, $Q$, and $P_\infty$ matrices can be expanded as follows, taking advantage of the fact that $\sigma_{1,2}^2=\sigma_{2,1}^2$ and $q_{1,2}=q_{2,1}$ because $Q$ and $P_\infty$ are covariance matrices and are therefore symmetric.
+\begin{align*}
+	P_\infty &= FP_\infty F^T + Q \\
+	&= \begin{bmatrix} f_{1,1}&f_{1,2}\\f_{2,1}&f_{2,2} \end{bmatrix} \begin{bmatrix} \sigma_{1,1}^2 & \sigma_{1,2}^2 \\ \sigma_{1,2}^2 & \sigma_{2,2}^2 \end{bmatrix} \begin{bmatrix} f_{1,2}&f_{2,1}\\f_{1,2}&f_{2,2} \end{bmatrix} + \begin{bmatrix} q_{1,1} & q_{1,2} \\ q_{1,2} & q_{2,2} \end{bmatrix} \\
+	\sigma_{1,1}^2 &= f_{1,1}^2\sigma_{1,1}^2+2f_{1,1}f_{1,2}\sigma_{1,2}^2 + f_{1,2}^2\sigma_{2,2}^2 + q_{1,1} \\
+	\sigma_{1,2}^2 &= f_{2,1}f_{1,1}\sigma_{1,1}^2+f_{2,1}f_{1,2}\sigma_{1,2}^2+f_{2,2}f_{1,1}\sigma_{1,2}^2+f_{2,2}f_{1,2}\sigma_{2,2}^2 + q_{1,2} \\
+	\sigma_{2,2}^2 &= f_{2,1}^2\sigma_{1,1}^2+2f_{2,1}f_{2,2}\sigma_{1,2}^2+f_{2,2}^2\sigma_{2,2}^2 + q_{2,2}
+\end{align*}
+The above equations can be solved for the sigmas as follows:
+\begin{align*}
+	\sigma_{1,1}^2 &= -f_{2,2}(2f_{1,2}q_{1,2}(f_{1,1}f_{2,2} - f_{1,2}f_{2,1}) + f_{2,2}q_{1,1}(-f_{1,1}f_{2,2} + f_{1,2}f_{2,1} + 1)) \\
+	&\qquad /(2f_{1,1}^2f_{1,2}f_{2,1}f_{2,2}^2 - 4f_{1,1}f_{1,2}^2f_{2,1}^2f_{2,2} + f_{1,2}^2f_{2,1}^2(f_{1,1}f_{2,2} + f_{1,2}f_{2,1} - 1) \\
+	&\qquad + 2f_{1,2}f_{2,1}f_{2,2}^2(f_{1,1}^2 - 1) - f_{2,2}^2(f_{1,1}^2 - 1)(f_{1,1}f_{2,2} + f_{1,2}f_{2,1} - 1)) \\
+	\sigma_{1,2}^2 &= -(f_{2,1}f_{2,2}q_{1,1}(f_{1,1}f_{2,2} - f_{1,2}f_{2,1}) + q_{1,2}(f_{1,2}^2f_{2,1}^2 - f_{2,2}^2(f_{1,1}^2 - 1))) \\
+	&\qquad /(2f_{1,1}^2f_{1,2}f_{2,1}f_{2,2}^2 - 4f_{1,1}f_{1,2}^2f_{2,1}^2f_{2,2} + f_{1,2}^2f_{2,1}^2(f_{1,1}f_{2,2} + f_{1,2}f_{2,1} - 1) \\
+	&\qquad+ 2f_{1,2}f_{2,1}f_{2,2}^2(f_{1,1}^2 - 1) - f_{2,2}^2(f_{1,1}^2 - 1)(f_{1,1}f_{2,2} + f_{1,2}f_{2,1} - 1)) \\
+	\sigma_{2,2}^2 &= f_{2,1}(f_{2,1}q_{1,1}(f_{1,1}f_{2,2} - f_{1,2}f_{2,1} + 1) + 2q_{1,2}(f_{1,1}f_{1,2}f_{2,1} - f_{2,2}(f_{1,1}^2 - 1))) \\
+	&\qquad /(2f_{1,1}^2f_{1,2}f_{2,1}f_{2,2}^2 - 4f_{1,1}f_{1,2}^2f_{2,1}^2f_{2,2} + f_{1,2}^2f_{2,1}^2(f_{1,1}f_{2,2} + f_{1,2}f_{2,1} - 1) \\
+	&\qquad+ 2f_{1,2}f_{2,1}f_{2,2}^2(f_{1,1}^2 - 1) - f_{2,2}^2(f_{1,1}^2 - 1)(f_{1,1}f_{2,2} + f_{1,2}f_{2,1} - 1))
+\end{align*}
+These equations can be rewritten in linear algebra terms as
+\begin{equation*}
+	P_\infty = \sum_{i=0}^\infty F^i(QF^T)^i
+\end{equation*}
+
 \subsection*{part (d)}
 Use the result from part (c) to solve for the elements of $P_\infty$ for the following $F$ and $Q$ values:
 \begin{equation*}
 	F=\begin{bmatrix} 0.99&0.2\\0&-0.76 \end{bmatrix}\quad Q=\begin{bmatrix} 1&0.37\\0.37&2.5 \end{bmatrix}
 \end{equation*}
 
+\subparagraph*{}
+Using the summation from part (c) we find 
+\begin{equation*}
+	P_\infty = \begin{bmatrix} 56.13 & -0.3022 \\ -0.3122 & 5.919 \end{bmatrix}
+\end{equation*}
+
 \subsection*{part (e)}
-Use suitably labeled/scaled plots to validate your results from part (d) by comparing to both (a) a sufficiently long predicted covariance simulation for $P_0=10\dot I_{2\times 2}$, and (b) the output of the \texttt{dlyap.m} command in Matlab.
+Use suitably labeled/scaled plots to validate your results from part (d) by comparing to both (a) a sufficiently long predicted covariance simulation for $P_0=10\cdot I_{2\times 2}$, and (b) the output of the \texttt{dlyap.m} command in Matlab.
+
+\subparagraph*{}
+The evolution of $\sigma_{1,1}^2$ over the simulation or summation iteration is shown below in figure \ref{sig11}. Similarly, figures \ref{sig12} and \ref{sig22} show the same information for $\sigma_{1,2}^2$ and $\sigma_{2,2}^2$ respectively. It is interesting to note the analytical and simulated methods converge at roughly the same rate and both converge to the value given by \texttt{dlyap.m}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob4e_plt1.png}
+	\caption{Evolution of $\sigma_{1,1}^2$ for analytical and simulated solutions}
+	\label{sig11}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob4e_plt2.png}
+	\caption{Evolution of $\sigma_{1,2}^2$ for analytical and simulated solutions}
+	\label{sig12}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{prob4e_plt3.png}
+	\caption{Evolution of $\sigma_{2,2}^2$ for analytical and simulated solutions}
+	\label{sig22}
+\end{figure}
 
 \end{document}
 
