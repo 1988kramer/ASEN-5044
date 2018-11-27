@@ -72,8 +72,8 @@ $\mathbb{E}[x^TAx]$ can be broken down as follows:
 \begin{align*}
 	\mathbb{E}[x^TAx] &= \mathbb{E}\Bigg[\sum_{i=1}^n\sum_{j=1}^n a_{ij}x_ix_j\Bigg] \\
 	&= \sum_{i=1}^n\sum_{j=1}^na_{ij}\mathbb{E}[x_ix_j]\\
-	&= \sum_{i=1}^n\sum_{j=1}^na_{ij}\Bigg[\text{cov}(x_ix_j)+\mathbb{E}[x_i]\mathbb{E}[x_j]\Bigg] \\
-	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}(\sigma_{ji}+\mu_i\mu_j)\quad \text{noting: } \text{cov}(x_ix_j)=\text{cov}(x_jx_i)\\
+	&= \sum_{i=1}^n\sum_{j=1}^na_{ij}\Bigg[\text{cov}(x_i,x_j)+\mathbb{E}[x_i]\mathbb{E}[x_j]\Bigg] \\
+	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}(\sigma_{ji}+\mu_i\mu_j)\quad \text{noting: } \text{cov}(x_i,x_j)=\text{cov}(x_j,x_i)\\
 	&= \sum_{i=1}^n\sum_{j=1}^n a_{ij}\sigma_{ji} + \sum_{i=1}^n\sum_{j=1}^n a_{ij}\mu_i\mu_j \\
 	&= \text{tr}(AP) + \mu^TA\mu
 \end{align*}
@@ -86,7 +86,7 @@ Consider the coordinated turning aircraft problem from homework 7. Assume again 
 \end{equation*}
 for the $F$ matrix and states as defined in homework 7 for some unknown turning rate $\Omega$ and discretization step $\Delta T$. Now add measurements of the form 
 \begin{align*}
-	y(k+1)&=Hx(k+1)+v(k) \\
+	y(k+1)&=Hx(k+1)+v(k+1) \\
 	\mathbb{E}[v(k)] &= 0,\quad \mathbb{E}[v(k)v(j)^T] = \delta(k,j)R(k)
 \end{align*}
 with additive white noise $v(k)$ and non-stationary noise covariance $R(k)$. For each part of this problem, it is desired to estimate the initial state $x(0)\in\mathbb{R}^n$ of a dynamical system consisting of either one or two turning aircraft at time $k=0$ from noisy measurements $y(k)\in\mathbb{R}^p$ taken at time steps $k=1,2,\dots,T$.
@@ -122,7 +122,7 @@ This means the derivative of our cost function is
 	\nabla_{x(0)}J(T) &= \sum_{k=1}^T (2M_3(k)x(0)-2M_2(k)) \\
 	&= \sum_{k=1}^T (2[F^k]^TH^T[R(k)]^{-1}HF^kx(0)-2[F^k]^TH^TR(k)^{-1}y_k)
 \end{align*}
-We can get rid of the summations by stacking the $y_k$ vectors into a $\mathbb{Y}$ vector, rearranging the $R(k)^{-1}$ matrices into a block diagonal $\mathbb{R}^{-1}$ matrix, and stacking the $HF^k$ matrices (with dimension $p\times n$) into a $\mathbb{H}$ matrix (with dimension $pT\times n$). This results in 
+We can get rid of the summations by stacking the $y_k$ vectors into a $\mathbb{Y}$ vector, rearranging the $R(k)^{-1}$ matrices into a block diagonal $\mathbb{R}^{-1}$ matrix, and stacking the $HF^k$ matrices (with dimension $p\times n$) into an $\mathbb{H}$ matrix (with dimension $pT\times n$). This results in 
 \begin{equation*}
 	\nabla_{x(0)}J(t) = 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{H}x(0) - 2\mathbb{H}^T\mathbb{R}^{-1}\mathbb{Y}
 \end{equation*}
@@ -174,7 +174,7 @@ So we can set up our RLLS estimator for $x(0)$ as
 	\hat{x}_k(0) &= \hat{x}_{k-1}(0) + K_k(y_k-H_D(k)\hat{x}_{k-1}(0)) \\
 	P_k &= (I-K_kH_D(k))P_{k-1}(I-K_kH_D(k))^T + K_kR(k)K_k^T
 \end{align*}
-and we initialize our estimator using a batch estimate from the first 2 measurements, because the system is observable with 2 measurements.
+and we initialize our estimator using a batch estimate from the first 2 measurements, because the system is observable with 2 measurements. See figures \ref{xA0} through \ref{sigmaB} for plots of the results.
 
 \begin{figure}[h]
 	\centering
@@ -253,7 +253,7 @@ The above equations can be solved for the sigmas as follows:
 \end{align*}
 These equations can be rewritten in linear algebra terms as
 \begin{equation*}
-	P_\infty = \sum_{i=0}^\infty F^i(QF^T)^i
+	P_\infty = \sum_{i=0}^\infty F^iQ(F^T)^i
 \end{equation*}
 
 \subsection*{part (d)}
@@ -265,7 +265,7 @@ Use the result from part (c) to solve for the elements of $P_\infty$ for the fol
 \subparagraph*{}
 Using the summation from part (c) we find 
 \begin{equation*}
-	P_\infty = \begin{bmatrix} 56.13 & -0.3022 \\ -0.3122 & 5.919 \end{bmatrix}
+	P_\infty = \begin{bmatrix} 56.13 & -0.3022 \\ -0.3022 & 5.919 \end{bmatrix}
 \end{equation*}
 
 \subsection*{part (e)}
