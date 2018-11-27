@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+
+% ==== PACKAGES ==== %
+% \usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epic}
+\usepackage{eepic}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[letterpaper, margin=1in]{geometry}
+
+% ==== MARGINS ==== %
+% \pagestyle{empty}
+% \setlength{\oddsidemargin}{0in}
+% \setlength{\textwidth}{6.8in}
+% \setlength{\textheight}{9.5in}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{ASEN 5044}
+\lhead{Homework 1}
+\rfoot{Page \thepage}
+
+
+\newtheorem*{solution*}{Solution}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
+\lstset{moredelim=[is][\bfseries]{[*}{*]}}
+
+% ==== DOCUMENT PROPER ==== %
+\begin{document}
+
+\thispagestyle{empty}
+
+% --- Header Box --- %
+\newlength{\boxlength}\setlength{\boxlength}{\textwidth}
+\addtolength{\boxlength}{-4mm}
+
+\begin{center}\framebox{\parbox{\boxlength}{\bf
+      ASEN 5044 Fall 2018 \hfill Homework 8\\
+      Mike Miles \hfill Due Date: Dec 4, 2018\\
+      Andrew Kramer \hfill 
+      
+}}
+\end{center}
+
+
+
+
+\section*{Exercise 1: LINEAR KF IMPLEMENTATION AND ANALYSIS}
+Consider again the aircraft coordinated turning problem from Homework 7. Assuming the same model for the equations of motion and aircraft state vector x = [\xi,\ \dot{\xi},\ \eta,\ \dot{\eta}], do parts (a)-(c).
+
+\subsection*{Part a}
+Assume that the CT LTI dynamics for two aircraft A and B are now augmented to include process noise for accelerations due to directional wind disturbances modeled by vector AWGN processes. Specify the full DT LTI stochastic dynamics models for each aircraft, i.e. provide the corresponding ($F_A$, $Q_A$) and ($F_B$, $Q_B$) matrices for both aircraft (show your work). Assume that $q_w$ = 10 (m/s)$^2$, $\Delta T$ = 0.5 sec, $\Omega_A$ = 0.045 rad/s and $\Omega_B$ = −0.045 rad/s.
+
+\subsection*{Part b.i}
+A ground tracking station monitors Aircraft A, and converts 3D range and bearing data into 2D ‘pseudo-measurements’ yA(k) with the following DT measurement model 
+\begin{align*}
+y_A(k) &= H x_A(k) + v_A(k),\ E[v_A(k)] = 0,\ E[v_A(k) v_A(j)^T] = R_A \delta(i, j),  \\
+H &= 
+\begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{bmatrix}
+,\ R_A = 
+\begin{bmatrix}
+20 & 0.05 \\ 0.05 & 20
+\end{bmatrix}
+\end{align*}
+where $R_A$ has units of m$^2$. \\ 
+The ground truth state history for A is contained in the file hw8problem1data.mat (in the array ‘xasingle\_truth’ where the first column contains $x_A$(0), and subsequent columns
+contain $x_A$(k) for $k \geq 1$). Simulate a series of noisy measurements $y_A$(k) for $k \geq 1$ up
+to 100 secs and store the results in an array. Provide a plot of the components of your
+simulated $y_A$(k) data vs. time for the first 20 seconds.
+
+\subsection*{Part b.ii}
+Implement a Kalman filter to estimate aircraft A’s state at each time step $k \geq 1$ of
+the simulated measurements you generated in part b.i. Initialize your filter estimate with
+the following state mean and covariance at time $k = 0$: \\
+$\mu_A(0) = [0 m, 85 cos(π/4) m/s, 0 m, −85 sin(π/4) m/s]$
+T
+PA(0) = 900 · diag([10 m2
+, 2 (m/s)
+2
+, 10 m2
+, 2 (m/s)
+2
+]),
+Provide plots for each component of the estimated state error vs. time, along with
+estimated 2σ error bounds. Comment on your results; in particular, is your KF output
+more certain about some states than others? If so, explain why.
+
+\subsection*{Part c.i}
+
+\subsection*{Part c.ii}
+
+\subsection*{Part c.iii}
+
+\section*{Exercise 2}
+Select a system from the updated final project system descriptions posted on canvas. Report which system you selected. Then do the following:
+
+\subsection*{Part a}
+Find the required CT Jacobians needed to obtain CT linearized model parameters. Show the key steps and variables needed to find the Jacobian matrices and state the sizes of the results. Don't use a symbolic solver.
+
+\subparagraph*{}
+We've elected to do the cooperative air/ground localization problem. The system is defined as follows:
+\begin{align*}
+    x &= [\xi_g\ \eta_g\ \theta_g\ \xi_a\ \eta_a\ \theta_a]^T \\
+    u &= [v_g\ \phi_g\ v_a\ \omega_a]^T \\
+    \dot{x} &= \begin{bmatrix} u_1\cos x_3 \\ u_1\sin x_3 \\ \frac{u_1}{L}\tan u_2 \\ u_3 \cos x_6 \\ u_3 \sin x_6 \\ u_4 \end{bmatrix} \\
+    y &= \begin{bmatrix} \tan^{-1}\frac{x_5-x_2}{x_4-x_1}-x_3 \\ \sqrt{(x_1-x_4)^2+(x_2-x_5)^2} \\ \tan^{-1}\frac{x_2-x_5}{x_1-x_5}-x_6 \\ x_4 \\ x_5 \end{bmatrix}
+\end{align*}
+The system Jacobians are defined as follows:
+\begin{align*}
+    \frac{\partial f}{\partial x} &= \begin{bmatrix} 0 & 0 & -u_1\sin x_3 & 0 & 0 & 0 \\ 0 & 0 & u_1\cos x_3 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 & u_3\sin x_6 \\ 0 & 0 & 0 & 0 & 0 & -u_3 \cos x_6 \\ 0 & 0 & 0 & 0 & 0 & 0 \end{bmatrix} \\
+    \frac{\partial f}{\partial u} &= \begin{bmatrix} \cos x_3 & 0 & 0 & 0 \\ \sin x_3 & 0 & 0 & 0 \\ \frac{1}{L} \tan u_2 & \frac{u_1}{L}\sec^2u_2 & 0 & 0 \\ 0 & 0 & \cos x_6 & 0 \\ 0 & 0 & \sin x_6 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix} \\
+    \frac{\partial h}{\partial x} &= \begin{bmatrix} \frac{x_5-x_2}{(x_4-x_1)^2+(x_2-x_5)^2} & -\frac{1}{x_4-x_1+\frac{(x_5-x_2)^2}{x_4-x_1}} & -1 & -\frac{x_5-x_2}{(x_4-x_1)^2+(x_5-x_2)^2} & \frac{1}{x_4-x_1+\frac{(x_5-x_2)^2}{x_4-x_1}} & 0 \\
+    \frac{x_1+x_4}{\sqrt{(x_1+x_4)^2+(x_2+x_5)^2}} & \frac{x_2+x_5}{\sqrt{(x_1+x_4)^2+(x_2+x_5)^2}} & 0 & \frac{x_1 + x_4}{\sqrt{(x_1+x_4)^2+(x_2+x_5)^2}} & \frac{x_2+x_5}{\sqrt{(x_1+x_4)^2+(x_2+x_5)^2}} & 0 \\ -\frac{x_2-x_5}{(x_1-x_4)^2+(x_2-x_5)^2} & \frac{1}{x_1-x_4+\frac{(x_2-x_5)^2}{x_1-x_4}} & 0 & \frac{x_2-x_5}{(x_1-x_4)^2+(x_2-x_5)^2} & -\frac{1}{x_1-x_4+\frac{(x_2-x_5)^2}{x_1-x_4}} & -1 \\ 0 & 0 & 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 0 & 1 & 0 \end{bmatrix} \\
+    \frac{\partial h}{\partial u} &= [0]_{5\times 4}
+\end{align*}
+The Jacobian of $f$ with respect to $x$ is $n\times n$ where $n$ is the dimension of the state vector. The Jacobian of $f$ with respect to $u$ is $n \times m$ where $m$ is the dimension of the control vector. The Jacobian of $h$ with respect to $x$ is $p \times n$ where $p$ is the dimension of the measurement vector. The Jacobian of $h$ with respect to $u$ is $p\times m$.\\
+Deriving the Jacobians $\frac{\partial f}{\partial x}$, $\frac{\partial f}{\partial u}$, and $\frac{\partial h}{\partial u}$ are straightforward. The Jacobian $\frac{\partial h}{\partial x}$ is more complicated. Fortunately there are three basic patterns with small variations. The first common pattern is exemplified by $\frac{\partial h_1}{\partial x_1}$:
+\begin{align*}
+    \frac{\partial h_1}{\partial x_1} &= \frac{\partial}{\partial x_1}\tan^{-1}\Bigg(\frac{x_5-x_2}{x_4-x_1}\Bigg)-x_3 \\
+    &= \frac{\partial}{\partial x_1}\Bigg(\frac{x_5-x_2}{x_4-x_2}\Bigg) \frac{1}{\frac{(x_5-x_2)^2}{(x_2-x_1)^2}+1} \\
+    \frac{\partial}{\partial x_1}\Bigg(\frac{x_5-x_2}{x_4-x_1}\Bigg) &= \frac{x_5-x_2}{(x_4-x_1)^2} \\
+    \frac{\partial h_1}{\partial x_1} &= \frac{x_5-x_2}{(x_4-x_1)^2+(x_5-x_2)^2}
+\end{align*}
+The next pattern is exemplified by $\frac{\partial h_1}{\partial x_2}$:
+\begin{align*}
+    \frac{\partial h_1}{\partial x_2} &= \frac{\partial}{\partial x_2} \tan^{-1}\Bigg(\frac{x_5-x_2}{x_4-x_1}\Bigg) -x_3 \\
+    &= \frac{\partial}{\partial x_2}\Bigg(\frac{x_5-x_2}{x_4-x_1}\Bigg)\frac{1}{\frac{(x_5-x_2)^2}{(x_4-x_1)^2}+1} \\
+    \frac{\partial}{\partial x_2}\Bigg(\frac{x_5-x_2}{x_4-x_1}\Bigg) &= \frac{1}{x_4-x_1} \\
+    \frac{\partial h_1}{\partial x_2} &= \frac{1}{\frac{(x_5-x_2)^2}{x_4-x_1}+x_4-x_1}
+\end{align*}
+The final pattern is exemplified by $\frac{\partial h_2}{\partial x_1}$
+\begin{align*}
+    \frac{\partial h_2}{\partial x_1} &= \sqrt{(x_1-x_4)^2+(x_2-x_5)^2} \\
+    &= \frac{\partial}{\partial x_1}(x_1-x_4)^2 \frac{1}{2}\big((x_1-x_4)^2+(x_2-x_5)^2\big)^{-\frac{1}{2}} \\
+    \frac{\partial}{\partial x_1}(x_1-x_4)^2 &= 2(x_1-x_4) \\
+    \frac{\partial h_2}{\partial x_1} &= \frac{x_1-x_4}{\sqrt{(x_1-x_4)^2+(x_2-x_5)^2}}
+\end{align*}
+With minor changes of variables the above three patterns can be adapted to any of the more complex terms in $\frac{\partial h}{\partial x}$.
+
+\subsection*{part b}
+Linearize your system about its specified equilibrium/nominal operating point given in the description. Find the corresponding DT linearized model matrices (from the corresponding DT nonlinear model Jacobians) using $\Delta T = 0.1$. If possible discuss the observability, controllability, and stability properties of your time-invariant system approximation around the linearization point. If your result is time-varying result then skip this analysis.
+
+\subsection*{part c}
+Simulate the linearized DT dynamics measurement models near the linearization point for your system, assuming a reasonable initial state perturbation from the linearization point (report the perturbation you choose) and assuming no process noise, measurement, noise, or control input perturbations. Use the results to compare and validate your Jacobians and DT model against a full nonlinear simulation of the system dynamics and measurements using \texttt{ode45} in Matlab. Start from the same initial conditions for the total state vector and again assuming no noise or additional control inputs. Provide suitable labeled plots to report and compare your resulting states and measurements from the linearized DT and full nonlinear DT model. Simulate at least 400 time steps.
+
+\end{document}
+
