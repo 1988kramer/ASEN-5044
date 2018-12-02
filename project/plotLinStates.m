@@ -1,6 +1,7 @@
 x0 = [10; 0; pi/2; -60; 0; -pi/2];
+x_tilde = [1;1;pi/20;6;6;pi/20];
 u = [2; -pi/18; 12; pi/25];
-x = x0;
+x = x0+x_tilde;
 y = [];
 t = [0:0.1:40];
 
@@ -8,10 +9,17 @@ t = [0:0.1:40];
 
 
 for i = 1:400
-    [F,G,H,M] = getLinearizedMatrices(xnom(:,i),u,0.5,0.1);
-    new_x = F*x(:,i) + G*u;
-    new_y = H*x(:,i);
+    
+    [F,G,H,M] = getLinearizedMatrices(xnom(:,i+1),u,0.5,0.1);
+    
+    new_x_tilde = F*x_tilde(:,i); % + G*u;
+    x_tilde = [x_tilde new_x_tilde];
+    
+    new_x = xnom(:,i+1) + new_x_tilde;
     x = [x new_x];
+    
+    new_y = H*x(:,i);
+
     y = [y new_y];
 end
 
