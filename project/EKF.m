@@ -39,9 +39,9 @@ for i = 1:100
     x_hat_m = ode_x(end,:)';
     
     % update estimated state covariance
-    % TO DO: figure out how to calculate Omega matrix
+    % Not using omega matrix because it's I in this case
     % assumes time invariant process noise 
-    P_m = F*P*F' + Omega*Q*Omega';
+    P_m = F*P*F' + Q;
     
     % TO DO: make function to get measurements
     y = getMeasurement();
