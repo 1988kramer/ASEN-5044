@@ -1,7 +1,6 @@
-function [dy] = motionEqs(t, x_in)
+function [dy] = motionEqs(t, x_in, u)
     
     L = 0.5;
-    u = [2 -pi/18 12 pi/25];
     
     dy(1,1) = u(1)*cos(x_in(3));
     dy(2,1) = u(1)*sin(x_in(3));
