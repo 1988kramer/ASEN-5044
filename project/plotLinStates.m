@@ -5,14 +5,12 @@ x = x0+x_tilde;
 y = [];
 t = [0:0.1:40];
 
-%[F,G,H,M] = getLinearizedMatrices(x0,u,0.5,0.1);
-
 
 for i = 1:400
     
     [F,G,H,M] = getLinearizedMatrices(xnom(:,i+1),u,0.5,0.1);
     
-    new_x_tilde = F*x_tilde(:,i); % + G*u;
+    new_x_tilde = F*x_tilde(:,i); 
     x_tilde = [x_tilde new_x_tilde];
     
     new_x = xnom(:,i+1) + new_x_tilde;
