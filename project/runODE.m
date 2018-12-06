@@ -1,32 +1,34 @@
 close all;
 options = odeset('RelTol',1e-6,'AbsTol',1e-6);
 
-[t,x] = ode45(@motionEqs, (0:0.1:40), [10 0 pi/2 -60 0 -pi/2]);
-
-for i = 1:size(x,1)
-    while x(i,3) > pi
-        x(i,3) = x(i,3) - 2*pi;
-    end
-    while x(i,3) < -pi
-        x(i,3) = x(i,3) + 2*pi;
-    end
-    while x(i,6) > pi
-        x(i,6) = x(i,6) - 2*pi;
-    end
-    while x(i,6) < -pi
-        x(i,6) = x(i,6) + 2*pi;
-    end
-end
-
+x = [10 1 pi/2 -60 0 (-pi/2)+0.1];
 y = [];
-for i = 1:size(x,1)
-    next_y = [atan((x(i,5)-x(i,2))/(x(i,4)-x(i,1)))-x(i,3);
-              sqrt((x(i,1)-x(i,4))^2+(x(i,2)-x(i,5))^2);
-              atan((x(i,2)-x(i,5))/(x(i,1)-x(i,5)))-x(i,6);
-              x(i,4);
-              x(i,5)];
+
+for i = 1:1000
+    
+    [t,x_ode] = ode45(@motionEqs, (0:0.1:0.1), x(i,:),[],[2 -pi/18 12 pi/25]);
+    x = [x; x_ode(end,:)];
+    x(i+1,3) = constrainAngle(x(i+1,3));
+    x(i+1,6) = constrainAngle(x(i+1,6));
+    
+    d52 = x(i+1,5)-x(i+1,2);
+    d41 = x(i+1,4)-x(i+1,1);
+    d25 = -d52;
+    d14 = -d41;
+    
+    next_y = [atan2(d52,d41)-x(i+1,3);
+              sqrt(d14^2+d25^2);
+              atan2(d25,d14)-x(i+1,6);
+              x(i+1,4);
+              x(i+1,5)];
+    
+    next_y(1) = constrainAngle(next_y(1));
+    next_y(3) = constrainAngle(next_y(3));
+    
     y = [y next_y];
 end
+
+t = 0:0.1:100;
 
 figure;
 subplot(3,2,1);
@@ -54,6 +56,8 @@ plot(t,x(:,6));
 xlabel('timestep');
 ylabel('UAV heading (rad)');
 
+t = 0.1:0.1:100;
+
 figure;
 subplot(3,2,1);
 plot(t, y(1,:));
@@ -68,10 +72,11 @@ plot(t, y(3,:));
 xlabel('time (s)');
 ylabel('UAV - UGV bearing');
 subplot(3,2,4);
-plot(t, y(1,:));
+plot(t, y(4,:));
 xlabel('time (s)');
 ylabel('UAV easting');
 subplot(3,2,5);
 plot(t, y(5,:));
 xlabel('time (s)');
 ylabel('UAV northing');
+
