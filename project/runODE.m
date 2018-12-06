@@ -1,10 +1,11 @@
-close all;
+function x = runODE(t)
 options = odeset('RelTol',1e-6,'AbsTol',1e-6);
 
-x = [10 1 pi/2 -60 0 (-pi/2)+0.1];
+x = [10 0 pi/2 -60 0 (-pi/2)];
+x_p = [0 1 0 0 0 0.1];
 y = [];
 
-for i = 1:1000
+for i = 1:size(t,2)-1
     
     [t,x_ode] = ode45(@motionEqs, (0:0.1:0.1), x(i,:),[],[2 -pi/18 12 pi/25]);
     x = [x; x_ode(end,:)];
@@ -27,7 +28,7 @@ for i = 1:1000
     
     y = [y next_y];
 end
-
+%{
 t = 0:0.1:100;
 
 figure;
@@ -80,3 +81,4 @@ plot(t, y(5,:));
 xlabel('time (s)');
 ylabel('UAV northing');
 
+%}
