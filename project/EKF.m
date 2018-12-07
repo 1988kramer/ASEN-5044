@@ -1,16 +1,26 @@
 function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     load("KFdata.mat");
-    Q = Qtrue;
-    R = Rtrue;
-    %Q = 0.01*eye(6); % process noise prior, same for all terms for now
-    %R = 0.01*eye(5); % measurement noise prior, same for all terms for now
+    %Q = [0.05 0 0 0 0 0;
+    %     0 0.05 0 0 0 0;
+    %     0 0 0.50 0 0 0;
+    %     0 0 0 0.05 0 0;
+    %     0 0 0 0 0.05 0;
+    %     0 0 0 0 0 0.50];
+    %R = [32.0 0 0 0 0;
+    %     0 40.0 0 0 0;
+    %     0 0 32.0 0 0;
+    %     0 0 0 24.0 0;
+    %     0 0 0 0 24.0];
+    Q = 500*Qtrue; %(6*5.5/trace(Qtrue)) * Qtrue;
+    %R = 32*eye(5);
+    R = 25*Rtrue; %(5*15/trace(Rtrue)) * Rtrue;
 
-    P_0 = 0.1*eye(6); % initial covariance, need to tune
-    P_p = P_0;          % covariance after update step (P-minus)
-    P_m = zeros(6);    % covariance after measurement step (P-plus)
-    P_est = [];        % log of covariance matrices at each timestep
+    P_0 = 10*Qtrue; % initial covariance, need to tune
+    P_p = P_0;        % covariance after update step (P-minus)
+    P_m = zeros(6);   % covariance after measurement step (P-plus)
+    P_est = [];       % log of covariance matrices at each timestep
     
-    L = 0.5;      % UGV wheelbase (m)
+    L = 0.5;          % UGV wheelbase (m)
     deltaT = tvec(2)-tvec(1);
 
     % need to load logged measurements and controls here
@@ -26,7 +36,7 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     
     x_gt = x0; 
 
-    for i = 2:size(tvec,2)
+    for i = 2:401 %2:size(tvec,2)
 
         % update step
         % calculate new state and covariance from system dynamics
@@ -45,6 +55,9 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
         [~,next_x_gt] = ode45(@motionEqs, [0.0 deltaT], x_gt(:,i-1)', [], u');
         % add process noise to groundtruth;
         next_x_gt = mvnrnd(next_x_gt(end,:), Qtrue); 
+        %next_x_gt = next_x_gt(end,:);
+        next_x_gt(3) = constrainAngle(next_x_gt(3));
+        next_x_gt(6) = constrainAngle(next_x_gt(6));
         x_gt = [x_gt next_x_gt'];
         
         % update estimated state covariance
@@ -55,6 +68,7 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
         % get actual measurement
         y = mvnrnd(getMeas(next_x_gt),Rtrue);
         y = y';
+        %y = getMeas(next_x_gt);
         
         % get predicted measurement using nonlinear model  
         y_hat = getMeas(x_hat_m);
