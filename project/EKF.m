@@ -1,22 +1,40 @@
 function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     load("KFdata.mat");
-    %Q = [0.05 0 0 0 0 0;
-    %     0 0.05 0 0 0 0;
-    %     0 0 0.50 0 0 0;
-    %     0 0 0 0.05 0 0;
-    %     0 0 0 0 0.05 0;
-    %     0 0 0 0 0 0.50];
-    %R = [32.0 0 0 0 0;
-    %     0 40.0 0 0 0;
-    %     0 0 32.0 0 0;
-    %     0 0 0 24.0 0;
-    %     0 0 0 0 24.0];
-    Q = 500*Qtrue; %(6*5.5/trace(Qtrue)) * Qtrue;
+    % best Q so far
+    %Q = [0.55 0 0 0 0 0;
+    %     0 0.79 0 0 0 0;
+    %     0 0 1.70 0 0 0;
+    %     0 0 0 0.85 0 0;
+    %     0 0 0 0 0.92 0;
+    %     0 0 0 0 0 1.66];
+    Q = [0.54 0 0 0 0 0;
+         0 0.791 0 0 0 0;
+         0 0 1.701 0 0 0;
+         0 0 0 0.851 0 0;
+         0 0 0 0 0.922 0;
+         0 0 0 0 0 1.673];
+    R = [2.85 0 0 0 0;
+         0 41.8 0 0 0;
+         0 0 8.15 0 0;
+         0 0 0 20.88 0;
+         0 0 0 0 17.2944];
+    %R = 1.0*R;
+    Q = 1.0*Q;
+    %Q = 200*Qtrue; %(6*5.5/trace(Qtrue)) * Qtrue;
     %R = 32*eye(5);
-    R = 25*Rtrue; %(5*15/trace(Rtrue)) * Rtrue;
-
-    P_0 = 10*Qtrue; % initial covariance, need to tune
-    P_p = P_0;        % covariance after update step (P-minus)
+    %R = Rtrue; %(5*15/trace(Rtrue)) * Rtrue;
+    
+    % try better method to estimate x0 and P0
+    x0 = [10; 0; pi/2; -60; 0; -pi/2];
+    perturb_x0 = [0; 1; 0; 0; 0; 0.1];
+    P_0 = [0.9639 0 0 0 0 0;
+           0 0.96 0 0 0 0;
+           0 0 2.46 0 0 0;
+           0 0 0 6.0 0 0;
+           0 0 0 0 6.0 0;
+           0 0 0 0 0 2.4579]; % initial covariance, need to tune
+    %P_0 = eye(6) * 10;
+    P_p = 1.0 * P_0;        % covariance after update step (P-minus)
     P_m = zeros(6);   % covariance after measurement step (P-plus)
     P_est = [];       % log of covariance matrices at each timestep
     
@@ -27,16 +45,14 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     % (or whatever it turns out to be)
     ey_log = []; % log of measurement errors
     S_log = [];
-    
-    x0 = [10; 0; pi/2; -60; 0; -pi/2];
 
-    x_hat_p = x0; % set initial state estimate equal to initial state
+    x_hat_p = x0 + perturb_x0; % set initial state estimate equal to initial state
                   % may need to actually estimate this later
-    x_est = x0; % log of estimated system states at each timestep
+    x_est = x_hat_p; % log of estimated system states at each timestep
     
     x_gt = x0; 
 
-    for i = 2:401 %2:size(tvec,2)
+    for i = 2:1001 %2:size(tvec,2)
 
         % update step
         % calculate new state and covariance from system dynamics
