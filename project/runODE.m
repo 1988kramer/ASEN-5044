@@ -28,7 +28,7 @@ for i = 1:size(t,2)-1
     
     y = [y next_y];
 end
-%{
+
 t = 0:0.1:100;
 
 figure;
@@ -81,4 +81,3 @@ plot(t, y(5,:));
 xlabel('time (s)');
 ylabel('UAV northing');
 
-%}
