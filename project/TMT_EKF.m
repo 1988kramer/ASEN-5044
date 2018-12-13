@@ -1,5 +1,5 @@
 function err = TMT_EKF()
-num_runs = 25;
+num_runs = 40;
 num_steps = 1001;
 alpha = 0.05;
 n = 6;

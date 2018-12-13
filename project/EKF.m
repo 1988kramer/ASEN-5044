@@ -7,19 +7,19 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     %     0 0 0 0.85 0 0;
     %     0 0 0 0 0.92 0;
     %     0 0 0 0 0 1.66];
-    Q = [0.54 0 0 0 0 0;
-         0 0.791 0 0 0 0;
-         0 0 1.701 0 0 0;
-         0 0 0 0.851 0 0;
-         0 0 0 0 0.922 0;
-         0 0 0 0 0 1.673];
-    R = [2.85 0 0 0 0;
-         0 41.8 0 0 0;
-         0 0 8.15 0 0;
-         0 0 0 20.88 0;
-         0 0 0 0 17.2944];
-    %R = 1.0*R;
-    Q = 1.0*Q;
+    Q = [0.35 0.01 .001 0     0     0;
+         0.01 0.48 .001 0     0     0;
+         .001 .001 1.74 0     0     0.01;
+         0    0    0    0.66  0.005  0.005;
+         0    0    0    0.005  0.76  0.005;
+         0    0    0.01 0.005  0.005  1.70];
+    R = [2.85 0    0    0     0;
+         0    41.8 0    0     0;
+         0    0    8.15 0     0;
+         0    0    0    20.88 0;
+         0    0    0    0     17.2944];
+    %R = R;
+    %Q = 2.5*Q;
     %Q = 200*Qtrue; %(6*5.5/trace(Qtrue)) * Qtrue;
     %R = 32*eye(5);
     %R = Rtrue; %(5*15/trace(Rtrue)) * Rtrue;
@@ -27,13 +27,13 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     % try better method to estimate x0 and P0
     x0 = [10; 0; pi/2; -60; 0; -pi/2];
     perturb_x0 = [0; 1; 0; 0; 0; 0.1];
-    P_0 = [0.9639 0 0 0 0 0;
-           0 0.96 0 0 0 0;
-           0 0 2.46 0 0 0;
-           0 0 0 6.0 0 0;
-           0 0 0 0 6.0 0;
-           0 0 0 0 0 2.4579]; % initial covariance, need to tune
-    %P_0 = eye(6) * 10;
+    P_0 = [82 0   0   0   0   0;
+           0  82 0   0   0   0;
+           0  0   9.5   0   0   0;
+           0  0   0   310 0   0;
+           0  0   0   0   310 0;
+           0  0   0   0   0   7.5]; % initial covariance, need to tune
+    P_0 = eye(6) * 500;
     P_p = 1.0 * P_0;        % covariance after update step (P-minus)
     P_m = zeros(6);   % covariance after measurement step (P-plus)
     P_est = [];       % log of covariance matrices at each timestep
