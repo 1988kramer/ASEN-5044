@@ -1,24 +1,19 @@
 function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     load("KFdata.mat");
     % best Q so far
-    %Q = [0.55 0 0 0 0 0;
-    %     0 0.79 0 0 0 0;
-    %     0 0 1.70 0 0 0;
-    %     0 0 0 0.85 0 0;
-    %     0 0 0 0 0.92 0;
-    %     0 0 0 0 0 1.66];
-    %Q = [0.35 0.01 .001 0     0     0;
-    %     0.01 0.48 .001 0     0     0;
-    %     .001 .001 1.74 0     0     0.01;
-    %     0    0    0    0.66  0.005  0.005;
-    %     0    0    0    0.005  0.76  0.005;
-    %     0    0    0.01 0.005  0.005  1.70];
-    Q = [0.37 0.01 .001 0    0    0;
-         0.01 0.48 .001 0    0    0;
-         .001 .001 1.77 0    0    0;
-         0    0    0    0.66 0.01 .001;
-         0    0    0    0.01 0.78 .001;
-         0    0    0    .001 .001 1.67];
+    Q = [0.55 0 0 0 0 0;
+         0 0.79 0 0 0 0;
+         0 0 1.70 0 0 0;
+         0 0 0 0.85 0 0;
+         0 0 0 0 0.92 0;
+         0 0 0 0 0 1.66];
+
+    %Q = [0.37 0.01 .001 0    0    0;
+    %     0.01 0.48 .001 0    0    0;
+    %     .001 .001 1.77 0    0    0;
+    %     0    0    0    0.66 0.01 .001;
+    %     0    0    0    0.01 0.78 .001;
+    %     0    0    0    .001 .001 1.67];
     R = [2.85 0    0    0     0;
          0    41.8 0    0     0;
          0    0    8.15 0     0;
@@ -26,9 +21,7 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
          0    0    0    0     17.2944];
     %R = 5*Rtrue;
     %Q = zeros(6);
-    %Q = 2 * Q;
-    %R = 32*eye(5);
-    %R = Rtrue; %(5*15/trace(Rtrue)) * Rtrue;
+    Q = 0.95 * Q;
     
     % try better method to estimate x0 and P0
     x0 = [10; 0; pi/2; -60; 0; -pi/2];
@@ -65,31 +58,32 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
 
         u = [2 -pi/18 12 pi/25];
 
-        % get linearized matrices
-        % use a different x_nom here if available
-        [F,G] = getLinStateMats(x_hat_p, u, L, deltaT);
-
         % get new state estimate using numerical integration
         [~,ode_x] = ode45(@motionEqs, [0.0 deltaT], x_hat_p', [], u');
         x_hat_m = ode_x(end,:)';
+        x_hat_m(3) = constrainAngle(x_hat_m(3));
+        x_hat_m(6) = constrainAngle(x_hat_m(6));
         
         % get next x groundtruth
         [~,next_x_gt] = ode45(@motionEqs, [0.0 deltaT], x_gt(:,i-1)', [], u');
         % add process noise to groundtruth;
-        next_x_gt = mvnrnd(next_x_gt(end,:), Qtrue); 
-        %next_x_gt = next_x_gt(end,:);
+        wk = mvnrnd(zeros(1,6),Qtrue);
+        next_x_gt = next_x_gt(end,:) + wk;
+
         next_x_gt(3) = constrainAngle(next_x_gt(3));
         next_x_gt(6) = constrainAngle(next_x_gt(6));
         x_gt = [x_gt next_x_gt'];
         
         % update estimated state covariance
         % Not using omega matrix because it's I in this case
-        % assumes time invariant process noise 
+
+        %[F,G] = getLinStateMats(x_hat_p, u, L, deltaT);
+        [F,G] = getLinStateMats(x_hat_m, u, L, deltaT);
         P_m = F*P_p*F' + Q;
 
         % get actual measurement
-        y = mvnrnd(getMeas(next_x_gt),Rtrue);
-        y = y';
+        vk = mvnrnd(zeros(1,5),Rtrue);
+        y = getMeas(next_x_gt) + vk';
         %y = getMeas(next_x_gt);
         
         % get predicted measurement using nonlinear model  
