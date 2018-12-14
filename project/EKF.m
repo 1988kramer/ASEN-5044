@@ -1,43 +1,27 @@
 function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     load("KFdata.mat");
-    % best Q so far
-    %{
-    Q = [0.55 0 0 0 0 0;
-         0 0.77 0 0 0 0;
-         0 0 1.70 0 0 0;
-         0 0 0 0.85 0 0;
-         0 0 0 0 0.92 0;
-         0 0 0 0 0 1.66];
-    %}
 
-    Q = [0.05  0     0    0     0     0;
-         0     0.05  0    0     0     0;
-         0     0     2.5  0     0     0;
-         0     0     0    0.75  0     0;
-         0     0     0    0     0.75  0;
-         0     0     0    0     0     2.5];
-    %{
-    R = [2.85 0    0    0     0;
-         0    41.8 0    0     0;
-         0    0    8.15 0     0;
-         0    0    0    20.88 0;
-         0    0    0    0     17.2944];
-    %}
+    Q = [0.001  0      0     0      0      0;
+         0      0.001  0     0      0      0;
+         0      0      5.0  0      0      0;
+         0      0      0     0.15  0      0;
+         0      0      0     0      0.15  0;
+         0      0      0     0      0      10.0];
+
     R = Rtrue;
-    %Q = zeros(6);
-    %Q = 0.25 * Q;
     
-    % try better method to estimate x0 and P0
+    % estimated x0
     x0 = [10; 0; pi/2; -60; 0; -pi/2];
-    perturb_x0 = [0; 1; 0; 0; 0; 0.1];
+    
+    % initial position covariance
     P_0 = [0.0005 0   0   0   0   0;
            0  0.0005 0   0   0   0;
            0  0   0.005   0   0   0;
            0  0   0   0.0005 0   0;
            0  0   0   0   0.0005 0;
            0  0   0   0   0   0.005]; % initial covariance, need to tune
-    %P_0 = 1 * eye(6);
-    P_p = 1.0 * P_0;        % covariance after update step (P-minus)
+
+    P_p = P_0;        % covariance after update step (P-minus)
     P_m = zeros(6);   % covariance after measurement step (P-plus)
     P_est = zeros(6,6000);       % log of covariance matrices at each timestep
     
@@ -54,10 +38,12 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     x_est = zeros(6,1001);
     x_est(:,1) = x_hat_p; % log of estimated system states at each timestep
     
-    x_pert = mvnrnd(zeros(1,6),P_0);
+    % get perturbation to groundtruth x
+    % sampled using initial covariance
+    x_perturb = mvnrnd(zeros(1,6),P_0);
     
     x_gt = zeros(6,1001);
-    x_gt(:,1) = x0 + x_pert';
+    x_gt(:,1) = x0 + x_perturb';
     
     u = [2 -pi/18 12 pi/25];
     

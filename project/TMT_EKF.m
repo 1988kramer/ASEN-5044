@@ -19,8 +19,8 @@ for i = 1:num_runs
         Pend = j*Pdim;
         Sstart = (j-1)*Sdim + 1;
         Send = j*Sdim;
-        eps_x(i,j) = (e_x(:,j)'*inv(P(:,Pstart:Pend))*e_x(:,j));
-        eps_y(i,j) = (e_y(:,j)'*inv(S(:,Sstart:Send))*e_y(:,j));
+        eps_x(i,j) = ((e_x(:,j)'/P(:,Pstart:Pend))*e_x(:,j));
+        eps_y(i,j) = ((e_y(:,j)'/S(:,Sstart:Send))*e_y(:,j));
     end
 end
 
