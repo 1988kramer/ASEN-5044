@@ -1,38 +1,38 @@
 function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     load("KFdata.mat");
     % best Q so far
-    %Q = [0.55 0 0 0 0 0;
-    %     0 0.77 0 0 0 0;
-    %     0 0 1.70 0 0 0;
-    %     0 0 0 0.85 0 0;
-    %     0 0 0 0 0.92 0;
-    %     0 0 0 0 0 1.66];
+    Q = [0.55 0 0 0 0 0;
+         0 0.77 0 0 0 0;
+         0 0 1.70 0 0 0;
+         0 0 0 0.85 0 0;
+         0 0 0 0 0.92 0;
+         0 0 0 0 0 1.66];
 
-    Q = [0.37 0.01 .001 0    0    0;
-         0.01 0.48 .001 0    0    0;
-         .001 .001 1.77 0    0    0;
-         0    0    0    0.66 0.01 .001;
-         0    0    0    0.01 0.78 .001;
-         0    0    0    .001 .001 1.67];
+    %Q = [0.05  0     0    0     0     0;
+    %     0     0.05  0    0     0     0;
+    %     0     0     2.5  0     0     0;
+    %     0     0     0    0.75  0     0;
+    %     0     0     0    0     0.75  0;
+    %     0     0     0    0     0     2.5];
     R = [2.85 0    0    0     0;
          0    41.8 0    0     0;
          0    0    8.15 0     0;
          0    0    0    20.88 0;
          0    0    0    0     17.2944];
-    %R = 5*Rtrue;
+    %R = Rtrue;
     %Q = zeros(6);
-    %Q = 1.0 * Q;
+    %Q = 0.25 * Q;
     
     % try better method to estimate x0 and P0
     x0 = [10; 0; pi/2; -60; 0; -pi/2];
     perturb_x0 = [0; 1; 0; 0; 0; 0.1];
-    P_0 = [600 0   0   0   0   0;
-           0  600 0   0   0   0;
-           0  0   6.28   0   0   0;
-           0  0   0   600 0   0;
-           0  0   0   0   600 0;
-           0  0   0   0   0   6.28]; % initial covariance, need to tune
-    %P_0 = eye(6);
+    P_0 = [0.0005 0   0   0   0   0;
+           0  0.0005 0   0   0   0;
+           0  0   0.005   0   0   0;
+           0  0   0   0.0005 0   0;
+           0  0   0   0   0.0005 0;
+           0  0   0   0   0   0.005]; % initial covariance, need to tune
+    %P_0 = 1 * eye(6);
     P_p = 1.0 * P_0;        % covariance after update step (P-minus)
     P_m = zeros(6);   % covariance after measurement step (P-plus)
     P_est = [];       % log of covariance matrices at each timestep
@@ -45,11 +45,12 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     ey_log = []; % log of measurement errors
     S_log = [];
 
-    x_hat_p = x0 + perturb_x0; % set initial state estimate equal to initial state
+    x_hat_p = x0; % set initial state estimate equal to initial state
                   % may need to actually estimate this later
     x_est = x_hat_p; % log of estimated system states at each timestep
     
-    x_gt = x0; 
+    x_pert = mvnrnd(zeros(1,6),P_0);
+    x_gt = x0 + x_pert'; 
 
     for i = 2:1001 %2:size(tvec,2)
 
