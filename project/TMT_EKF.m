@@ -1,5 +1,5 @@
 function err = TMT_EKF()
-num_runs = 50;
+num_runs = 100;
 num_steps = 1001;
 alpha = 0.05;
 n = 6;
@@ -9,7 +9,7 @@ eps_x = zeros(num_runs,num_steps-1);
 eps_y = zeros(num_runs,num_steps-1);
 
 for i = 1:num_runs
-    [P,x,S,e_y,true_x] = EKF();
+    [P,x,S,e_y,true_x,~] = EKF();
     Pdim = size(P,1);
     Sdim = size(S,1);
     e_x = true_x - x;
@@ -66,9 +66,13 @@ y_in_ct / size(eps_y,2)
 scatter(t,eps_x);
 hold on;
 plot(t,r1_x,'b--',t,r2_x,'b--');
+ylabel("NEES score");
+xlabel("time (s)");
 figure;
 scatter(t,eps_y);
 hold on;
 plot(t,r1_y,'b--',t,r2_y,'b--');
+ylabel("NIS score");
+xlabel("time (s)");
 
 end

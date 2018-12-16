@@ -1,8 +1,8 @@
-function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
+function [P_est,x_est,S_log,ey_log,x_gt,y_log] = EKF()
     load("KFdata.mat");
 
-    Q = [0.001  0      0     0      0      0;
-         0      0.001  0     0      0      0;
+    Q = [0.00035  0      0     0      0      0;
+         0      0.00035  0     0      0      0;
          0      0      5.0  0      0      0;
          0      0      0     0.15  0      0;
          0      0      0     0      0.15  0;
@@ -31,6 +31,7 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     % need to load logged measurements and controls here
     % (or whatever it turns out to be)
     ey_log = zeros(5,1000); % log of measurement errors
+    y_log = zeros(5,1000);
     S_log = zeros(5,5000);
 
     x_hat_p = x0; % set initial state estimate equal to initial state
@@ -46,7 +47,7 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
     x_gt(:,1) = x0 + x_perturb';
     
     u = [2 -pi/18 12 pi/25];
-    
+    %{
     % generate groundtruth states
     for i = 2:1001
         wk = mvnrnd(zeros(1,6),Qtrue);
@@ -56,7 +57,7 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
         next_x_gt(6) = constrainAngle(next_x_gt(6));
         x_gt(:,i) = next_x_gt;
     end
-
+    %}
     for i = 2:1001 %2:size(tvec,2)
 
         % update step
@@ -74,10 +75,13 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
         %[F,G] = getLinStateMats(x_hat_p, u, L, deltaT);
         [F,G] = getLinStateMats(x_hat_m, u, L, deltaT);
         P_m = F*P_p*F' + Q;
-
+        %{
         % get actual measurement
         vk = mvnrnd(zeros(1,5),Rtrue);
         y = getMeas(x_gt(:,i)) + vk';
+        y_log(:,i) = y;
+        %}
+        y = ydata(:,i);
         
         % get predicted measurement using nonlinear model  
         y_hat = getMeas(x_hat_m);
@@ -110,4 +114,5 @@ function [P_est,x_est,S_log,ey_log,x_gt] = EKF()
         P_est(:,6*(i-2)+1:6*(i-2)+6) = P_p;
 
     end
+    
 end
