@@ -47,7 +47,7 @@ function [P_est,x_est,S_log,ey_log,x_gt,y_log] = EKF()
     x_gt(:,1) = x0 + x_perturb';
     
     u = [2 -pi/18 12 pi/25];
-    %{
+    
     % generate groundtruth states
     for i = 2:1001
         wk = mvnrnd(zeros(1,6),Qtrue);
@@ -57,7 +57,7 @@ function [P_est,x_est,S_log,ey_log,x_gt,y_log] = EKF()
         next_x_gt(6) = constrainAngle(next_x_gt(6));
         x_gt(:,i) = next_x_gt;
     end
-    %}
+    
     for i = 2:1001 %2:size(tvec,2)
 
         % update step
@@ -75,13 +75,13 @@ function [P_est,x_est,S_log,ey_log,x_gt,y_log] = EKF()
         %[F,G] = getLinStateMats(x_hat_p, u, L, deltaT);
         [F,G] = getLinStateMats(x_hat_m, u, L, deltaT);
         P_m = F*P_p*F' + Q;
-        %{
+        
         % get actual measurement
         vk = mvnrnd(zeros(1,5),Rtrue);
         y = getMeas(x_gt(:,i)) + vk';
         y_log(:,i) = y;
-        %}
-        y = ydata(:,i);
+        
+        %y = ydata(:,i);
         
         % get predicted measurement using nonlinear model  
         y_hat = getMeas(x_hat_m);
