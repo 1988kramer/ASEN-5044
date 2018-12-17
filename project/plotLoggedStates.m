@@ -16,7 +16,7 @@ end
 % plot each state over time with 2-sigma bounds
 figure
 subplot(3,1,1);
-plot(t,x(1,:),'b-');
+plot(t,x(1,:),'r-');
 hold on
 plot(t,x(1,:)+p(1,:),'b--');
 plot(t,x(1,:)-p(1,:),'b--');
@@ -25,7 +25,7 @@ ylabel('\gamma_{ag}');
 legend('estimated state','2 \sigma');
 
 subplot(3,1,2);
-plot(t,x(2,:),'b-');
+plot(t,x(2,:),'r-');
 hold on
 plot(t,x(2,:)+p(2,:),'b--');
 plot(t,x(2,:)-p(2,:),'b--');
@@ -33,7 +33,7 @@ xlabel('times (s)');
 ylabel('UGV northing (m)');
 
 subplot(3,1,3);
-plot(t,x(3,:),'b-');
+plot(t,x(3,:),'r-');
 hold on
 plot(t,x(3,:)+p(3,:),'b--');
 plot(t,x(3,:)-p(3,:),'b--');
@@ -42,7 +42,7 @@ ylabel('UGV bearing (m)');
 
 figure
 subplot(3,1,1);
-plot(t,x(4,:),'b-');
+plot(t,x(4,:),'r-');
 hold on
 plot(t,x(4,:)+p(4,:),'b--');
 plot(t,x(4,:)-p(4,:),'b--');
@@ -51,7 +51,7 @@ ylabel('UAV easting (m)');
 legend('estimated state','2 \sigma');
 
 subplot(3,1,2);
-plot(t,x(5,:),'b-');
+plot(t,x(5,:),'r-');
 hold on
 plot(t,x(5,:)+p(5,:),'b--');
 plot(t,x(5,:)-p(5,:),'b--');
@@ -59,7 +59,7 @@ xlabel('times (s)');
 ylabel('UAV northing (m)');
 
 subplot(3,1,3);
-plot(t,x(6,:),'b-');
+plot(t,x(6,:),'r-');
 hold on
 plot(t,x(6,:)+p(6,:),'b--');
 plot(t,x(6,:)-p(6,:),'b--');
