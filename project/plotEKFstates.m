@@ -3,8 +3,8 @@ t = 0.1:0.1:100;
 x = x(:,2:end);
 true_x = true_x(:,2:end);
 ex = true_x - x;
-ex(3) = constrainAngle(ex(3));
-ex(6) = constrainAngle(ex(6));
+%ex(3) = constrainAngle(ex(3));
+%ex(6) = constrainAngle(ex(6));
 
 % get variance values for each state variable
 % at each timestep
